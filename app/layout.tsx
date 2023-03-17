@@ -1,5 +1,6 @@
 import "@/styles/theme.css";
 import { Kumbh_Sans as Font } from "next/font/google";
+import { Navbar } from "@/components/Nav";
 
 export const metadata = {
   title: "SXM Quiz",
@@ -11,7 +12,10 @@ const font = Font({ subsets: ["latin"], variable: "--font-sans" });
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={font.variable}>
-      <body className="bg-zinc-50">{children}</body>
+      <body className="bg-zinc-50">
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
