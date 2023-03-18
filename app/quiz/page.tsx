@@ -1,6 +1,6 @@
 import { Accordian } from "@/components/Accordian";
 import { Search } from "@/components/SearchInput";
-import Link from "next/link";
+import { QuizOptionsDialog } from "@/components/QuizOptionsDialog";
 
 const subjectTypes = ["history", "geography", "economy"] as const;
 const difficuties = ["easy", "medium", "hard"] as const;
@@ -27,36 +27,32 @@ export default function Page() {
         </aside>
         <main className="basis-4/5 mb-20">
           <div className="flex gap-4 mb-16 flex-wrap">
-            <Link
-              href={"/quiz/general"}
-              className="rounded-xl basis-1/3 grow h-48 flex items-center justify-center bg-primary-container"
-            >
-              <span className="font-bold text-center headline-medium text-on-primary-container ">
-                General
-              </span>
-            </Link>
-            <Link
-              href={"/quiz/history"}
-              className="rounded-xl basis-1/3 grow h-48 flex items-center justify-center bg-history-base"
-            >
-              <span className="font-bold text-center headline-medium text-on-history-container ">
-                History
-              </span>
-            </Link>
-            <Link
-              href={"/quiz/geography"}
-              className="rounded-md basis-1/3 grow h-48 flex items-center justify-center bg-geography-base"
-            >
-              <span className="font-bold text-center headline-medium text-on-geography-container ">
-                Geography
-              </span>
-            </Link>
-            <Link
-              href={"/quiz/economy"}
-              className="rounded-md basis-1/3 grow h-48 flex items-center justify-center bg-economy-base"
-            >
-              <span className="font-bold text-center text-zinc-50 headline-medium">Economy</span>
-            </Link>
+            <QuizOptionsDialog type="general">
+              <button className="rounded-xl basis-1/3 grow h-48 flex items-center justify-center bg-primary-container">
+                <span className="font-bold text-center headline-medium text-on-primary-container ">
+                  General
+                </span>
+              </button>
+            </QuizOptionsDialog>
+            <QuizOptionsDialog type="history">
+              <button className="rounded-xl basis-1/3 grow h-48 flex items-center justify-center bg-history-base">
+                <span className="font-bold text-center headline-medium text-on-history-container ">
+                  History
+                </span>
+              </button>
+            </QuizOptionsDialog>
+            <QuizOptionsDialog type="geography">
+              <button className="rounded-md basis-1/3 grow h-48 flex items-center justify-center bg-geography-base">
+                <span className="font-bold text-center headline-medium text-on-geography-container ">
+                  Geography
+                </span>
+              </button>
+            </QuizOptionsDialog>
+            <QuizOptionsDialog type="economy">
+              <button className="rounded-md basis-1/3 grow h-48 flex items-center justify-center bg-economy-base">
+                <span className="font-bold text-center text-zinc-50 headline-medium">Economy</span>
+              </button>
+            </QuizOptionsDialog>
           </div>
           <div className="grid grid-cols-3 gap-y-8 gap-x-4 ">
             {cards.map((subject, index) => {

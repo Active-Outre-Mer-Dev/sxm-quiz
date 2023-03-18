@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className={"flex flex-col items-center"}>
@@ -8,18 +10,20 @@ export default function Home() {
         </h2>
       </header>
       <div className="flex  gap-4 text-center">
-        <button
+        <Link
+          href={"/quiz/general"}
           className={`px-16 py-4 relative rounded-full text-xl bg-primary 
         text-on-primary active:top-[2px]`}
         >
           Play
-        </button>
-        <button
+        </Link>
+        <Link
+          href={"/"}
           className={`px-16 py-4 relative rounded-full text-xl ring-1 ring-outline 
         text-on-surface active:top-[2px]`}
         >
           Sign up
-        </button>
+        </Link>
       </div>
     </main>
   );
