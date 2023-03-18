@@ -164,8 +164,20 @@
     "surface-tint-dark": "#8fd966",
     "outline-variant-dark": "#43483e",
     "scrim-dark": "#000000",
-    "--md-custom-color-History": "#edb458",
-    "--md-custom-color-Geography": "#f97068",
-    "--md-custom-color-Economy": "#442b48"
+    "history-base": "#edb458",
+    "history": "#805600",
+    "on-history": "#ffffff",
+    "history-container": "#ffddaf",
+    "on-history-container": "#281800",
+    "geography-base": "#f97068",
+    "geography": "#a93532",
+    "on-geography": "#ffffff",
+    "geography-container": "#ffdad6",
+    "on-geography-container": "#410003",
+    "economy-base": "#442b48",
+    "economy": "#83478f",
+    "on-economy": "#ffffff",
+    "economy-container": "#fdd6ff",
+    "on-economy-container": "#340041"
   }
 }

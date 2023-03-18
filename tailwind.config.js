@@ -20,6 +20,9 @@ module.exports = {
       },
       orange: {
         ...colors.orange
+      },
+      rose: {
+        ...colors.rose
       }
     },
     fontFamily: {

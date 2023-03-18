@@ -171,9 +171,21 @@
   --md-sys-color-outline-variant-dark: #43483e;
   --md-sys-color-scrim-dark: #000000;
   /* Custom Colors */
-  --md-custom-color-History: #edb458;
-  --md-custom-color-Geography: #f97068;
-  --md-custom-color-Economy: #442b48;
+  --md-sys-color-history-base: #edb458;
+  --md-sys-color-history: #805600;
+  --md-sys-color-on-history: #ffffff;
+  --md-sys-color-history-container: #ffddaf;
+  --md-sys-color-on-history-container: #281800;
+  --md-sys-color-geography-base: #f97068;
+  --md-sys-color-geography: #a93532;
+  --md-sys-color-on-geography: #ffffff;
+  --md-sys-color-geography-container: #ffdad6;
+  --md-sys-color-on-geography-container: #410003;
+  --md-sys-color-economy-base: #442b48;
+  --md-sys-color-economy: #83478f;
+  --md-sys-color-on-economy: #ffffff;
+  --md-sys-color-economy-container: #fdd6ff;
+  --md-sys-color-on-economy-container: #340041;
   /* display - large */
   --md-sys-typescale-display-large-font-family-name: inherit;
   --md-sys-typescale-display-large-font-family-style: Regular;
