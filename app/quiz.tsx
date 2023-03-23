@@ -21,7 +21,7 @@ export default function Quiz({ questions, type }: PropTypes) {
 
   const choose = (selected: string) => {
     if (selected === current.answer) {
-      setPoints(prev => prev + 1);
+      setPoints(prev => addPoints(prev, current.difficulty));
       next();
     } else {
       next();
@@ -52,7 +52,9 @@ export default function Quiz({ questions, type }: PropTypes) {
               <h2 className="title-large capitalize text-on-surface-variant mb-2">{type}</h2>
               <Progress progress={progress} />
             </div>
-            <p className="title-medium text-on-surface-variant">Difficulty: Easy</p>
+            <p className="title-medium text-on-surface-variant capitalize">
+              Difficulty: {current.difficulty}
+            </p>
             <hr className="text-outline my-4" />
             <p className="headline-large text-center my-8">{current?.question}</p>
             <div className="grid grid-cols-2 gap-2 ">
@@ -77,7 +79,7 @@ export default function Quiz({ questions, type }: PropTypes) {
             <>
               <p className="text-center headline-medium mb-4">You finished the quiz!</p>
               <p className="text-center mb-2">
-                You got <span className={`${color} font-bold`}>{Math.round(percentage)}%</span>!
+                You got <span className={`${color} font-bold`}>{points} points </span>!
               </p>
             </>
           </Save>
@@ -85,6 +87,20 @@ export default function Quiz({ questions, type }: PropTypes) {
       </div>
     </>
   );
+}
+
+function addPoints(points: number, difficulty: "easy" | "medium" | "hard") {
+  switch (difficulty) {
+    case "easy": {
+      return points + 1;
+    }
+    case "medium": {
+      return points + 2;
+    }
+    case "hard": {
+      return points + 3;
+    }
+  }
 }
 
 type Props = {

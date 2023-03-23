@@ -72,8 +72,6 @@ export function QuizOptionsDialog({ children, type }: PropTypes) {
               </li>
             </ul>
           </fieldset>
-          <span id="question-amount">Number of questions:</span>
-          <Slider value={questions} max={20} onValueChange={setQuestions} label="question-amount" />
           <div className="flex gap-2 mt-6  justify-end">
             <Button intent={"text"}>Play</Button>
             <Dialog.Close asChild>
