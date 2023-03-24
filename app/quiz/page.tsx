@@ -5,6 +5,22 @@ import { QuizOptionsDialog } from "@/components/QuizOptionsDialog";
 const subjectTypes = ["history", "geography", "economy"] as const;
 const difficuties = ["easy", "medium", "hard"] as const;
 
+type Search = string | URLSearchParams | Record<string, string> | string[][] | undefined;
+
+function filterCards(searchParams: URLSearchParams, cardList: typeof cards) {
+  const subject = searchParams.get("subject");
+  const difficulty = searchParams.get("difficulty");
+  if (subject && difficulty) {
+    return cardList.filter(card => card.difficulty === difficulty && card.type === subject);
+  } else if (subject) {
+    return cardList.filter(card => card.type === subject);
+  } else if (difficulty) {
+    return cardList.filter(card => card.difficulty === difficulty);
+  } else {
+    return cardList;
+  }
+}
+
 const cards = Array(9)
   .fill(null)
   .map(() => {
@@ -14,7 +30,12 @@ const cards = Array(9)
     };
   });
 
-export default function Page() {
+export default function Page({ searchParams }: { searchParams?: Search }) {
+  const search = new URLSearchParams(searchParams);
+  const diff = search.get("difficulty") || "";
+  const subject = search.get("subject") || "";
+  const cardList = filterCards(search, cards);
+
   return (
     <>
       <h1 className="display-large text-on-surface text-center mb-10">Find your quiz</h1>
@@ -22,7 +43,7 @@ export default function Page() {
         <aside className="basis-1/5 gap-5 flex flex-col items-center">
           <Search />
           <div className="w-full px-2">
-            <Accordian />
+            <Accordian difficulty={diff} subject={subject} />
           </div>
         </aside>
         <main className="basis-4/5 mb-20">
@@ -55,7 +76,7 @@ export default function Page() {
             </QuizOptionsDialog>
           </div>
           <div className="grid grid-cols-3 gap-y-8 gap-x-4 ">
-            {cards.map((subject, index) => {
+            {cardList.map((subject, index) => {
               return <QuizCard {...subject} key={index} />;
             })}
           </div>
