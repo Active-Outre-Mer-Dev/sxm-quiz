@@ -1,6 +1,11 @@
 import { Accordian } from "@/components/Accordian";
 import { Search } from "@/components/SearchInput";
 import { QuizOptionsDialog } from "@/components/QuizOptionsDialog";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "SXM Quiz - Quiz"
+};
 
 const subjectTypes = ["history", "geography", "economy"] as const;
 const difficuties = ["easy", "medium", "hard"] as const;

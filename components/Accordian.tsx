@@ -29,21 +29,21 @@ export function Accordian({ difficulty, subject }: PropTypes) {
           <form onChange={onChange} className="space-y-4">
             <RadioInput
               label="History"
-              checked={subject === "history"}
+              defaultChecked={subject === "history"}
               name="subject-filter"
               id="history-filter"
               value={"history"}
             />
             <RadioInput
               label="Geography"
-              checked={subject === "geography"}
+              defaultChecked={subject === "geography"}
               name="subject-filter"
               id="geography-filter"
               value={"geography"}
             />
             <RadioInput
               label="Economy"
-              checked={subject === "economy"}
+              defaultChecked={subject === "economy"}
               name="subject-filter"
               id="economy-filter"
               value={"economy"}
@@ -57,21 +57,21 @@ export function Accordian({ difficulty, subject }: PropTypes) {
           <form onChange={onChange} className="space-y-4">
             <RadioInput
               label="Tourist"
-              checked={difficulty === "easy"}
+              defaultChecked={difficulty === "easy"}
               name="difficulty-filter"
               id="easy-filter"
               value={"easy"}
             />
             <RadioInput
               label="Medium"
-              checked={difficulty === "medium"}
+              defaultChecked={difficulty === "medium"}
               name="difficulty-filter"
               id="medium-filter"
               value={"medium"}
             />
             <RadioInput
               label="Local expert"
-              checked={difficulty === "hard"}
+              defaultChecked={difficulty === "hard"}
               name="difficulty-filter"
               id="hard-filter"
               value={"hard"}
