@@ -1,8 +1,14 @@
-import { RadioInput } from "@/components/RadioInput";
 import type { Search } from "@/types";
+import type { Metadata } from "next";
 import { LeaderboardsFilter } from "@/components/Filter";
+
+export const metadata: Metadata = {
+  title: "SXM Quiz - Leaderboards"
+};
+
 const score = { username: "bluepnwage", rank: 0, score: 50 };
 const leaderboards = Array<typeof score>(15).fill(score);
+
 export default function LeaderboardsPage({ searchParams }: { searchParams?: Search }) {
   const search = new URLSearchParams(searchParams);
   const filter = search.get("subject") || "";
