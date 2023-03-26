@@ -12,7 +12,7 @@ export function Navbar() {
             <NavLink href="/quiz">Quiz</NavLink>
           </li>
           <li className="basis-1/4">
-            <NavLink href="/leaderboard">Leaderboard</NavLink>
+            <NavLink href="/leaderboards">Leaderboard</NavLink>
           </li>
           <li className="basis-1/4">
             <NavLink href="/dashboard">Dashboard</NavLink>

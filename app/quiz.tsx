@@ -12,6 +12,7 @@ type PropTypes = {
 export default function Quiz({ questions, type }: PropTypes) {
   const [step, setStep] = useState(0);
   const [points, setPoints] = useState(0);
+  const [streak, setStreak] = useState(0);
 
   const next = () => {
     if (!completed) {
@@ -21,9 +22,11 @@ export default function Quiz({ questions, type }: PropTypes) {
 
   const choose = (selected: string) => {
     if (selected === current.answer) {
-      setPoints(prev => addPoints(prev, current.difficulty));
+      setPoints(prev => addPoints(prev + streak, current.difficulty));
+      setStreak(prev => prev + 1);
       next();
     } else {
+      setStreak(0);
       next();
     }
   };
@@ -50,7 +53,12 @@ export default function Quiz({ questions, type }: PropTypes) {
           <>
             <div className="flex justify-between">
               <h2 className="title-large capitalize text-on-surface-variant mb-2">{type}</h2>
-              <Progress progress={progress} />
+              <div className="space-y-4">
+                <Progress progress={progress} />
+                <p>
+                  <span>Streak:</span> {streak}
+                </p>
+              </div>
             </div>
             <p className="title-medium text-on-surface-variant capitalize">
               Difficulty: {current.difficulty}
@@ -75,7 +83,7 @@ export default function Quiz({ questions, type }: PropTypes) {
           </>
         )}
         {completed && (
-          <Save score={percentage} onReset={onReset}>
+          <Save score={points} onReset={onReset}>
             <>
               <p className="text-center headline-medium mb-4">You finished the quiz!</p>
               <p className="text-center mb-2">
