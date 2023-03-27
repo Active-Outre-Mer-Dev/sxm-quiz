@@ -1,24 +1,28 @@
+import { Button } from "./Button";
 import { NavLink } from "./NavLink";
 
 export function Navbar() {
   return (
-    <header className="mx-auto ring-1 ring-primary/5 z-50 w-4/5 sticky top-4 left-0 h-20 overflow-hidden bg-surface mt-4 shadow-md rounded-full mb-16">
-      <nav className="h-full ">
-        <ul className="flex h-full">
-          <li className="basis-1/4">
-            <NavLink href="/">Home</NavLink>
-          </li>
-          <li className="basis-1/4">
-            <NavLink href="/quiz">Quiz</NavLink>
-          </li>
-          <li className="basis-1/4">
-            <NavLink href="/leaderboards">Leaderboard</NavLink>
-          </li>
-          <li className="basis-1/4">
-            <NavLink href="/dashboard">Dashboard</NavLink>
-          </li>
-        </ul>
-      </nav>
+    <header className="z-50 flex px-10 shadow-md  items-center sticky top-0 left-0 h-16 overflow-hidden bg-surface  mb-16">
+      <div className="basis-9/12 flex items-center h-full space-x-8">
+        <span className="text-xl">SXM Quiz</span>
+        <nav className=" h-full">
+          <ul className="flex h-full gap-4">
+            <li className="">
+              <NavLink href="/">Home</NavLink>
+            </li>
+            <li className="">
+              <NavLink href="/quiz">Quiz</NavLink>
+            </li>
+            <li className="">
+              <NavLink href="/leaderboards">Leaderboards</NavLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div className="basis-3/12 flex justify-end">
+        <Button intent={"secondary"}>Sign up</Button>
+      </div>
     </header>
   );
 }

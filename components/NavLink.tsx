@@ -12,14 +12,15 @@ export function NavLink({ href, children }: PropTypes) {
   return (
     <Link
       href={href}
-      className={`h-full font-semibold text-lg  w-full duration-200 ease-out 
-      flex items-center justify-center ${
-        href === path
-          ? "bg-secondary-container text-on-secondary-container"
-          : "text-on-surface hover:bg-secondary-container/50"
+      className={`h-full relative   w-full duration-200 ease-out 
+      flex flex-col items-center justify-center ${
+        href === path ? "  text-primary " : "hover:text-on-surface-variant text-zinc-500"
       }`}
     >
       {children}
+      {href === path && (
+        <span aria-hidden className="h-1 rounded-t-xl w-full absolute bottom-0 left-0 bg-primary"></span>
+      )}
     </Link>
   );
 }
