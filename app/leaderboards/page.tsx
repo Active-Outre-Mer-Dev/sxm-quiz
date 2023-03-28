@@ -14,7 +14,8 @@ export default function LeaderboardsPage({ searchParams }: { searchParams?: Sear
   const filter = search.get("subject") || "";
   return (
     <div className="flex px-8 mb-20">
-      <aside className="basis-1/5">
+      <aside className="basis-1/5 mt-16 space-y-2">
+        <p className="text-lg text-on-surface-variant">Filters</p>
         <LeaderboardsFilter filter={filter} />
       </aside>
       <main className="basis-4/5">

@@ -1,5 +1,5 @@
-import { Button } from "./Button";
 import { NavLink } from "./NavLink";
+import { Profile } from "./Profile";
 
 export function Navbar() {
   return (
@@ -21,7 +21,8 @@ export function Navbar() {
         </nav>
       </div>
       <div className="basis-3/12 flex justify-end">
-        <Button intent={"secondary"}>Sign up</Button>
+        {/*@ts-expect-error*/}
+        <Profile />
       </div>
     </header>
   );
