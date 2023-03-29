@@ -1,6 +1,7 @@
 import "@/styles/theme.css";
 import { Kumbh_Sans as Font } from "next/font/google";
 import { Navbar } from "@/components/Nav";
+import { AuthProvider } from "@/components/AuthProvider";
 
 export const runtime = "edge";
 export const revalidate = 0;
@@ -17,8 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={font.variable}>
       <body className="bg-zinc-50">
-        <Navbar />
-        {children}
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

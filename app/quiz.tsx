@@ -3,6 +3,7 @@ import { useState } from "react";
 import { questions as questionsType } from "@/quiz";
 import { randomize } from "@/utils/randomize";
 import { Progress } from "@/components/Progress";
+import { useSession } from "next-auth/react";
 
 type PropTypes = {
   questions: typeof questionsType;
@@ -83,7 +84,7 @@ export default function Quiz({ questions, type }: PropTypes) {
           </>
         )}
         {completed && (
-          <Save score={points} onReset={onReset}>
+          <Save score={points} onReset={onReset} type={type}>
             <>
               <p className="text-center headline-medium mb-4">You finished the quiz!</p>
               <p className="text-center mb-2">
@@ -115,11 +116,16 @@ type Props = {
   children: React.ReactNode;
   onReset: () => void;
   score: number;
+  type: string;
 };
 
-function Save({ children, onReset, score }: Props) {
-  const onSave = () => {
-    localStorage.setItem("bluepnwage", `${score}`);
+function Save({ children, onReset, score, type }: Props) {
+  const onSave = async () => {
+    const res = await fetch("/api/leaderboards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ score, subject: type })
+    });
   };
   return (
     <div className="h-64 flex-col flex items-center justify-center">

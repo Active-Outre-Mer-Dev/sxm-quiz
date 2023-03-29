@@ -1,15 +1,23 @@
 import type { Search } from "@/types";
 import type { Metadata } from "next";
 import { LeaderboardsFilter } from "@/components/Filter";
+import { db } from "@/lib/planetscale";
+
+async function getLeaderboards() {
+  const data = await db.selectFrom("leaderboards").selectAll().execute();
+  return data;
+}
 
 export const metadata: Metadata = {
   title: "SXM Quiz - Leaderboards"
 };
 
-const score = { username: "bluepnwage", rank: 0, score: 50 };
+const score = { user: "bluepnwage", rank: 0, score: 50 };
 const leaderboards = Array<typeof score>(15).fill(score);
 
-export default function LeaderboardsPage({ searchParams }: { searchParams?: Search }) {
+export default async function LeaderboardsPage({ searchParams }: { searchParams?: Search }) {
+  const boards = await getLeaderboards();
+  console.log(boards);
   const search = new URLSearchParams(searchParams);
   const filter = search.get("subject") || "";
   return (
@@ -28,12 +36,12 @@ export default function LeaderboardsPage({ searchParams }: { searchParams?: Sear
             </tr>
           </thead>
           <tbody className="text-center">
-            {leaderboards.map(({ rank, score, username }, index) => {
+            {boards.map(({ score, user_id }, index) => {
               return (
                 <tr key={index} className="border-b border-outline-variant ">
-                  <td className="py-4 border-r border-outline-variant">{username}</td>
-                  <td className="py-4 border-r border-outline-variant">{rank + index + 1}</td>
-                  <td className="py-4 ">{score - index}</td>
+                  <td className="py-4 border-r border-outline-variant">{user_id}</td>
+                  <td className="py-4 border-r border-outline-variant">{index + 1}</td>
+                  <td className="py-4 ">{score}</td>
                 </tr>
               );
             })}
