@@ -5,12 +5,14 @@ import { usePathname } from "next/navigation";
 type PropTypes = {
   href: string;
   children: React.ReactNode;
+  hardNav?: boolean;
 };
 
-export function NavLink({ href, children }: PropTypes) {
+export function NavLink({ href, children, hardNav }: PropTypes) {
   const path = usePathname();
   return (
     <Link
+      prefetch={!hardNav}
       href={href}
       className={`h-full relative   w-full duration-200 ease-out 
       flex flex-col items-center justify-center ${

@@ -8,27 +8,27 @@ const text = `Exercitation aliquip aliqua esse sint consectetur tempor aute eius
 
 const encoder = new TextEncoder();
 
-async function* makeIterator() {
-  yield encoder.encode("One ");
-  await sleep(200);
-  yield encoder.encode("Two ");
-  await sleep(200);
-  yield encoder.encode("Three");
+async function* countFrom(n: number) {
+  for (let i = n; i < Infinity; i++) {
+    await sleep(500);
+    yield encoder.encode(`${text} + ${i}`);
+  }
 }
 
 export const runtime = "edge";
 
 export async function GET() {
-  let start = 0;
-  let enqueued = 0;
   const body = new ReadableStream<Uint8Array>({
     pull: async controller => {
-      let sliceNum = 0;
-      if (enqueued >= text.length) controller.close();
-      enqueued += 10;
-      sliceNum += 10;
-      await sleep(500);
-      controller.enqueue(encoder.encode(text.slice(0, sliceNum)));
+      let iterations = 0;
+      for await (const value of countFrom(1)) {
+        if (iterations === 200) {
+          controller.close();
+          break;
+        }
+        iterations++;
+        controller.enqueue(value);
+      }
     }
   });
   return new Response(body);

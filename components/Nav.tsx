@@ -15,7 +15,9 @@ export function Navbar() {
               <NavLink href="/quiz">Quiz</NavLink>
             </li>
             <li className="">
-              <NavLink href="/leaderboards">Leaderboards</NavLink>
+              <NavLink hardNav href="/leaderboards">
+                Leaderboards
+              </NavLink>
             </li>
           </ul>
         </nav>
