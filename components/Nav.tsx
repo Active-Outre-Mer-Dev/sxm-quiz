@@ -22,10 +22,7 @@ export function Navbar() {
           </ul>
         </nav>
       </div>
-      <div className="basis-3/12 flex justify-end">
-        {/*@ts-expect-error*/}
-        <Profile />
-      </div>
+      <div className="basis-3/12 flex justify-end">{/* <Profile /> */}</div>
     </header>
   );
 }
