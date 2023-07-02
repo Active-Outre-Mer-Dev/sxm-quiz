@@ -1,0 +1,6 @@
+.bg {
+  background-image: url(/waves.svg);
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}

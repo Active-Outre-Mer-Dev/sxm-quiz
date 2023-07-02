@@ -1,8 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
+  modularizeImports: {
+    "@aomdev/ui": {
+      transform: "@aomdev/ui/src/{{ kebabCase member }}",
+      skipDefaultConversion: true
+    }
   },
-}
+  experimental: {
+    serverActions: true
+  }
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
