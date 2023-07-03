@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 
 export function Feedback() {
   const { title } = useQuiz();
+  const [input, setInput] = useState("");
   const [show, setShow] = useState(false);
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,16 +18,21 @@ export function Feedback() {
     });
     if (res.ok) {
       setShow(true);
-
+      setInput("");
       setTimeout(() => {
         setShow(false);
       }, 1000 * 5);
     }
   };
+
+  const onChange = (e: FormEvent<HTMLTextAreaElement>) => {
+    setInput(e.currentTarget.value);
+  };
+
   return (
     <>
       <form className="space-y-4 mb-4" onSubmit={onSubmit}>
-        <Textarea label="Write message" name="message" id="message" />
+        <Textarea value={input} onChange={onChange} label="Write message" name="message" id="message" />
         <Button variant={"neutral"}>Submit</Button>
       </form>
       {show && (

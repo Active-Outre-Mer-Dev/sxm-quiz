@@ -1,17 +1,19 @@
-import { allQuizzes } from "@/quizzes";
 import { randomize } from "@/randomize-quiz";
 import { Container } from "./_components/container";
 import { Suspense, lazy } from "react";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { Database } from "@/types/database.types";
 import { notFound } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { createClient } from "@supabase/supabase-js";
 const Quiz = lazy(() => import("./_components/question-quiz"));
 const ListQuiz = lazy(() => import("./_components/list-quiz"));
 
-type SupabaseClient = ReturnType<typeof createServerComponentClient<Database>>;
-
+const supabase = createClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_KEY!
+);
+type SupabaseClient = typeof supabase;
 type PageProps = {
   params: { slug: string };
 };
@@ -31,11 +33,6 @@ async function s(supabase: SupabaseClient, id: number, type: "multiple_choice" |
 }
 
 export default async function Page({ params }: PageProps) {
-  const supabase = createServerComponentClient<Database>(
-    { cookies },
-    { supabaseKey: process.env.SUPABASE_SERVICE_KEY }
-  );
-
   const { data: quizData, error: quizError } = await supabase
     .from("quiz")
     .select("*, scores (quiz_id, score)")

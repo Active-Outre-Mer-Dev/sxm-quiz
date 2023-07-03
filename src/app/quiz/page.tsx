@@ -3,9 +3,9 @@ import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { DetailsWrapper } from "@/components/quiz/details-modals";
 import { Filters } from "./quiz-filters";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { Database, MultipleChoice, NameAll, Quiz } from "@/types/database.types";
+import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
@@ -15,11 +15,12 @@ type PageProps = {
   searchParams: Search;
 };
 
+const supabase = createClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_KEY!
+);
+
 export default async function Page({ searchParams }: PageProps) {
-  const supabase = createServerComponentClient<Database>(
-    { cookies },
-    { supabaseKey: process.env.SUPABASE_SERVICE_KEY }
-  );
   const { data: multipleChoice, error } = await supabase
     .from("quiz")
     .select("*,  quiz_multiple_choice ( quiz_id )")
@@ -44,7 +45,6 @@ export default async function Page({ searchParams }: PageProps) {
         <Filters search={topic || undefined} />
         <div className="grid gap-4 lg:grid-cols-3">
           {filteredQuizzes.map(quiz => {
-            // const randomScore = key === 0 ? undefined : Math.floor(Math.random() * 100);
             return <QuizCard quiz={quiz} key={quiz.id} />;
           })}
         </div>

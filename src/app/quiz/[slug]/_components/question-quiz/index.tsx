@@ -5,11 +5,9 @@ import { initialState, reducer } from "./reducer";
 import { useQuiz } from "../container/container.context";
 import { Suspense, lazy } from "react";
 import { QuizDetailsLoad } from "./details-load";
-import type { Database, MultipleChoice } from "@/types/database.types";
+import type { MultipleChoice } from "@/types/database.types";
 
 const QuestionQuizDetails = lazy(() => import("./details"));
-
-import type { Question } from "@/questions";
 
 type PropTypes = {
   questions: MultipleChoice[];
