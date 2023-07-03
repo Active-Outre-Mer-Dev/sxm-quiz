@@ -4,7 +4,7 @@ author: Rayan LOUISY
 category: economy
 intro: Saint-Martin, has faced significant challenges in its economic development over the past decade. Devastated by Hurricane Irma in 2017 and impacted by the ongoing Covid-19 pandemic, the island has navigated through turbulent times. In This article we explore the economic challenges faced by Saint-Martin during this period and the gradual recovery efforts.
 thumbnail: /sxm2.jpg
-profile: /rayan-louisy/profile.jpg
+profile: /rayan-louisy/profile.png
 ---
 
 Between 2014 and 2021, the economic development of Saint-Martin, a French overseas territory located in the Caribbean, faced significant obstacles due to two major phenomena: the passage of **Hurricane Irma** in late 2017 and the ongoing **Covid-19 pandemic** since 2020. These events had a profound impact on the island's economy, _leading to fluctuations in growth rates, a decline in population, and a setback in various sectors_.

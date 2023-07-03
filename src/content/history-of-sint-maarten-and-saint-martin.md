@@ -5,7 +5,7 @@ type: Article
 category: history
 intro: Saint-Martin, has faced significant challenges in its economic development over the past decade. Devastated by Hurricane Irma in 2017 and impacted by the ongoing Covid-19 pandemic, the island has navigated through turbulent times. In this article, we examine the impact of these crises and the strides made towards recovery and renewal from 2014 to 2021.
 thumbnail: /sxm2.jpg
-profile: /rayan-louisy/profile.jpg
+profile: /rayan-louisy/profile.png
 ---
 
 The island of **Sint Maarten/Saint-Martin**, nestled in the northeastern Caribbean, boasts a fascinating history shaped by the coexistence of two distinct European settlements—Dutch and French. From the early days of colonization to the present, these settlements have played pivotal roles in shaping the island's economy, culture, and overall development. This article delves into the historical narrative, exploring the growth, challenges, and enduring legacy of Dutch and French settlements on this tropical paradise.

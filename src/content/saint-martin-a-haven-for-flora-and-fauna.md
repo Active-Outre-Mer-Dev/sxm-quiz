@@ -4,7 +4,7 @@ author: Rayan LOUISY
 category: environment
 intro: As the gentle sea breeze caresses the shores of Saint-Martin, it carries with it the whispers of a thriving natural paradise. This tropical oasis is not only home to stunning beaches and vibrant communities but also a world teeming with remarkable plants and animals, showcasing the island's extraordinary biodiversity.
 thumbnail: /sxm2.jpg
-# profile: /rayan-louisy/profile.jpg
+# profile: /rayan-louisy/profile.png
 ---
 
 Nestled in the heart of the Caribbean, the enchanting island of **Saint-Martin** beckons travelers with its pristine beaches, turquoise waters, and rich cultural heritage. Beyond its idyllic landscapes and vibrant communities, this tropical paradise is also a sanctuary for a remarkable array of plants and animals. From lush rainforests to diverse marine ecosystems, Saint-Martin boasts an extraordinary biodiversity that captivates both nature enthusiasts and researchers alike. In this article, we embark on a journey to discover the remarkable flora and fauna that call Saint-Martin home.
