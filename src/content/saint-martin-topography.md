@@ -1,7 +1,8 @@
 ---
 title: Exploring Saint-Martin's Topography
 author: Rayan LOUISY
-type: geography
+profile: /rayan-louisy/profile.png
+category: geography
 intro: The island of Saint-Martin boasts not only breathtaking beaches and a vibrant cultural scene but also a diverse and captivating topography. This enchanting island, known for its blend of French and Dutch influences, presents a landscape that ranges from rolling hills to rugged cliffs, creating a paradise for both adventure seekers and nature enthusiasts. In this article, we will delve into the topography of Saint-Martin.
 thumbnail: /sxm2.jpg
 ---
