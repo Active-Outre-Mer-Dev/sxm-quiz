@@ -4,21 +4,26 @@ import { getCatColor } from "@/get-category-color";
 import { Select } from "./client";
 import profile from "@/assets/agis.jpg";
 import Link from "next/link";
-import { getAllMetadata } from "@/lib/get-content";
 
-import type { QuestionCategory } from "@/questions";
+import { formatDate } from "@/lib/format-date";
 
 type PropTypes = {
   title?: "Community" | "Featured" | "Recently added" | "All";
-  category: string;
   type?: string;
+  articles: {
+    title: string;
+    thumbnail: string;
+    intro: string;
+    category: string;
+    author: string;
+    created_at: string;
+    slug: string;
+    featured: boolean;
+    community: boolean;
+  }[];
 };
 
-export function Articles({ title, category, type }: PropTypes) {
-  const articles = type
-    ? getAllMetadata().filter(({ data }) => data.metadata.type === type)
-    : getAllMetadata();
-
+export async function Articles({ title, articles }: PropTypes) {
   return (
     <>
       {title && (
@@ -44,15 +49,18 @@ export function Articles({ title, category, type }: PropTypes) {
           </div>
         )}
         {articles.map((article, key) => {
-          const { metadata } = article.data;
           return (
-            <Link href={`/learn/${category}/${article.slug}`} key={key} className="overflow-hidden group">
+            <Link
+              href={`/learn/${article.category}/${article.slug}`}
+              key={key}
+              className="overflow-hidden group"
+            >
               <figure
                 className={`rounded-xl overflow-hidden h-36 mb-4 px-2 relative flex items-center 
               justify-center  `}
               >
                 <Image
-                  src={metadata.thumbnail}
+                  src={article.thumbnail}
                   fill
                   alt=""
                   className=" object-cover group-hover:scale-110 duration-200 ease-out"
@@ -63,9 +71,9 @@ export function Articles({ title, category, type }: PropTypes) {
                 className={`relative group-hover:text-primary-500 font-medium capitalize font-heading mb-4
                 duration-200 ease-out`}
               >
-                {metadata.title}
+                {article.title}
               </Title>
-              <p className="mb-4">{metadata.intro}</p>
+              <p className="mb-4">{article.intro}</p>
               <div className="flex justify-between items-end">
                 <div className="flex items-center gap-4">
                   <img
@@ -76,12 +84,14 @@ export function Articles({ title, category, type }: PropTypes) {
                     alt={""}
                   />
                   <div>
-                    <span className="block text-sm font-medium">{metadata.author}</span>
-                    <span className="block text-sm text-neutral-600">{metadata.creationDate}</span>
+                    <span className="block text-sm font-medium">{article.author}</span>
+                    <span className="block text-sm text-neutral-600">
+                      {formatDate(new Date(article.created_at))}
+                    </span>
                   </div>
                 </div>
-                <Badge className="capitalize" color={getCatColor(metadata.type as QuestionCategory)}>
-                  {metadata.type}
+                <Badge className="capitalize" color={getCatColor(article.category)}>
+                  {article.category}
                 </Badge>
               </div>
             </Link>

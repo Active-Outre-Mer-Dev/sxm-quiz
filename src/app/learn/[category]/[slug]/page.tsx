@@ -3,7 +3,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import profile from "@/assets/agis.jpg";
 import pixel2 from "@/assets/pixel.jpg";
 import { TableOfContents } from "./toc";
-import { generateContent, getAllMetadata } from "@/lib/get-content";
+import { getHeadings } from "@/lib/get-content";
 import { notFound } from "next/navigation";
 import { ShareButton } from "./share-article";
 import { ExternalLink } from "./external-link";
@@ -11,9 +11,10 @@ import { MobileTOC } from "./mobile-toc";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database.types";
 import { formatDate } from "@/lib/format-date";
+import { allArticles } from "contentlayer/generated";
 
 export function generateStaticParams() {
-  const slugs = getAllMetadata()!.map(({ slug }) => ({ slug }));
+  const slugs = allArticles.map(({ slug }) => ({ slug }));
   return slugs;
 }
 
@@ -23,12 +24,11 @@ const supabase = createClient<Database>(
 );
 
 export default async function Page({ params }: { params: { slug: string; category: string } }) {
-  const props = await generateContent(params.slug);
+  const props = await getHeadings(params.slug);
   const { error, data } = await supabase.from("articles").select("*").eq("slug", params.slug).single();
-
-  if (props.error || error) notFound();
-
-  const { content, headings, metadata, readTime } = props;
+  const article = allArticles.find(article => article.slug === params.slug);
+  if (!article || error || props.error) notFound();
+  const { headings, readTime } = props;
   const color =
     params.category === "history"
       ? "text-error-600"
@@ -51,12 +51,12 @@ export default async function Page({ params }: { params: { slug: string; categor
             <div className="mb-10">
               <header className="flex items-center justify-between mb-4">
                 <h1 id={"intro"} className={"text-4xl leading-none font-medium font-heading"}>
-                  {metadata.title}
+                  {article.title}
                 </h1>
-                <ShareButton title={metadata.title} />
+                <ShareButton title={article.title} />
               </header>
               <p style={{ width: "clamp(36ch, 90%, 75ch)" }} className="text-lg mb-4">
-                {metadata.intro}
+                {article.intro}
               </p>
               <span className="text-neutral-600 text-sm block mb-6">
                 {formatDate(new Date(data.created_at))} - {readTime} min read
@@ -65,11 +65,11 @@ export default async function Page({ params }: { params: { slug: string; categor
                 <div className="flex items-center gap-2">
                   <img src={profile.src} width={50} height={50} className="rounded-full object-cover" />
                   <div>
-                    <span className="font-medium block text-neutral-800">{metadata.author}</span>
+                    <span className="font-medium block text-neutral-800">{article.author}</span>
                     <span className="text-neutral-600">SXM Quiz core team</span>
                   </div>
                 </div>
-                <div>
+                {/* <div>
                   <a
                     target="_blank"
                     href={"https://github.com/bluepnwage"}
@@ -77,15 +77,15 @@ export default async function Page({ params }: { params: { slug: string; categor
                   >
                     Github <ExternalLinkIcon size={16} className="inline-block ml-2" />
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
-            <img src={metadata.thumbnail} alt={""} className={"rounded-xl mb-10"} />
+            <img src={article.thumbnail} alt={""} className={"rounded-xl mb-10"} />
             <MobileTOC headings={headings} {...params} />
             <div
               className={`prose-ul:list-disc prose-headings:font-medium prose-h2:mt-10 prose-lg prose-h2:mb-4
                prose-h2:text-3xl prose-a:text-primary-500`}
-              dangerouslySetInnerHTML={{ __html: content }}
+              dangerouslySetInnerHTML={{ __html: article.body.html }}
             ></div>
           </article>
           {/* <div className="space-y-10">

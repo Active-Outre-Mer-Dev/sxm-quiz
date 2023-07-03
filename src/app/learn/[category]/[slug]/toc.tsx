@@ -17,7 +17,7 @@ function createObserver(cb: (id: string) => void) {
         }
       });
     },
-    { rootMargin: "0% 0% -80% 0%" }
+    { rootMargin: "0% 0% -70% 0%" }
   );
 }
 
@@ -30,7 +30,7 @@ export function TableOfContents({ headings }: TOCProps) {
     const intro = document.getElementById("intro");
     if (intro) observer.observe(intro);
     headings.forEach(heading => {
-      const element = document.getElementById(`user-content-${heading.data.hProperties.id}`);
+      const element = document.getElementById(`${heading.data.hProperties.id}`);
       if (element) {
         observer.observe(element);
       }
@@ -39,7 +39,7 @@ export function TableOfContents({ headings }: TOCProps) {
       const intro = document.getElementById("intro");
       if (intro) observer.unobserve(intro);
       headings.forEach(heading => {
-        const element = document.getElementById(`user-content-${heading.data.hProperties.id}`);
+        const element = document.getElementById(`${heading.data.hProperties.id}`);
         if (element) {
           observer.unobserve(element);
         }
@@ -47,7 +47,7 @@ export function TableOfContents({ headings }: TOCProps) {
     };
   }, []);
   return (
-    <div className="basis-1/6  px-4 hidden lg:block">
+    <div className="basis-1/6 grow  px-4 hidden lg:block">
       <div className="sticky top-20">
         <p className="font-medium text-lg mb-5">On this page</p>
         <ul className="space-y-2 mb-5">
@@ -59,9 +59,9 @@ export function TableOfContents({ headings }: TOCProps) {
               <Item
                 category={category}
                 slug={slug}
-                key={`user-content-${heading.data.hProperties.id}`}
-                active={activeId === `user-content-${heading.data.hProperties.id}`}
-                id={`user-content-${heading.data.hProperties.id}`}
+                key={`${heading.data.hProperties.id}`}
+                active={activeId === `${heading.data.hProperties.id}`}
+                id={`${heading.data.hProperties.id}`}
               >
                 {heading.value}
               </Item>
@@ -89,8 +89,8 @@ function Item({ active, children, id, category, slug }: PropTypes) {
   return (
     <li
       data-active={active}
-      className={`data-[active=true]:text-primary-500 underline-offset-2 text-neutral-700
-        data-[active=true]:underline data-[active=true]:font-medium`}
+      className={`data-[active=true]:text-primary-500  text-neutral-700
+        data-[active=true]:underline `}
     >
       <a href={`/learn/${category}/${slug}#${id}`}>{children}</a>
     </li>

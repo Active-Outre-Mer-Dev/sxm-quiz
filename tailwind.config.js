@@ -141,5 +141,5 @@ module.exports = {
       white: colors.white
     }
   },
-  plugins: []
+  plugins: [require("@tailwindcss/typography")]
 };
