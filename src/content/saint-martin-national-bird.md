@@ -1,7 +1,8 @@
 ---
 title: Saint-Martin's National Bird, The Brown Pelican
 author: Rayan LOUISY
-type: environment
+profile: /rayan-louisy/profile.png
+category: environment
 intro:  Among the island's natural treasures, the Brown Pelican (Pelecanus occidentalis) stands tall as the proud national bird of Saint-Martin. Revered for its graceful flight, unique appearance, and ecological significance, the Brown Pelican serves as an emblem of the island's rich natural heritage. Let us embark on a journey to discover the captivating allure of Saint-Martin's beloved national bird.
 thumbnail: /sxm2.jpg
 ---
