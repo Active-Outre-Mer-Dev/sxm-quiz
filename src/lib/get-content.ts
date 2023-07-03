@@ -63,17 +63,15 @@ type Content =
       error: true;
       message: string;
     }
-  | { content: string; error: false; readTime: number; metadata: ArticleData; headings: Heading[] };
+  | { error: false; readTime: number; headings: Heading[] };
 
-export async function generateContent(slug: string): Promise<Content> {
+export async function getHeadings(slug: string): Promise<Content> {
   try {
     const file = `${slug}.md`;
     const fileData = fs.readFileSync(path.join(contentFolder, file), "utf-8");
     const data = getMetadata(fileData, file);
     const contentHTML = await remark().use(html).use(headingTree).process(data.content);
     return {
-      content: contentHTML.toString(),
-      metadata: data.metadata,
       headings: contentHTML.data.headings as Heading[],
       readTime: getReadTime(contentHTML.toString()),
       error: false
