@@ -8,7 +8,8 @@ export const Article = defineDocumentType(() => ({
     author: { type: "string", required: true },
     intro: { type: "string", required: true },
     thumbnail: { type: "string", required: true },
-    category: { type: "string", required: true }
+    category: { type: "string", required: true },
+    profile: { type: "string", required: false }
   },
   computedFields: {
     slug: {

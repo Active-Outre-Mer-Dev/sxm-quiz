@@ -2,7 +2,6 @@ import { Title, Badge } from "@aomdev/ui";
 import Image from "next/image";
 import { getCatColor } from "@/get-category-color";
 import { Select } from "./client";
-import profile from "@/assets/agis.jpg";
 import Link from "next/link";
 
 import { formatDate } from "@/lib/format-date";
@@ -20,6 +19,7 @@ type PropTypes = {
     slug: string;
     featured: boolean;
     community: boolean;
+    profile?: string;
   }[];
 };
 
@@ -49,6 +49,7 @@ export async function Articles({ title, articles }: PropTypes) {
           </div>
         )}
         {articles.map((article, key) => {
+          const [firstName, lastName] = article.author.split(" ");
           return (
             <Link
               href={`/learn/${article.category}/${article.slug}`}
@@ -76,13 +77,22 @@ export async function Articles({ title, articles }: PropTypes) {
               <p className="mb-4">{article.intro}</p>
               <div className="flex justify-between items-end">
                 <div className="flex items-center gap-4">
-                  <img
-                    src={profile.src}
-                    width={50}
-                    height={50}
-                    className="rounded-full object-cover"
-                    alt={""}
-                  />
+                  {article.profile ? (
+                    <img
+                      src={article.profile}
+                      width={50}
+                      height={50}
+                      className="rounded-full object-cover"
+                      alt={""}
+                    />
+                  ) : (
+                    <div
+                      style={{ width: 50, height: 50 }}
+                      className="rounded-full uppercase font-medium bg-neutral-100 flex items-center justify-center"
+                    >
+                      {`${firstName[0]}${lastName[0]}`}
+                    </div>
+                  )}
                   <div>
                     <span className="block text-sm font-medium">{article.author}</span>
                     <span className="block text-sm text-neutral-600">

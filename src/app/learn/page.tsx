@@ -16,7 +16,7 @@ export default async function Page() {
   const { data, error } = await supabase.from("articles").select("created_at, slug, featured, community");
   if (error) throw new Error("There was an error fetching the articles");
 
-  const articles = contentArticles.map(({ slug, title, thumbnail, intro, category, author }) => {
+  const articles = contentArticles.map(({ slug, title, thumbnail, intro, category, author, profile }) => {
     const articleMetadata = data.find(article => article.slug === slug);
     if (!articleMetadata) throw new Error("Must add article metadata to supabase");
     return {
@@ -25,7 +25,8 @@ export default async function Page() {
       thumbnail,
       intro,
       category,
-      author
+      author,
+      profile
     };
   });
 

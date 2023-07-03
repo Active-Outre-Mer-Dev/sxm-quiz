@@ -4,6 +4,7 @@ author: Rayan LOUISY
 category: geography
 intro: Saint-Martin, a tropical gem in the Caribbean Sea. With its stunning beaches, turquoise waters, and a harmonious blend of French and Dutch cultures, Saint-Martin offers a unique and enchanting experience. Divided between two sovereign states, the French side of Saint-Martin and the Dutch side of Sint Maarten, this small paradise presents a world of beauty and diversity within its compact borders.
 thumbnail: /sxm2.jpg
+profile: /rayan-louisy/profile.jpg
 ---
 
 **Saint-Martin**, also known as **Sint Maarten**, is a small island located in the northeastern Caribbean Sea. The island is divided between two separate countries: the northern part of the island belongs to France and is called Saint-Martin, while the southern part belongs to the Kingdom of the Netherlands and is called Sint Maarten. This unique division makes Saint-Martin _the smallest landmass in the world shared by two sovereign states_.

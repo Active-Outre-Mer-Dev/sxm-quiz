@@ -1,10 +1,10 @@
 import { Title } from "@aomdev/ui";
 import { Articles } from "../article-list";
-const categories = ["history", "geography", "environment", "economy"];
-import { getAllMetadata } from "@/lib/get-content";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/database.types";
 import { allArticles } from "contentlayer/generated";
+
+const categories = ["history", "geography", "environment", "economy"];
 
 export function generateStaticParams() {
   return categories.map(category => ({ category }));
@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: { category: string } })
     .eq("category", params.category);
   if (error) throw new Error("There was an error fetching the articles");
 
-  const articles = contentArticles.map(({ slug, title, thumbnail, intro, category, author }) => {
+  const articles = contentArticles.map(({ slug, title, thumbnail, intro, category, author, profile }) => {
     const articleMetadata = data.find(article => article.slug === slug);
     if (!articleMetadata) throw new Error("Must add article metadata to supabase");
     return {
@@ -32,7 +32,8 @@ export default async function Page({ params }: { params: { category: string } })
       thumbnail,
       intro,
       category,
-      author
+      author,
+      profile
     };
   });
   return (
