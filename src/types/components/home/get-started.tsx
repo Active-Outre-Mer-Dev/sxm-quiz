@@ -5,6 +5,7 @@ import { Button } from ".";
 
 export function GetStarted() {
   const router = useRouter();
+
   return (
     <Button
       size={"lg"}

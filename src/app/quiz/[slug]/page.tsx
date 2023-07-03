@@ -1,4 +1,3 @@
-import { allQuizzes } from "@/quizzes";
 import { randomize } from "@/randomize-quiz";
 import { Container } from "./_components/container";
 import { Suspense, lazy } from "react";
