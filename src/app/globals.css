@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< HEAD
-=======
 
 :root {
   scroll-padding-top: 80px;
@@ -11,4 +9,3 @@
 .radial-gradient {
   background: radial-gradient(circle, #211539, #090914);
 }
->>>>>>> f0338a88d3d2a88790ff06f153b6893f0c5008b4
