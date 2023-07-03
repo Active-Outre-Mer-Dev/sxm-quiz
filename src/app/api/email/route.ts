@@ -3,6 +3,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   const headers = new Headers();
   headers.set("Content-Type", "application/json");

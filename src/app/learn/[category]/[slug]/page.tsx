@@ -109,6 +109,7 @@ export default async function Page({ params }: { params: { slug: string; categor
             {relatedArticles.map(article => {
               return (
                 <RelatedArticles
+                  key={article.slug}
                   category={article.category}
                   slug={article.slug}
                   description={article.intro}
