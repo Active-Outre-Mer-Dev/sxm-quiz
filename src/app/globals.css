@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  scroll-padding-top: 80px;
+}
+
+.radial-gradient {
+  background: radial-gradient(circle, #211539, #090914);
+}
