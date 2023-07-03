@@ -3,7 +3,7 @@ import { Resend } from "resend";
 
 const isCI = process.env.CI;
 
-const resend = new Resend(isCI ? "re_123" : process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const dynamic = "force-dynamic";
 
