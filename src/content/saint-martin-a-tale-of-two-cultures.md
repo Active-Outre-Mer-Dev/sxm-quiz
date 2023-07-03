@@ -1,7 +1,8 @@
 ---
 title: The Fascinating History of Saint-Martin, A Tale of Two Cultures
 author: Rayan LOUISY
-type: history
+profile: /rayan-louisy/profile.png
+category: history
 intro: Saint-Martin, has been shaped by centuries of exploration, colonization, and cultural exchange. From the first sighting by Christopher Columbus to the subsequent claims by the Spanish, Dutch, and French, the island's past is a testament to the complexities of European expansion in the New World. Today, Saint-Martin stands as a captivating blend of Caribbean charm and European influences, with its unique political division reflecting its historical legacy.
 thumbnail: /sxm2.jpg
 ---
