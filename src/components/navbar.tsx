@@ -1,6 +1,6 @@
 import { NavItem } from "./nav-item";
 import { Searchbar } from "./searchbar";
-
+import { SearchWrapper } from "./search-wrapper";
 export function Nav() {
   return (
     <header className="border-b  z-50 bg-white sticky top-0 left-0 items-center border-neutral-100">
@@ -19,7 +19,8 @@ export function Nav() {
           </nav>
         </div>
         <div className="lg:flex items-center gap-4 hidden ">
-          <Searchbar />
+          <SearchWrapper />
+          {/* <Searchbar /> */}
         </div>
       </div>
     </header>

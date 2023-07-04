@@ -1,17 +1,21 @@
 "use client";
-import { Command } from "@aomdev/ui";
+import { Badge, Command } from "@aomdev/ui";
 import { useState, useEffect } from "react";
-import { SearchIcon, FileText, Circle } from "lucide-react";
+import { SearchIcon, FileText, Circle, Home } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { createSlug } from "@/create-slug";
+import type { Quiz } from "@/types/database.types";
+import type { Article } from "contentlayer/generated";
+import { ScrollArea } from "@aomdev/ui";
 
-const defaultItems = {
-  nameAll: ["All SXM Beaches"],
-  multipleChoice: ["General History", "General Geography", "General Environment"]
+type PropTypes = {
+  multipleChoice: Quiz[];
+  nameAll: Quiz[];
+  articles: Article[];
 };
 
-export function Searchbar() {
+export function Searchbar(props: PropTypes) {
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -21,14 +25,31 @@ export function Searchbar() {
         setOpen(true);
       }
     };
+    const onBackspace = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "/") {
+        setPage("");
+      }
+    };
     window.addEventListener("keydown", openMenu);
-    return () => window.removeEventListener("keydown", openMenu);
+    window.addEventListener("keydown", onBackspace);
+    return () => {
+      window.removeEventListener("keydown", openMenu);
+      window.removeEventListener("keydown", onBackspace);
+    };
   }, []);
 
   const onNavigate = (value: string) => {
     router.push(`/${value}`);
     setOpen(false);
+    setPage("");
   };
+
+  const onToggle = (val: boolean) => {
+    setPage("");
+    setOpen(val);
+  };
+
+  const onSelect = (value: string) => setPage(value);
 
   return (
     <>
@@ -42,41 +63,112 @@ export function Searchbar() {
           Ctrl K
         </kbd>
       </button>
-      <Command contentProps={{ className: "w-2/4", blur: true }} open={open} onOpenChange={setOpen}>
+      <Command
+        contentProps={{ className: "w-2/4 relative pb-6 overflow-hidden", blur: true }}
+        open={open}
+        onOpenChange={onToggle}
+      >
         <Command.Input placeholder="Search" />
+        <div className="flex gap-2 px-4 mb-2">
+          <Badge variant={"light"} size={"sm"}>
+            Home
+          </Badge>
+          {page && (
+            <Badge variant={"light"} size={"sm"} className="capitalize">
+              {page}
+            </Badge>
+          )}
+        </div>
         <Command.List>
-          <Command.Group heading="Articles">
-            <Command.Item value="learn/history/sxm-history" onSelect={onNavigate}>
-              <FileText size={16} className="inline-block mr-2 text-neutral-700" />
-              SXM History Intro
-            </Command.Item>
-          </Command.Group>
-          <Command.Seperator />
-          <Command.Group heading="Question Quizzes">
-            {defaultItems.multipleChoice.map(quiz => {
-              const slug = createSlug(quiz);
-              return (
-                <Command.Item value={`quiz/${slug}`} onSelect={onNavigate} key={slug}>
-                  <Circle size={16} className="inline-block mr-2 text-neutral-700" />
-                  {quiz}
-                </Command.Item>
-              );
-            })}
-          </Command.Group>
-          <Command.Seperator />
-          <Command.Group heading="List Quizzes">
-            {defaultItems.nameAll.map(quiz => {
-              const slug = createSlug(quiz);
-              return (
-                <Command.Item key={slug} onSelect={onNavigate} value={`quiz/${slug}`}>
-                  <Circle size={16} className="inline-block mr-2 text-neutral-700" />
-                  {quiz}
-                </Command.Item>
-              );
-            })}
-          </Command.Group>
+          <ScrollArea style={{ height: window.screen.height / 2 }} className="-mx-4 px-4">
+            {page.toLowerCase() === "multiple choice" && (
+              <Quiz onNavigate={onNavigate} quizzes={props.multipleChoice} />
+            )}
+            {page.toLowerCase() === "name all" && <Quiz onNavigate={onNavigate} quizzes={props.nameAll} />}
+            {page.toLowerCase() === "articles" && (
+              <Articles onNavigate={onNavigate} articles={props.articles} />
+            )}
+            {!page && <Default onSelect={onSelect} />}
+          </ScrollArea>
         </Command.List>
+        <div className="absolute bg-white px-4 text-sm flex items-center justify-between bottom-0 left-0 h-10 border-t w-full">
+          <span>LOGO</span>
+          <div className="flex gap-2 items-center">
+            <span>
+              <span className="font-medium">Close</span>{" "}
+              <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+                ESC
+              </kbd>
+            </span>
+            <div role="seperator" className="h-4 w-[2px] bg-neutral-200" />
+            <span>
+              <span className="font-medium">Back </span>{" "}
+              <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+                CTRL /
+              </kbd>
+            </span>
+          </div>
+        </div>
       </Command>
+    </>
+  );
+}
+
+type Props = { quizzes: Quiz[]; onNavigate: (val: string) => void };
+
+function Quiz({ onNavigate, quizzes }: Props) {
+  return (
+    <>
+      {quizzes.map(quiz => {
+        return (
+          <Command.Item onSelect={onNavigate} value={`quiz/${quiz.slug}`} key={quiz.id}>
+            {quiz.title}
+          </Command.Item>
+        );
+      })}
+    </>
+  );
+}
+type ArticleProps = Pick<PropTypes, "articles"> & { onNavigate: (val: string) => void };
+
+function Articles({ articles, onNavigate }: ArticleProps) {
+  return (
+    <>
+      {articles.map(article => {
+        return (
+          <Command.Item
+            value={`learn/${article.category}/${article.slug}`}
+            onSelect={onNavigate}
+            key={article.slug}
+          >
+            {article.title}
+          </Command.Item>
+        );
+      })}
+    </>
+  );
+}
+
+function Default({ onSelect }: { onSelect: (value: string) => void }) {
+  return (
+    <>
+      <Command.Group heading="Quizzes">
+        <Command.Item onSelect={onSelect} value="Multiple Choice">
+          Multiple Choice
+        </Command.Item>
+        <Command.Item onSelect={onSelect} value="Name All">
+          Name All
+        </Command.Item>
+      </Command.Group>
+      <Command.Seperator />
+      <Command.Group heading="Resources">
+        <Command.Item onSelect={onSelect} value="Blogs">
+          Blogs
+        </Command.Item>
+        <Command.Item onSelect={onSelect} value="Articles">
+          Articles
+        </Command.Item>
+      </Command.Group>
     </>
   );
 }
