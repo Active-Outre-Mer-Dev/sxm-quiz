@@ -54,10 +54,12 @@ export function RandomFacts() {
     start();
     return pause;
   }, []);
+
   const [direction, current] = value;
   const fact = data.randomFacts[current];
 
-  const next = () => {
+  const next = (clicked?: boolean) => {
+    if (clicked) pause();
     slide(1);
   };
 
@@ -71,6 +73,7 @@ export function RandomFacts() {
   };
 
   const prev = () => {
+    pause();
     slide(-1);
   };
   return (
@@ -104,7 +107,7 @@ export function RandomFacts() {
         <ChevronLeft size={"75%"} />
       </button>
       <button
-        onClick={next}
+        onClick={() => next(true)}
         className={`absolute group-hover:opacity-100 opacity-0 duration-200 ease-out flex items-center justify-center bg-white h-7 w-7 rounded-full
        text-primary-600 top-2/4 -translate-y-2/4 right-4`}
       >
