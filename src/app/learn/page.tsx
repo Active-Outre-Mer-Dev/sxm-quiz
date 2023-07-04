@@ -6,19 +6,24 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/database.types";
 import { allArticles } from "contentlayer/generated";
 
-const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-);
+export const revalidate = 60 * 60;
 
 export default async function Page() {
+  const supabase = createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!,
+    { global: { fetch } }
+  );
   const contentArticles = allArticles;
+
   const { data, error } = await supabase.from("articles").select("created_at, slug, featured, community");
   if (error) throw new Error("There was an error fetching the articles");
 
   const articles = contentArticles.map(({ slug, title, thumbnail, intro, category, author, profile }) => {
-    const articleMetadata = data.find(article => article.slug === slug);
-    if (!articleMetadata) throw new Error("Must add article metadata to supabase");
+    const articleMetadata = data.find(
+      article => article.slug.toLowerCase().trim() === slug.trim().toLowerCase()
+    );
+    if (!articleMetadata) throw new Error(`Must add ${slug} article metadata to supabase`);
     return {
       ...articleMetadata,
       title,
