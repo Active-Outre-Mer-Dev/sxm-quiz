@@ -1,5 +1,5 @@
 import { Title } from "@aomdev/ui";
-import { Articles } from "../article-list";
+import { Articles } from "../_components/article-list";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/database.types";
 import { allArticles } from "contentlayer/generated";

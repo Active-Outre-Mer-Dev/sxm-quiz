@@ -1,12 +1,28 @@
 import { Title } from "@aomdev/ui";
 import { Button } from "@/components/learn";
-import { RandomFacts } from "./random-facts";
-import { Articles } from "./article-list";
+import { RandomFacts } from "./_components/random-facts";
+import { Articles } from "./_components/article-list";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/database.types";
 import { allArticles } from "contentlayer/generated";
+import { AllArticlesList } from "./_components/all-articles";
+import { Suspense } from "react";
 
 export const revalidate = 60 * 60;
+
+export type Article = {
+  title: string;
+  thumbnail: string;
+  intro: string;
+  category: string;
+  author: string;
+  profile: string | undefined;
+  created_at: string;
+  slug: string;
+  featured: boolean;
+  community: boolean;
+  views: number;
+};
 
 export default async function Page() {
   const supabase = createClient<Database>(
@@ -14,12 +30,13 @@ export default async function Page() {
     process.env.SUPABASE_SERVICE_KEY!,
     { global: { fetch } }
   );
-  const contentArticles = allArticles;
 
-  const { data, error } = await supabase.from("articles").select("created_at, slug, featured, community");
+  const { data, error } = await supabase
+    .from("articles")
+    .select("created_at, slug, featured, community, views");
   if (error) throw new Error("There was an error fetching the articles");
 
-  const articles = contentArticles.map(({ slug, title, thumbnail, intro, category, author, profile }) => {
+  const articles = allArticles.map(({ slug, title, thumbnail, intro, category, author, profile }) => {
     const articleMetadata = data.find(
       article => article.slug.toLowerCase().trim() === slug.trim().toLowerCase()
     );
@@ -37,11 +54,9 @@ export default async function Page() {
 
   const featuredArticles = articles.filter(({ featured }) => featured).slice(0, 3);
   const communityArticles = articles.filter(({ community }) => community);
-  const recentArticles = articles
-    .sort((a, b) => {
-      return Date.parse(a.created_at) - Date.parse(b.created_at);
-    })
-    .slice(0, 3);
+  const recentArticles = articles.slice(0, 3).sort((a, b) => {
+    return Date.parse(a.created_at) - Date.parse(b.created_at);
+  });
   return (
     <>
       <section className="mb-20 container mx-auto">
@@ -60,7 +75,9 @@ export default async function Page() {
         <RandomFacts />
       </section>
       <section className="w-11/12 lg:container mx-auto mb-36">
-        <Articles articles={articles} title="All" />
+        <Suspense fallback={null}>
+          <AllArticlesList articles={articles} />
+        </Suspense>
       </section>
 
       <section className="mb-36">
