@@ -1,7 +1,7 @@
 "use client";
 import { Badge, Command } from "@aomdev/ui";
 import { useState, useEffect } from "react";
-import { SearchIcon, FileText, Circle, Home } from "lucide-react";
+import { SearchIcon, FileText, CircleDot, Newspaper, List } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { Quiz } from "@/types/database.types";
 import type { Article } from "contentlayer/generated";
@@ -13,7 +13,7 @@ type PropTypes = {
   articles: Article[];
 };
 
-export function Searchbar(props: PropTypes) {
+export default function Searchbar(props: PropTypes) {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("");
   const router = useRouter();
@@ -154,19 +154,21 @@ function Default({ onSelect }: { onSelect: (value: string) => void }) {
     <>
       <Command.Group heading="Quizzes">
         <Command.Item onSelect={onSelect} value="Multiple Choice">
-          Multiple Choice
+          <CircleDot size={16} className="inline-block mr-2 text-gray-600" /> Multiple Choice
         </Command.Item>
         <Command.Item onSelect={onSelect} value="Name All">
+          <List size={16} className="inline-block mr-2 text-gray-600" />
           Name All
         </Command.Item>
       </Command.Group>
       <Command.Seperator />
       <Command.Group heading="Resources">
         <Command.Item onSelect={onSelect} value="Blogs">
+          <Newspaper size={16} className="inline-block mr-2 text-gray-600" />
           Blogs
         </Command.Item>
         <Command.Item onSelect={onSelect} value="Articles">
-          Articles
+          <FileText size={16} className="inline-block mr-2 text-gray-600" /> Articles
         </Command.Item>
       </Command.Group>
     </>

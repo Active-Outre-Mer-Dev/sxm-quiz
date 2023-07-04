@@ -4,6 +4,8 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/database.types";
 import { allArticles } from "contentlayer/generated";
 
+export const revalidate = 60 * 60;
+
 const categories = ["history", "geography", "environment", "economy"];
 
 export function generateStaticParams() {
@@ -25,7 +27,8 @@ export default async function Page({ params }: { params: { category: string } })
 
   const articles = contentArticles.map(({ slug, title, thumbnail, intro, category, author, profile }) => {
     const articleMetadata = data.find(article => article.slug === slug);
-    if (!articleMetadata) throw new Error("Must add article metadata to supabase");
+
+    if (!articleMetadata) throw new Error(`Must add  ${slug} article metadata to supabase`);
     return {
       ...articleMetadata,
       title,
