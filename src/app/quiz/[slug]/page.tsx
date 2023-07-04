@@ -1,7 +1,6 @@
 import { randomize } from "@/randomize-quiz";
 import { Container } from "./_components/container";
 import { Suspense, lazy } from "react";
-import { cookies } from "next/headers";
 import { Database } from "@/types/database.types";
 import { notFound } from "next/navigation";
 import { revalidatePath } from "next/cache";

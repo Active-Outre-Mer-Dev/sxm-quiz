@@ -24,11 +24,13 @@ export default async function Page({ searchParams }: PageProps) {
   const { data: multipleChoice, error } = await supabase
     .from("quiz")
     .select("*,  quiz_multiple_choice ( quiz_id )")
-    .eq("type", "multiple_choice");
+    .eq("type", "multiple_choice")
+    .eq("status", "published");
   const { data: nameAll, error: nameAllError } = await supabase
     .from("quiz")
     .select("*, quiz_name_all (quiz_id, options)")
-    .eq("type", "list");
+    .eq("type", "list")
+    .eq("status", "published");
   const search = new URLSearchParams(searchParams);
   const topic = search.get("topic");
   if (error || nameAllError) return <p>No quizzes</p>;
