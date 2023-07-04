@@ -1,4 +1,4 @@
-import { NavLink } from "./nav-link";
+import { NavLink } from "./_components/nav-link";
 import { LayoutGrid } from "lucide-react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
