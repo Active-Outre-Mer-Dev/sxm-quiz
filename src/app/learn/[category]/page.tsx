@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { category: string } })
   const contentArticles = allArticles.filter(({ category }) => category === params.category);
   const { data, error } = await supabase
     .from("articles")
-    .select("created_at, slug, featured, community")
+    .select("created_at, slug, featured, community, views")
     .eq("category", params.category);
   if (error) throw new Error("There was an error fetching the articles");
 
