@@ -1,6 +1,6 @@
 "use client";
 import { Title } from "@aomdev/ui";
-import data from "@/data-lists.json";
+import data from "@/random-facts.json";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
@@ -48,7 +48,7 @@ function useInterval(callback: () => void, duration?: number) {
 
 export function RandomFacts() {
   const [value, setValue] = useState([1, 0]);
-  const [start, pause] = useInterval(() => next(), 3500);
+  const [start, pause] = useInterval(() => next(), 1000 * 10);
 
   useEffect(() => {
     start();
