@@ -25,7 +25,9 @@ const supabase = createClient<Database>(
 export default async function Page({ params }: { params: { slug: string; category: string } }) {
   const props = await getHeadings(params.slug);
   const { error, data } = await supabase.from("articles").select("*").eq("slug", params.slug).single();
-  const relatedArticles = allArticles.filter(({ slug }) => slug !== params.slug);
+  const relatedArticles = allArticles
+    .filter(({ slug, category }) => slug !== params.slug && params.category === category)
+    .slice(0, 3);
 
   const article = allArticles.find(article => article.slug === params.slug);
   if (!article || error || props.error) notFound();
@@ -101,7 +103,7 @@ export default async function Page({ params }: { params: { slug: string; categor
               dangerouslySetInnerHTML={{ __html: article.body.html }}
             ></div>
           </article>
-          <div className="space-y-10">
+          <div className="space-y-16">
             <Title order={2} className="font-medium font-heading mb-6">
               Related Articles
             </Title>
@@ -143,7 +145,7 @@ function RelatedArticles(props: Props) {
         <Title order={3} className="font-heading font-medium mb-4 group-hover:text-primary-500">
           {props.title}
         </Title>
-        <p className="">{props.description}</p>
+        <p className="line-clamp-3">{props.description}</p>
       </div>
     </Link>
   );
