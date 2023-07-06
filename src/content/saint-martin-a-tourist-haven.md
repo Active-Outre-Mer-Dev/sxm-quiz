@@ -1,10 +1,10 @@
 ---
 title: The Island of Saint-Martin, A Haven for Tourists
 author: Rayan LOUISY
-profile: /rayan-louisy/profile.png
 category: economy
 intro: Saint-Martin has long captivated the hearts of travelers seeking an idyllic tropical getaway. With its pristine beaches, crystal-clear waters, and vibrant cultural heritage, this small island paradise has become a magnet for tourists from around the world. In this article, we will delve into the allure of Saint-Martin, exploring the reasons tourists flock to its shores.
 thumbnail: /sxm2.jpg
+profile: /rayan-louisy/profile.png
 ---
 
 ## A Tropical Escape:
