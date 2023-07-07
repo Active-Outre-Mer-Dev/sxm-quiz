@@ -7,7 +7,7 @@ export function GetStarted() {
   const router = useRouter();
   return (
     <Button
-      size={"lg"}
+      // size={"lg"}
       onClick={async e => {
         e.preventDefault();
         const quiz = await getRandomQuiz();

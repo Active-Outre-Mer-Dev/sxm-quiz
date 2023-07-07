@@ -15,7 +15,7 @@ export function FeatureList() {
               >
                 Learn as you play
               </Title>
-              <p style={{ width: "calc(36ch, 90%, 72ch)" }} className="text-lg leading-relaxed">
+              <p style={{ width: "calc(36ch, 90%, 72ch)" }} className="text-lg leading-7">
                 Say goodbye to mundane study sessions and hello to immersive learning! Our app allows you to
                 learn as you play. Each question you encounter is an opportunity to expand your knowledge
                 about Saint Martin.
@@ -98,7 +98,7 @@ export function FeatureList() {
                   Endless Exploration
                 </span>
               </Title>
-              <p style={{ width: "calc(36ch, 90%, 72ch)" }} className="text-lg leading-relaxed">
+              <p style={{ width: "calc(36ch, 90%, 72ch)" }} className="text-lg leading-7">
                 We believe in catering to diverse interests. That&apos;s why our quiz app covers a wide range
                 of topics related to Saint Martin. Explore the facets of Saint Martin that intrigue you the
                 most and dive deep into its rich tapestry of information.
@@ -154,7 +154,7 @@ export function FeatureList() {
                   Variety of quizzes
                 </span>{" "}
               </Title>
-              <p style={{ width: "calc(36ch, 90%, 72ch)" }} className="text-lg leading-relaxed">
+              <p style={{ width: "calc(36ch, 90%, 72ch)" }} className="text-lg  leading-7">
                 Variety is the spice of life, and we&apos;ve made sure to sprinkle it generously in our app.
                 Challenge yourself with a mix of quiz formats, including multiple choice, true or false, fill
                 in the blanks, and more. Each quiz presents a unique set of questions, keeping you engaged and
