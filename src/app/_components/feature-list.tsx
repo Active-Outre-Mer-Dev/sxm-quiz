@@ -1,8 +1,8 @@
-import { Title, WindowFrame, Skeleton } from "@aomdev/ui";
+import { Title } from "@aomdev/ui";
 import { QuizDemo } from "./quiz-demo";
-import { Suspense } from "react";
 import { GradientText } from "@/components/gradient-text";
 import { Book, LayoutDashboard, LayoutList } from "lucide-react";
+import { Suspense } from "react";
 
 export function FeatureList() {
   return (
@@ -40,9 +40,9 @@ export function FeatureList() {
               </span>
               <p>
                 <span className="font-semibold text-gray-900">Multiple categories.</span> We believe in
-                catering to diverse interests. That's why our quiz app covers a wide range of topics related
-                to Saint Martin. Explore the facets of Saint Martin that intrigue you the most and dive deep
-                into its rich tapestry of information.
+                catering to diverse interests. That&apos;s why our quiz app covers a wide range of topics
+                related to Saint Martin. Explore the facets of Saint Martin that intrigue you the most and
+                dive deep into its rich tapestry of information.
               </p>
             </li>
             <li className="relative pl-12">
@@ -54,30 +54,18 @@ export function FeatureList() {
               </span>
               <p>
                 <span className="font-semibold text-gray-900">Variety of quizzes.</span> Variety is the spice
-                of life, and we've made sure to sprinkle it generously in our app. Challenge yourself with a
-                mix of quiz formats, including multiple choice, true or false, fill in the blanks, and more.
-                Each quiz presents a unique set of questions, keeping you engaged and motivated throughout
-                your learning journey.
+                of life, and we&apos;ve made sure to sprinkle it generously in our app. Challenge yourself
+                with a mix of quiz formats, including multiple choice, true or false, fill in the blanks, and
+                more. Each quiz presents a unique set of questions, keeping you engaged and motivated
+                throughout your learning journey.
               </p>
             </li>
           </ul>
         </div>
-        <QuizDemo />
+        <Suspense fallback={null}>
+          <QuizDemo />
+        </Suspense>
       </section>
     </>
-  );
-}
-type PropTypes = {
-  children: React.ReactNode;
-};
-
-function FramerWrapper(props: PropTypes) {
-  return (
-    <div className=" basis-1/2 relative ">
-      <div className="absolute inset-0 blur-md bg-neutral-200"></div>
-      <WindowFrame heading="General history" className="relative h-full">
-        {props.children}
-      </WindowFrame>
-    </div>
   );
 }
