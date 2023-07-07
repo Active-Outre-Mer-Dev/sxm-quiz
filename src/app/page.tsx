@@ -35,14 +35,13 @@ export default async function Home() {
         <Button variant={"neutral"} className="block mx-auto mb-10 ">
           Get started
         </Button>
-        <WindowFrame classNames={{ body: "p-0" }} className="mx-auto w-11/12 lg:w-3/5 ">
+        <WindowFrame classNames={{ body: "p-0" }} className="mx-auto w-11/12 lg:w-4/5 overflow-hidden">
           <figure className="relative aspect-video">
             <Image src={photo} alt={""} fill className="object-cover" />
           </figure>
         </WindowFrame>
       </section>
       <section className="py-20 relative flex flex-col items-center gap-6 bg-neutral-900 text-white mb-20">
-        <Image src={gradient.src} alt={""} fill sizes={"100vw"} quality={100} className=" object-cover" />
         <h2
           className={`text-center text-4xl lg:text-6xl font-medium  font-heading relative bg-gradient-to-b 
         from-white to-gray-200 bg-clip-text text-transparent`}
@@ -50,15 +49,29 @@ export default async function Home() {
           Become a contributor
         </h2>
         <p
-          className="text-center relative text-lg lg:text-2xl text-gray-100"
-          style={{ width: "clamp(36ch, 90%, 50ch)" }}
+          className="text-center relative text-lg lg:text-xl text-gray-100 mb-4"
+          style={{ width: "clamp(36ch, 90%, 75ch)" }}
         >
           Have some knowledge you&apos;d like to share with the island? Look no further! Become a contributor
           today and join our community!
         </p>
-        <Button variant="neutral" className="text-primary-600 relative">
+        <Button variant="neutral" className="text-primary-600 relative block mb-6">
           Learn more
         </Button>
+        <div className="flex gap-0.5 w-3/5 rounded-2xl overflow-hidden">
+          <div className="bg-neutral-800 grow flex flex-col items-center gap-2 py-6">
+            <span className="font-heading font-semibold text-3xl text-gray-100">11</span>
+            <span className="font-medium text-lg text-gray-200">Articles</span>
+          </div>
+          <div className="bg-neutral-800 grow flex flex-col items-center gap-2 py-6">
+            <span className="font-heading font-semibold text-3xl text-gray-100">2</span>
+            <span className="font-medium text-lg text-gray-200">Contributors</span>
+          </div>
+          <div className="bg-neutral-800 grow flex flex-col items-center gap-2 py-6">
+            <span className="font-heading font-semibold text-3xl text-gray-100">4</span>
+            <span className="font-medium text-lg text-gray-200">Categories</span>
+          </div>
+        </div>
       </section>
       <section className="w-11/12 lg:container mx-auto mb-20">
         <header className="mb-16 text-center">

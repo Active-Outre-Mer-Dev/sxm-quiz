@@ -5,9 +5,10 @@ import { QuestionQuizDemo } from "./question-quiz-demo";
 import { ListQuizzDemo } from "./list-quiz-demo";
 import { QuizToggle } from "./quiz-toggle";
 import JSConfetti from "js-confetti";
+import { ChevronRight } from "lucide-react";
 
 export function QuizDemo() {
-  const [state, setState] = useState<"quiz" | "list">("quiz");
+  const [state, setState] = useState(true);
   const container = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>();
   const confetti = useRef<JSConfetti>();
@@ -26,26 +27,29 @@ export function QuizDemo() {
       confetti.current.addConfetti();
     }
   };
-  const toggle = (type: typeof state) => {
-    setState(type);
+  const toggle = () => {
+    setState(prev => !prev);
   };
 
   return (
     <>
-      <div ref={container} className="basis-1/2 space-y-10 relative">
-        <div className="flex gap-4">
-          <QuizToggle active={state === "quiz"} type="quiz" onToggle={toggle} />
-          <QuizToggle active={state === "list"} type="list" onToggle={toggle} />
+      <div ref={container} className="h-full pt-5 flex flex-col gap-6 relative">
+        <div className="flex  justify-between items-center">
+          <span className="font-semibold text-gray-900">Demo:</span>
+          <div className="flex gap-4">
+            <QuizToggle onToggle={toggle}>
+              <ChevronRight size={16} className="-rotate-180" />
+            </QuizToggle>
+            <QuizToggle onToggle={toggle}>
+              <ChevronRight size={16} />
+            </QuizToggle>
+          </div>
         </div>
-        <div className="basis-1/2  relative ">
+        <div className="grow  relative ">
           <div className="inset-0 bg-neutral-200 blur-md absolute" />
           <WindowFrame className="relative bg-white w-full h-full">
             {" "}
-            {state === "quiz" ? (
-              <QuestionQuizDemo onConfetti={onConfetti} />
-            ) : (
-              <ListQuizzDemo onConfetti={onConfetti} />
-            )}
+            {state ? <QuestionQuizDemo onConfetti={onConfetti} /> : <ListQuizzDemo onConfetti={onConfetti} />}
           </WindowFrame>
         </div>
       </div>

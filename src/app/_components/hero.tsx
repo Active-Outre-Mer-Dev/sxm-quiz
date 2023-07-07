@@ -2,12 +2,12 @@ import { GetStarted } from "@/components/home/get-started";
 import { Button } from "@/components/home";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { GradientLetter } from "@/components/gradient-letter";
+import { GradientText } from "@/components/gradient-text";
 
 export function Hero() {
   return (
     <>
-      <section className="relative isolate px-6 mb-20 lg:px-8">
+      <section className="relative isolate px-6 mb-16 pb-6 lg:px-8 overflow-hidden">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -41,36 +41,36 @@ export function Hero() {
           </div>
           <div className="text-center">
             <h1 className="text-7xl font-bold font-heading tracking-tight text-gray-900 sm:text-6xl">
-              <GradientLetter>D</GradientLetter>
-              <GradientLetter>i</GradientLetter>
-              <GradientLetter>s</GradientLetter>
-              <GradientLetter>c</GradientLetter>
-              <GradientLetter>o</GradientLetter>
-              <GradientLetter>v</GradientLetter>
-              <GradientLetter>e</GradientLetter>
-              <GradientLetter>r </GradientLetter>
-              <GradientLetter>t</GradientLetter>
-              <GradientLetter>h</GradientLetter>
-              <GradientLetter>e </GradientLetter>
-              <GradientLetter>i</GradientLetter>
-              <GradientLetter>s</GradientLetter>
-              <GradientLetter>l</GradientLetter>
-              <GradientLetter>a</GradientLetter>
-              <GradientLetter>n</GradientLetter>
-              <GradientLetter>d </GradientLetter>
-              <GradientLetter>o</GradientLetter>
-              <GradientLetter>f </GradientLetter>
-              <GradientLetter>S</GradientLetter>
-              <GradientLetter>a</GradientLetter>
-              <GradientLetter>i</GradientLetter>
-              <GradientLetter>n</GradientLetter>
-              <GradientLetter>t </GradientLetter>
-              <GradientLetter>M</GradientLetter>
-              <GradientLetter>a</GradientLetter>
-              <GradientLetter>r</GradientLetter>
-              <GradientLetter>t</GradientLetter>
-              <GradientLetter>i</GradientLetter>
-              <GradientLetter>n</GradientLetter>
+              <GradientText>D</GradientText>
+              <GradientText>i</GradientText>
+              <GradientText>s</GradientText>
+              <GradientText>c</GradientText>
+              <GradientText>o</GradientText>
+              <GradientText>v</GradientText>
+              <GradientText>e</GradientText>
+              <GradientText>r </GradientText>
+              <GradientText>t</GradientText>
+              <GradientText>h</GradientText>
+              <GradientText>e </GradientText>
+              <GradientText>i</GradientText>
+              <GradientText>s</GradientText>
+              <GradientText>l</GradientText>
+              <GradientText>a</GradientText>
+              <GradientText>n</GradientText>
+              <GradientText>d </GradientText>
+              <GradientText>o</GradientText>
+              <GradientText>f </GradientText>
+              <GradientText>S</GradientText>
+              <GradientText>a</GradientText>
+              <GradientText>i</GradientText>
+              <GradientText>n</GradientText>
+              <GradientText>t </GradientText>
+              <GradientText>M</GradientText>
+              <GradientText>a</GradientText>
+              <GradientText>r</GradientText>
+              <GradientText>t</GradientText>
+              <GradientText>i</GradientText>
+              <GradientText>n</GradientText>
             </h1>
             <p className="mt-6 text-xl leading-8 text-gray-700">
               Test your knowledge, explore hidden gems, and learn fascinating facts about Saint Martin!
