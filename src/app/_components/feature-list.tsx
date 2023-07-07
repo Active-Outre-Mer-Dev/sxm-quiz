@@ -11,7 +11,7 @@ export function FeatureList() {
             <div className="basis-1/2">
               <Title
                 order={2}
-                className="bg-gradient-to-b mb-8 text-4xl lg:text-5xl font-heading font-medium from-neutral-600 to-neutral-900 bg-clip-text text-transparent"
+                className="bg-gradient-to-b mb-8 text-4xl lg:text-5xl font-heading font-medium from-gray-600 to-gray-900 bg-clip-text text-transparent"
               >
                 Learn as you play
               </Title>
@@ -90,11 +90,11 @@ export function FeatureList() {
             </div>
             <div className="basis-1/2">
               <Title order={2} className=" mb-8 text-4xl lg:text-5xl font-heading font-medium ">
-                <span className="bg-gradient-to-b from-neutral-600 to-neutral-900 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-b from-gray-600 to-gray-900 bg-clip-text text-transparent">
                   Multiple Topics,
                 </span>{" "}
                 <br />
-                <span className="bg-gradient-to-b from-neutral-600 to-neutral-900 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-b from-gray-600 to-gray-900 bg-clip-text text-transparent">
                   Endless Exploration
                 </span>
               </Title>
@@ -150,7 +150,7 @@ export function FeatureList() {
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="basis-1/2">
               <Title order={2} className=" mb-8 text-4xl lg:text-5xl font-heading font-medium ">
-                <span className="bg-gradient-to-b from-neutral-600 to-neutral-900 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-b from-gray-600 to-gray-900 bg-clip-text text-transparent">
                   Variety of quizzes
                 </span>{" "}
               </Title>
