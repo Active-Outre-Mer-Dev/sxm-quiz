@@ -1,7 +1,7 @@
 "use client";
 import { Badge, Command } from "@aomdev/ui";
 import { useState, useEffect } from "react";
-import { SearchIcon, FileText, CircleDot, Newspaper, List } from "lucide-react";
+import { SearchIcon, FileText, CircleDot, Newspaper, List, ChevronUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { Quiz } from "@/types/database.types";
 import type { Article } from "contentlayer/generated";
@@ -91,21 +91,30 @@ export default function Searchbar(props: PropTypes) {
             {!page && <Default onSelect={onSelect} />}
           </ScrollArea>
         </Command.List>
-        <div className="absolute bg-white px-4 text-sm flex items-center justify-between bottom-0 left-0 h-10 border-t w-full">
-          <span>LOGO</span>
-          <div className="flex gap-2 items-center">
-            <span>
-              <span className="font-medium">Close</span>{" "}
-              <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
-                ESC
-              </kbd>
+        <div className="absolute bg-white px-4 text-sm text-gray-500 flex items-center justify-between bottom-0 left-0 h-10 border-t w-full">
+          <div className="flex gap-6 items-center">
+            <span className="flex items-center gap-2">
+              <span className="flex items-center gap-1">
+                <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+                  <ChevronUp size={16} />
+                </kbd>
+                <kbd className="text-xs rotate-180 bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+                  <ChevronUp size={16} />
+                </kbd>
+              </span>
+              <span className="font-medium ">Navigate</span>
             </span>
-            <div role="seperator" className="h-4 w-[2px] bg-neutral-200" />
+            <span className="flex items-center gap-2">
+              <kbd className="text-sm bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+                esc
+              </kbd>
+              <span className="font-medium ">Close</span>
+            </span>
             <span>
-              <span className="font-medium">Back </span>{" "}
               <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
                 CTRL /
-              </kbd>
+              </kbd>{" "}
+              <span className="font-medium">Back </span>
             </span>
           </div>
         </div>

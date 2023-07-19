@@ -1,24 +1,18 @@
 type PropTypes = {
-    type: "list" | "quiz";
-    onToggle: (type: "list" | "quiz") => void;
-    active: boolean;
-}
+  children: React.ReactNode;
+  onToggle: () => void;
+};
 
-export function QuizToggle({
-    type,
-    active,
-    onToggle
-  }: PropTypes) {
-    const onClick = () => onToggle(type);
-    return (
-      <button
-        data-active={active}
-        onClick={onClick}
-        className={`group  ring-primary-600 ring-1 text-neutral-900 px-4 
-      py-1 bg-white data-[active=true]:bg-primary-600  data-[active=true]:text-white 
-      data-[active=false]:ring-neutral-200 rounded-md capitalize relative duration-200 ease-out`}
-      >
-        {type}
-      </button>
-    );
-  }
+export function QuizToggle({ onToggle, children }: PropTypes) {
+  const onClick = () => onToggle();
+  return (
+    <button
+      onClick={onClick}
+      className={`group  ring-neutral-200 ring-1 text-neutral-900 h-9 
+      w-9 bg-white   flex items-center justify-center
+       rounded-md capitalize relative duration-200 ease-out`}
+    >
+      {children}
+    </button>
+  );
+}
