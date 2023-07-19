@@ -57,7 +57,7 @@ export default async function Home() {
         <Button variant="neutral" className="text-primary-600 relative block mb-6">
           Learn more
         </Button>
-        <div className="flex gap-0.5 w-3/5 rounded-2xl overflow-hidden">
+        <div className="flex flex-col lg:flex-row gap-0.5 w-3/5 rounded-2xl overflow-hidden">
           <div className="bg-neutral-800 grow flex flex-col items-center gap-2 py-6">
             <span className="font-heading font-semibold text-3xl text-gray-100">11</span>
             <span className="font-medium text-lg text-gray-200">Articles</span>
