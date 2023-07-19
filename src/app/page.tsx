@@ -3,7 +3,6 @@ import Image from "next/image";
 import photo from "@/assets/article-demo.png";
 import { FeatureList } from "./_components/feature-list";
 import { Hero } from "./_components/hero";
-import gradient from "@/assets/contribute-gradient.png";
 import { Badge, WindowFrame } from "@aomdev/ui";
 import { formatDate } from "@/lib/format-date";
 import { Avatar } from "@/components/avatar";
