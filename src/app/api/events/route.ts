@@ -1,8 +1,11 @@
 import Mixpanel from "mixpanel";
 
-const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN!);
+const isCI = process.env.CI;
+
+const mixpanel = Mixpanel.init(isCI ? "" : process.env.MIXPANEL_TOKEN!);
 
 export const POST = async (req: Request) => {
+  if (isCI) return new Response("Nice", { status: 200 });
   try {
     const json = await req.json();
     mixpanel.track(json.name, json.properties);
