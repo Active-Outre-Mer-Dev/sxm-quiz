@@ -1,6 +1,6 @@
 "use client";
 import { FormEvent, useEffect, useReducer, useRef, useState } from "react";
-import { Button, TextInput, Card } from "@aomdev/ui";
+import { Button, TextInput } from "@aomdev/ui";
 import { QuizProgression } from "./quiz-progress";
 import { QuizOption } from "./list-option";
 import { ListTimer } from "./list-timer";
@@ -8,6 +8,7 @@ import { initialState, reducer } from "./reducer";
 import { useQuiz } from "../container/container.context";
 import { Suspense, lazy } from "react";
 import { ListDetailsLoad } from "./list-details-load";
+import { sendQuizEvent } from "@/lib/send-event";
 
 const ListDetails = lazy(() => import("./list-details"));
 
@@ -26,7 +27,7 @@ export default function ListQuiz(props: PropTypes) {
   const [giveUp, setGiveUp] = useState(false);
   const [options, setOptions] = useState(props.options.map(option => option.toLowerCase()));
   const ref = useRef<HTMLInputElement>(null);
-  const { onComplete, complete } = useQuiz();
+  const { onComplete, complete, title, type, category } = useQuiz();
 
   useEffect(() => {
     if (hasStarted) ref.current?.focus();
@@ -35,8 +36,9 @@ export default function ListQuiz(props: PropTypes) {
   useEffect(() => {
     if (giveUp || state.inputs.length === props.options.length) {
       onComplete(state.score, duration, 0);
+      sendQuizEvent("Quiz Completed", { Category: category, Title: title, Type: type });
     }
-  }, [giveUp, state.inputs.length, props.options.length]);
+  }, [giveUp, state.inputs.length, props.options.length, category, title, type]);
 
   useEffect(() => {
     if (!complete) onReset();
