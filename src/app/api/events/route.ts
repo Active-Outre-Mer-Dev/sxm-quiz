@@ -1,5 +1,7 @@
 import Mixpanel from "mixpanel";
 
+export const dynamic = "force-dynamic";
+
 const isCI = process.env.CI;
 
 const mixpanel = Mixpanel.init(isCI ? "" : process.env.MIXPANEL_TOKEN!);
