@@ -1,13 +1,8 @@
 import Mixpanel from "mixpanel";
 
-export const dynamic = "force-dynamic";
-
-const isCI = process.env.CI;
-
-const mixpanel = Mixpanel.init(isCI ? "" : process.env.MIXPANEL_TOKEN!);
+const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN!);
 
 export const POST = async (req: Request) => {
-  if (isCI) return new Response("Nice", { status: 200 });
   try {
     const json = await req.json();
     mixpanel.track(json.name, json.properties);
