@@ -37,7 +37,8 @@ export default function Quiz(props: PropTypes) {
   const { onComplete, complete } = useQuiz();
 
   useEffect(() => {
-    if (state.current === props.questions.length) onComplete(state.points, time, state.highStreak);
+    if (state.current === props.questions.length)
+      onComplete(state.points, Math.round(time), state.highStreak);
   }, [state.current, props.questions.length]);
 
   useEffect(() => {

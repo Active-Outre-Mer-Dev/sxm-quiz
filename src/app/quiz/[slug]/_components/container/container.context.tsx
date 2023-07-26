@@ -1,5 +1,6 @@
 import { useContext, createContext, useReducer, useTransition } from "react";
 import { initialState, reducer } from "./reducer";
+import { sendQuizEvent } from "@/lib/send-event";
 import type { State } from "./reducer";
 
 type ContextProps = {
@@ -52,6 +53,7 @@ export function ContainerProvider({ children, ...props }: PropTypes) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ completions: props.count + 1, score: userScore, id: props.id })
     });
+    sendQuizEvent("Quiz Completed", { Category: props.category, Title: props.title, Type: props.type });
   };
 
   const onTabChange = (tab: string) => {

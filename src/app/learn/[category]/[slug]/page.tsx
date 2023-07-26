@@ -1,5 +1,5 @@
 import { Title } from "@aomdev/ui";
-import { ExternalLinkIcon } from "lucide-react";
+// import { ExternalLinkIcon } from "lucide-react";
 import { TableOfContents } from "./toc";
 import { getHeadings } from "@/lib/get-content";
 import { notFound } from "next/navigation";
@@ -7,10 +7,13 @@ import { ShareButton } from "./share-article";
 import { ExternalLink } from "./external-link";
 import { MobileTOC } from "./mobile-toc";
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/types/database.types";
 import { formatDate } from "@/lib/format-date";
 import { allArticles } from "contentlayer/generated";
 import Link from "next/link";
+import { ArticleEvent } from "./article-event";
+import { Suspense } from "react";
+
+import type { Database } from "@/types/database.types";
 
 export function generateStaticParams() {
   const slugs = allArticles.map(({ slug }) => ({ slug }));
@@ -45,7 +48,11 @@ export default async function Page({ params }: { params: { slug: string; categor
 
   return (
     <>
-      <ExternalLink />
+      <Suspense fallback={null}>
+        <ExternalLink />
+        <ArticleEvent />
+      </Suspense>
+
       <div className="flex gap-2  lg:w-4/6 items-center border-b border-neutral-200 pb-5 mb-10">
         <span className="text-3xl font-medium text-neutral-900">Articles</span>
         <span className="h-10 w-[2px] bg-neutral-900" />
