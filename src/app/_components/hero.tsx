@@ -7,7 +7,7 @@ import { GradientText } from "@/components/gradient-text";
 export function Hero() {
   return (
     <>
-      <section className="relative isolate px-6 mb-16 pb-6 lg:px-8 overflow-hidden">
+      <section className="relative isolate px-6 mb-32 pb-6 lg:px-8 overflow-hidden">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"

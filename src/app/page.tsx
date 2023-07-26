@@ -14,24 +14,24 @@ export default async function Home() {
     <main>
       <Hero />
       <FeatureList />
-      <section className="mx-auto relative  pb-20 bg-white pt-10 overflow-hidden">
+      <section className="mx-auto relative  pb-36 bg-white pt-20 overflow-hidden">
         <div
           className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent
         via-primary-400 to-transparent `}
         />
         <h2
-          className={`text-center text-3xl lg:text-5xl font-medium mb-10 font-heading
+          className={`text-center text-3xl lg:text-5xl font-medium mb-6 font-heading
         bg-gradient-to-b from-gray-600 to-gray-900 bg-clip-text text-transparent `}
         >
           Unveil the essence of Saint Martin
         </h2>
         <p
           style={{ width: "clamp(36ch, 90%, 50ch)" }}
-          className="text-center mx-auto text-lg lg:text-2xl mb-4 "
+          className="text-center mx-auto text-lg lg:text-2xl mb-8 "
         >
           Written articles by the community to teach you everything about the island!
         </p>
-        <Button variant={"neutral"} className="block mx-auto mb-10 ">
+        <Button variant={"neutral"} className="block mx-auto mb-20 ">
           Get started
         </Button>
         <WindowFrame classNames={{ body: "p-0" }} className="mx-auto w-11/12 lg:w-4/5 overflow-hidden">
@@ -40,7 +40,7 @@ export default async function Home() {
           </figure>
         </WindowFrame>
       </section>
-      <section className="py-20 relative flex flex-col items-center gap-6 bg-neutral-900 text-white mb-20">
+      <section className="py-20 relative flex flex-col items-center gap-6 bg-neutral-900 text-white mb-36">
         <h2
           className={`text-center text-4xl lg:text-6xl font-medium  font-heading relative bg-gradient-to-b 
         from-white to-gray-200 bg-clip-text text-transparent`}

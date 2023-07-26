@@ -7,7 +7,7 @@ import { Suspense } from "react";
 export function FeatureList() {
   return (
     <>
-      <section className="mx-auto grid lg:grid-cols-2 pb-36 bg-white gap-10  w-11/12 lg:container  relative">
+      <section className="mx-auto grid lg:grid-cols-2 pb-48 bg-white gap-10  w-11/12 lg:container  relative">
         <div>
           <header className="mb-10 text-center lg:text-start">
             <Title order={2} className="font-medium font-heading">

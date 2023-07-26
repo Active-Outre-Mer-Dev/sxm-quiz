@@ -1,9 +1,13 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@aomdev/ui':
-    specifier: ^0.0.3
-    version: 0.0.3(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+    specifier: ^0.0.4
+    version: 0.0.4(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
   '@supabase/auth-helpers-nextjs':
     specifier: ^0.7.2
     version: 0.7.2(@supabase/supabase-js@2.26.0)
@@ -122,8 +126,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.18
 
-  /@aomdev/ui@0.0.3(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
-    resolution: {integrity: sha512-+8f6pCE3WjKyEv7/uBY6L5To8xkocJ2vmqbFYA8dmkLOy5GyL1xbqPeFiSolVHvDKcvKQ5XQqApttv8SBK06YA==}
+  /@aomdev/ui@0.0.4(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
+    resolution: {integrity: sha512-+k7OtqRbiqkTv99QbGuyiI7AEPLITPphtdeKVdDIbYMvNutOGPLJYul6+OWerozhlWuhQRMLzC2hqE/OIpQetg==}
     peerDependencies:
       react: ^18.2.0
     dependencies:
