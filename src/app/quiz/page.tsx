@@ -3,7 +3,6 @@ import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { DetailsWrapper } from "@/components/quiz/details-modals";
 import { Filters } from "./quiz-filters";
-import { cookies } from "next/headers";
 import { Database, MultipleChoice, NameAll, Quiz } from "@/types/database.types";
 import { createClient } from "@supabase/supabase-js";
 
@@ -47,7 +46,12 @@ export default async function Page({ searchParams }: PageProps) {
         <Filters search={topic || undefined} />
         <div className="grid gap-4 lg:grid-cols-3">
           {filteredQuizzes.map(quiz => {
-            return <QuizCard quiz={quiz} key={quiz.id} />;
+            return (
+              <>
+                {/* @ts-expect-error */}
+                <QuizCard quiz={quiz} key={quiz.id} />
+              </>
+            );
           })}
         </div>
       </section>
@@ -59,7 +63,7 @@ type PropTypes = {
   quiz: Quiz &
     (
       | { quiz_multiple_choice: Pick<MultipleChoice, "quiz_id">[] }
-      | { quiz_name_all: Pick<NameAll, "quiz_id" | "options">[] }
+      | { quiz_name_all: Pick<NameAll, "quiz_id" | "options"> }
     );
 };
 
@@ -103,7 +107,7 @@ function QuizCard({ quiz }: PropTypes) {
                 {quiz.quiz_multiple_choice.length > 1 ? "questions" : "question"} -{" "}
               </>
             ) : (
-              <> options - </>
+              <> {quiz.quiz_name_all.options.length} options - </>
             )}
             <Badge color={color}>{quiz.category}</Badge>
           </span>
