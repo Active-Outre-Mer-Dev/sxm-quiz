@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
 const colors = require("tailwindcss/colors");
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [`src/**/*.{js,ts,jsx,tsx,mdx}`, "./node_modules/@aomdev/ui/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class",
@@ -10,6 +10,7 @@ module.exports = {
         inter: ["var(--font-sans)", "Segoe UI"],
         heading: ["var(--font-heading)"]
       },
+
       keyframes: {
         "progress-indeterminate": {
           "0%": {
@@ -37,6 +38,9 @@ module.exports = {
         "content-show": "content-show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
         "overlay-hide": "overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1) reverse",
         "content-hide": "content-show 150ms cubic-bezier(0.16, 1, 0.3, 1) reverse"
+      },
+      width: {
+        clamp: "clamp(36ch, 90%, 75ch)"
       }
     },
     colors: {

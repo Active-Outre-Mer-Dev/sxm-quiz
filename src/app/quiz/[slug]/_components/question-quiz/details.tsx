@@ -54,7 +54,7 @@ type Props = {
 };
 
 function Options({ answer, choice, options, description }: Props) {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(choice === answer);
   return (
     <ul className="space-y-2">
       {options.map(option => {
