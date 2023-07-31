@@ -2,7 +2,7 @@ import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import { headingTree } from "./src/lib/get-headings";
 export const Article = defineDocumentType(() => ({
   name: "Article",
-  filePathPattern: `**/*.md`,
+  filePathPattern: `articles/**/*.md`,
   fields: {
     title: { type: "string", required: true },
     author: { type: "string", required: true },

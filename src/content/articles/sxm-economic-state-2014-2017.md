@@ -1,6 +1,7 @@
 ---
 title: SXM Economic State 2014-2017
 author: Rayan LOUISY
+type: Article
 category: economy
 intro: Saint-Martin, has faced significant challenges in its economic development over the past decade. Devastated by Hurricane Irma in 2017 and impacted by the ongoing Covid-19 pandemic, the island has navigated through turbulent times. In This article we explore the economic challenges faced by Saint-Martin during this period and the gradual recovery efforts.
 thumbnail: /sxm2.jpg

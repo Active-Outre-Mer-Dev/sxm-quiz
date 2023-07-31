@@ -22,18 +22,22 @@ export function generateStaticParams() {
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
+  process.env.SUPABASE_SERVICE_KEY!,
+  { global: { fetch } }
 );
 
 export default async function Page({ params }: { params: { slug: string; category: string } }) {
-  const props = await getHeadings(params.slug);
+  const props = await getHeadings(params.slug, "articles");
+  console.log(props.error);
+  if (props.error) throw new Error(props.message);
+
   const { error, data } = await supabase.from("articles").select("*").eq("slug", params.slug).single();
   const relatedArticles = allArticles
     .filter(({ slug, category }) => slug !== params.slug && params.category === category)
     .slice(0, 3);
 
   const article = allArticles.find(article => article.slug === params.slug);
-  if (!article || error || props.error) notFound();
+  if (!article || error) notFound();
   const { headings, readTime } = props;
   const color =
     params.category === "history"
