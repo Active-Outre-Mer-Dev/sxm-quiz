@@ -1,7 +1,6 @@
 ---
 title: The Rich Indigenous Heritage of Saint-Martin, A Tapestry of Arawak and Carib Culture
 author: Rayan LOUISY
-type: Article
 category: history
 intro: Long before it became a coveted destination for sun-seeking tourists, the island was home to indigenous communities, the Arawak and Carib peoples. These resilient groups thrived on the island's bountiful natural resources, developing rich cultures and engaging in trade with neighboring islands. Today, the legacy of their presence continues to shape the identity of Saint-Martin, serving as a reminder of its diverse heritage.
 thumbnail: /sxm2.jpg

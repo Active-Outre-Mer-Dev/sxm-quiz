@@ -1,7 +1,6 @@
 ---
 title: The Vibrant Celebration of Saint-Martin Carnival
 author: Rayan LOUISY
-type: Article
 category: history
 intro: Saint-Martin Carnival, a dazzling and culturally rich event, has become an integral part of the island's identity. This vibrant celebration, deeply rooted in history, showcases the fusion of diverse cultural influences. With its captivating origins, evolving traditions, and unique dual celebrations on both sides of the island, the Saint-Martin Carnival offers an immersive experience that enchants both locals and visitors alike.
 thumbnail: /sxm2.jpg

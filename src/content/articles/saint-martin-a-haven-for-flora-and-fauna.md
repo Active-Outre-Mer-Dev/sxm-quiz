@@ -1,7 +1,6 @@
 ---
 title: Saint-Martin A Haven for Flora and Fauna
 author: Rayan LOUISY
-type: Article
 category: environment
 intro: As the gentle sea breeze caresses the shores of Saint-Martin, it carries with it the whispers of a thriving natural paradise. This tropical oasis is not only home to stunning beaches and vibrant communities but also a world teeming with remarkable plants and animals, showcasing the island's extraordinary biodiversity.
 thumbnail: /sxm2.jpg

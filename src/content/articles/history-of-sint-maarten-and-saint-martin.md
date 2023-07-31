@@ -1,7 +1,6 @@
 ---
 title: History of Sint Maarten and Saint-Martin
 author: Rayan LOUISY
-type: Article
 category: history
 intro: Saint-Martin, has faced significant challenges in its economic development over the past decade. Devastated by Hurricane Irma in 2017 and impacted by the ongoing Covid-19 pandemic, the island has navigated through turbulent times. In this article, we examine the impact of these crises and the strides made towards recovery and renewal from 2014 to 2021.
 thumbnail: /sxm2.jpg

@@ -1,7 +1,6 @@
 ---
 title: The Legacy of Slavery and Emancipation in the History of Saint-Martin
 author: Rayan LOUISY
-type: Article
 category: history
 intro: The history of Saint-Martin, like many other Caribbean islands, is marked by the dark shadow of slavery. The Dutch and French colonizers utilized the labor of enslaved Africans to cultivate lucrative cash crops, primarily sugar cane. However, the 19th century witnessed the rise of abolitionist movements in Europe and the Caribbean. This article explores the significant role that slavery played in the history of Saint-Martin and examines the impact of emancipation on the island's demographics and labor system.
 thumbnail: /sxm2.jpg

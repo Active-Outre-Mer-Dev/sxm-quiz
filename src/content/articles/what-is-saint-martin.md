@@ -1,7 +1,6 @@
 ---
 title: What is Saint-Martin?
 author: Rayan LOUISY
-type: Article
 category: geography
 intro: Saint-Martin, a tropical gem in the Caribbean Sea. With its stunning beaches, turquoise waters, and a harmonious blend of French and Dutch cultures, Saint-Martin offers a unique and enchanting experience. Divided between two sovereign states, the French side of Saint-Martin and the Dutch side of Sint Maarten, this small paradise presents a world of beauty and diversity within its compact borders.
 thumbnail: /sxm2.jpg
