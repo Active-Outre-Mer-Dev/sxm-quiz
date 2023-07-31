@@ -8,6 +8,9 @@ import { createClient } from "@supabase/supabase-js";
 const Quiz = lazy(() => import("./_components/question-quiz"));
 const ListQuiz = lazy(() => import("./_components/list-quiz"));
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
