@@ -17,15 +17,15 @@ The crown jewel of Saint-Martin's topography is its highest peak, Pic Paradis. S
 
 While Pic Paradis reigns as the highest peak, Saint-Martin is also home to several other notable peaks. The island features a total of five major peaks, each with its own distinctive charm and allure. Let's explore these peaks:
 
-**Pic Paradis:** As mentioned earlier, this is the highest peak on the island, offering panoramic vistas and hiking opportunities amidst tropical vegetation.
+- **Pic Paradis:** As mentioned earlier, this is the highest peak on the island, offering panoramic vistas and hiking opportunities amidst tropical vegetation.
 
-**Terres Basses:** Located in the lowlands of Saint-Martin, Terres Basses presents gentle slopes and is known for its upscale villas and stunning coastal views.
+- **Terres Basses:** Located in the lowlands of Saint-Martin, Terres Basses presents gentle slopes and is known for its upscale villas and stunning coastal views.
 
-**Fort Amsterdam:** Situated near the French-Dutch border, Fort Amsterdam offers historical significance and picturesque scenery. This peak is home to a historic fortress built by the Dutch in the 17th century.
+- **Fort Amsterdam:** Situated near the French-Dutch border, Fort Amsterdam offers historical significance and picturesque scenery. This peak is home to a historic fortress built by the Dutch in the 17th century.
 
-**Pic du Paradis:** Although not as tall as Pic Paradis, Pic du Paradis holds its own charm, attracting nature lovers with its trails, flora, and fauna.
+- **Pic du Paradis:** Although not as tall as Pic Paradis, Pic du Paradis holds its own charm, attracting nature lovers with its trails, flora, and fauna.
 
-**Sentry Hill:** Nestled in the northeastern part of the island, Sentry Hill is a lesser-known peak, but its rugged terrain and natural beauty make it a worthwhile visit for adventurous souls.
+- **Sentry Hill:** Nestled in the northeastern part of the island, Sentry Hill is a lesser-known peak, but its rugged terrain and natural beauty make it a worthwhile visit for adventurous souls.
 
 ## Size of the Island:
 
