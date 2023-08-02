@@ -6,11 +6,11 @@
 # https://github.com/actions/labeler
 
 name: Labeler
-on: [pull_request_target]
+on: [pull_request]
 
 jobs:
-  'area: Articles':
-  - src/content/**/*.md
+  'area: Articles': 
+    - src/content/**
 
     runs-on: ubuntu-latest
     permissions:
