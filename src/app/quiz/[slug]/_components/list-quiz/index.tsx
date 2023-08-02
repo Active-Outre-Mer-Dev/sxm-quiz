@@ -18,7 +18,7 @@ type PropTypes = {
 };
 
 //timer for quiz in seconds
-const quizTimer = 60 * 2;
+const quizTimer = 60 * 5;
 
 export default function ListQuiz(props: PropTypes) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -48,8 +48,10 @@ export default function ListQuiz(props: PropTypes) {
     const { value } = e.currentTarget;
     let count = state.inputs.length;
     for (const option of options) {
-      if (option === value.toLowerCase()) {
-        dispatch({ type: "next", value: value.toLowerCase() });
+      if (
+        option.toLowerCase().trim().replaceAll(" ", "") === value.toLowerCase().trim().replaceAll(" ", "")
+      ) {
+        dispatch({ type: "next", value: option });
         setOptions(prev => prev.filter(option => option !== value));
         count++;
         break;

@@ -22,9 +22,23 @@ export function ListQuizzDemo({ onConfetti }: PropTypes) {
   }, [answers.length]);
 
   const onChange = (e: FormEvent<HTMLInputElement>) => {
-    const text = e.currentTarget.value.toLowerCase().trim();
-    if (beaches.includes(text) && !answers.includes(text)) {
-      setAnswers(prev => [...prev, text]);
+    const text = e.currentTarget.value.toLowerCase().trim().replaceAll(" ", "");
+    let isOption = false;
+    let answer = "";
+
+    for (const option of beaches) {
+      if (option.toLowerCase().trim().replaceAll(" ", "") === text) {
+        isOption = true;
+        answer = option;
+      }
+    }
+
+    for (const option of answers) {
+      if (option.toLowerCase().trim().replaceAll(" ", "") === text) isOption = false;
+    }
+
+    if (isOption) {
+      setAnswers(prev => [...prev, answer]);
     }
   };
 

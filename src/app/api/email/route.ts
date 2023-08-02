@@ -1,8 +1,6 @@
 // import { EmailTemplate } from "./email-template";
 import { Resend } from "resend";
 
-const isCI = process.env.CI;
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const dynamic = "force-dynamic";
@@ -19,7 +17,7 @@ export async function POST(request: Request) {
   try {
     await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "a.carty2555@gmail.com",
+      to: "activeoutremer@gmail.com",
       subject: `Feedback for ${title}`,
       html: `
       <div>
