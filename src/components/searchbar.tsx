@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import { SearchIcon, FileText, CircleDot, Newspaper, List, ChevronUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { Quiz } from "@/types/database.types";
-import type { Article } from "contentlayer/generated";
+import type { Article, Blog } from "contentlayer/generated";
 import { ScrollArea } from "@aomdev/ui";
 
 type PropTypes = {
   multipleChoice: Quiz[];
   nameAll: Quiz[];
   articles: Article[];
+  blogs: Blog[];
 };
 
 export default function Searchbar(props: PropTypes) {
@@ -88,7 +89,8 @@ export default function Searchbar(props: PropTypes) {
             {page.toLowerCase() === "articles" && (
               <Articles onNavigate={onNavigate} articles={props.articles} />
             )}
-            {!page && <Default onSelect={onSelect} />}
+            {page.toLocaleLowerCase() === "blogs" && <Blogs blogs={props.blogs} onNavigate={onNavigate} />}
+            {!page && <Default onNavigate={onSelect} />}
           </ScrollArea>
         </Command.List>
         <div className="absolute bg-white px-4 text-sm text-gray-500 flex items-center justify-between bottom-0 left-0 h-10 border-t w-full">
@@ -158,25 +160,41 @@ function Articles({ articles, onNavigate }: ArticleProps) {
   );
 }
 
-function Default({ onSelect }: { onSelect: (value: string) => void }) {
+type BlogProps = Pick<PropTypes, "blogs"> & { onNavigate: (val: string) => void };
+
+function Blogs({ blogs, onNavigate }: BlogProps) {
+  return (
+    <>
+      {blogs.map(blog => {
+        return (
+          <Command.Item value={`blog/${blog.slug}`} key={blog.slug} onSelect={onNavigate}>
+            {blog.title}
+          </Command.Item>
+        );
+      })}
+    </>
+  );
+}
+
+function Default({ onNavigate }: { onNavigate: (value: string) => void }) {
   return (
     <>
       <Command.Group heading="Quizzes">
-        <Command.Item onSelect={onSelect} value="Multiple Choice">
+        <Command.Item onSelect={onNavigate} value="Multiple Choice">
           <CircleDot size={16} className="inline-block mr-2 text-gray-600" /> Multiple Choice
         </Command.Item>
-        <Command.Item onSelect={onSelect} value="Name All">
+        <Command.Item onSelect={onNavigate} value="Name All">
           <List size={16} className="inline-block mr-2 text-gray-600" />
           Name All
         </Command.Item>
       </Command.Group>
       <Command.Seperator />
       <Command.Group heading="Resources">
-        <Command.Item onSelect={onSelect} value="Blogs">
+        <Command.Item onSelect={onNavigate} value="Blogs">
           <Newspaper size={16} className="inline-block mr-2 text-gray-600" />
           Blogs
         </Command.Item>
-        <Command.Item onSelect={onSelect} value="Articles">
+        <Command.Item onSelect={onNavigate} value="Articles">
           <FileText size={16} className="inline-block mr-2 text-gray-600" /> Articles
         </Command.Item>
       </Command.Group>
