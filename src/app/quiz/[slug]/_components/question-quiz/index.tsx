@@ -1,11 +1,13 @@
 "use client";
 import { useReducer, useState, useRef, useEffect } from "react";
-import { Button, Progress } from "@aomdev/ui";
+import { ActionIcon, Button, Progress } from "@aomdev/ui";
 import { initialState, reducer } from "./reducer";
 import { useQuiz } from "../container/container.context";
 import { Suspense, lazy } from "react";
 import { QuizDetailsLoad } from "./details-load";
 import type { MultipleChoice } from "@/types/database.types";
+import { AlertCircle } from "lucide-react";
+import { QuestionFeedback } from "./question-feedback";
 
 const QuestionQuizDetails = lazy(() => import("./details"));
 
@@ -34,7 +36,7 @@ function useTimer() {
 export default function Quiz(props: PropTypes) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [time, timer] = useTimer();
-  const { onComplete, complete } = useQuiz();
+  const { onComplete, complete, title } = useQuiz();
 
   useEffect(() => {
     if (state.current === props.questions.length)
@@ -75,6 +77,7 @@ export default function Quiz(props: PropTypes) {
         <QuestionQuizDetails {...details} />
       ) : (
         <>
+          <QuestionFeedback quizTitle={title} question={{ id: question.id, question: question.question }} />
           <div className=" flex justify-between items-end border-b border-neutral-200 pb-3 mb-5">
             <Progress aria-label="Quiz progression" size={"sm"} className="w-1/4" value={progress} />
             <span className="font-medium">
