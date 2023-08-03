@@ -10,7 +10,7 @@ type PropTypes = {
   question: { id: number; question: string };
 };
 
-export function QuestionFeedback({ quizTitle, question }: PropTypes) {
+export default function QuestionFeedback({ quizTitle, question }: PropTypes) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState({ message: "", error: false });

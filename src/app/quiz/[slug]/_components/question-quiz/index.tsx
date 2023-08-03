@@ -7,9 +7,9 @@ import { Suspense, lazy } from "react";
 import { QuizDetailsLoad } from "./details-load";
 import type { MultipleChoice } from "@/types/database.types";
 import { AlertCircle } from "lucide-react";
-import { QuestionFeedback } from "./question-feedback";
 
 const QuestionQuizDetails = lazy(() => import("./details"));
+const QuestionFeedback = lazy(() => import("./question-feedback"));
 
 type PropTypes = {
   questions: MultipleChoice[];
@@ -77,7 +77,15 @@ export default function Quiz(props: PropTypes) {
         <QuestionQuizDetails {...details} />
       ) : (
         <>
-          <QuestionFeedback quizTitle={title} question={{ id: question.id, question: question.question }} />
+          <Suspense
+            fallback={
+              <ActionIcon color="warn" className="flex items-center justify-center  ml-auto mb-2">
+                <AlertCircle size={16} />
+              </ActionIcon>
+            }
+          >
+            <QuestionFeedback quizTitle={title} question={{ id: question.id, question: question.question }} />
+          </Suspense>
           <div className=" flex justify-between items-end border-b border-neutral-200 pb-3 mb-5">
             <Progress aria-label="Quiz progression" size={"sm"} className="w-1/4" value={progress} />
             <span className="font-medium">
