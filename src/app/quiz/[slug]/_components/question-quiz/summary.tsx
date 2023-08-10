@@ -2,18 +2,27 @@ import { RingProgress } from "@aomdev/ui";
 import { useQuiz } from "../container/container.context";
 import { Rocket, Timer, Zap } from "lucide-react";
 
+function ringColor(percentage: number) {
+  return {
+    color: percentage >= 80 ? "success" : "error",
+    rootCircle: percentage >= 80 ? "fill-success-200/30" : "fill-error-200/30",
+    textColor: percentage >= 80 ? "text-success-600" : "text-error-600"
+  } as const;
+}
+
 export default function QuestionSummary() {
   const { score, time, questionCount, streak } = useQuiz();
   const percentage = Math.round((score / questionCount) * 100);
+  const { color, rootCircle, textColor } = ringColor(percentage);
   return (
     <>
       <p className="text-center text-2xl  mb-4 font-medium font-heading ">Summary</p>
       <div className="flex justify-center">
         <RingProgress
           rounded
-          rootCircle="fill-success-200/30"
-          color={"success"}
-          label={<RingLabel>{percentage}</RingLabel>}
+          rootCircle={rootCircle}
+          color={color}
+          label={<RingLabel className={textColor}>{percentage}</RingLabel>}
           thickness={5}
           size={100}
           value={percentage}
@@ -50,8 +59,8 @@ export default function QuestionSummary() {
   );
 }
 
-function RingLabel({ children }: { children: React.ReactNode }) {
-  return <span className="font-heading text-success-600 text-2xl font-medium">{children}</span>;
+function RingLabel({ children, className }: { children: React.ReactNode; className: string }) {
+  return <span className={`"font-heading ${className} text-2xl font-medium"`}>{children}</span>;
 }
 function format(seconds: number) {
   return seconds <= 60 ? `${seconds} seconds` : seconds <= 3600 ? `${seconds / 60} minutes` : "WTF";
