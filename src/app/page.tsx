@@ -8,6 +8,7 @@ import { Avatar } from "@/components/avatar";
 import { allBlogs } from "contentlayer/generated";
 import { GradientText } from "@/components/gradient-text";
 import Link from "next/link";
+import { Author } from "@/components/author";
 
 export default async function Home() {
   const [firstBlog] = allBlogs;
@@ -98,13 +99,12 @@ export default async function Home() {
               {firstBlog.title}
             </h3>
             <p className="mb-4">{firstBlog.intro}</p>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div>
-                <span className="font-medium block">{firstBlog.author}</span>
-                <span className="text-gray-600 dark:text-gray-200">{firstBlog.position}</span>
-              </div>
-            </div>
+            <Author
+              firstName={firstBlog.author.split(" ")[0]}
+              lastName={firstBlog.author.split(" ")[1]}
+              img={firstBlog.profile}
+              position={firstBlog.position}
+            />
           </Link>
         </div>
       </section>

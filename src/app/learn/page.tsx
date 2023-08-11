@@ -60,10 +60,13 @@ export default async function Page() {
   return (
     <>
       <section className="mb-20 container mx-auto">
-        <Title order={1} className="font-heading text-neutral-800 text-center leading-none mb-2">
+        <Title
+          order={1}
+          className="font-heading text-gray-900 dark:text-gray-50 text-center leading-none mb-2"
+        >
           Lessons
         </Title>
-        <p className="text-2xl text-center text-neutral-600">For Saint Martiners, by Saint Martiners</p>
+        <p className="text-2xl text-center ">For Saint Martiners, by Saint Martiners</p>
       </section>
       <section className="w-11/12 lg:container mx-auto mb-36">
         <Articles articles={featuredArticles} title="Featured" />

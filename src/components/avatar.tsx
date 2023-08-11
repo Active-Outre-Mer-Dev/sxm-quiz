@@ -1,15 +1,14 @@
-import profile from "@/assets/agis.jpg";
-
 type PropTypes = {
   size?: number;
+  src?: string;
 };
 
-export function Avatar({ size = 50 }: PropTypes) {
+export function Avatar({ size = 50, src }: PropTypes) {
   return (
     <img
       loading="lazy"
       decoding="async"
-      src={profile.src}
+      src={src}
       width={size}
       height={size}
       className="rounded-full object-cover"

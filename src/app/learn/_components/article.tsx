@@ -18,12 +18,12 @@ export function Article({ article, initials }: Props) {
           src={article.thumbnail}
           fill
           alt=""
-          className=" object-cover group-hover:scale-110 duration-200 ease-out"
+          className=" object-cover group-hover:scale-105 duration-500 ease-out"
         />
       </figure>
       <Title
         order={3}
-        className={`relative group-hover:text-primary-500 font-medium capitalize font-heading mb-4
+        className={`relative group-hover:text-primary-500 group-hover:dark:text-primary-200 font-medium capitalize font-heading mb-4
     duration-200 ease-out`}
       >
         {article.title}
@@ -49,7 +49,9 @@ export function Article({ article, initials }: Props) {
           )}
           <div>
             <span className="block text-sm font-medium">{article.author}</span>
-            <span className="block text-sm text-neutral-600">{formatDate(new Date(article.created_at))}</span>
+            <span className="block text-sm text-gray-600 dark:text-gray-200">
+              {formatDate(new Date(article.created_at))}
+            </span>
           </div>
         </div>
         <Badge className="capitalize" color={getCatColor(article.category)}>

@@ -9,8 +9,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className="w-1/6 p-4 hidden lg:block  space-y-6 fixed top-16 left-0"
       >
         <div>
-          <p className="text-lg flex items-center gap-2 text-neutral-700 font-medium mb-2">
-            <LayoutGrid size={18} className="text-neutral-700" />
+          <p className="text-lg flex items-center gap-2  font-medium mb-2">
+            <LayoutGrid size={18} className="text-gray-700 dark:text-gray-200" />
             Categories
           </p>
           <ul className="w-full">
