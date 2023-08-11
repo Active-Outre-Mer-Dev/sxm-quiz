@@ -4,12 +4,12 @@ import photo from "@/assets/article-demo.png";
 import { FeatureList } from "./_components/feature-list";
 import { Hero } from "./_components/hero";
 import { Badge, WindowFrame } from "@aomdev/ui";
-import { formatDate } from "@/lib/format-date";
 import { Avatar } from "@/components/avatar";
-import thumbnail from "@/assets/sxm2.jpg";
+import { allBlogs } from "contentlayer/generated";
 import Link from "next/link";
 
 export default async function Home() {
+  const [firstBlog] = allBlogs;
   return (
     <main>
       <Hero />
@@ -83,93 +83,31 @@ export default async function Home() {
           <p className="text-lg lg:text-2xl text-gray-700">See what&apos;s next for SXM quiz</p>
         </header>
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-8">
-          <Link href={"/blog/introducing-sxm-quiz"} className="group">
-            <figure className="aspect-video relative mb-2">
-              <Image src={thumbnail} alt="" fill className="object-cover" />
+          <Link href={`/blog/${firstBlog.slug}`} className="group">
+            <figure className="aspect-video relative mb-2 overflow-hidden">
+              <Image
+                src={firstBlog.thumbnail}
+                alt=""
+                fill
+                className="object-cover group-hover:scale-105 duration-500 ease-out"
+              />
             </figure>
             <div className="flex gap-4 items-center">
-              <time className="text-gray-600 text-sm">{formatDate(new Date())}</time>
-              <Badge>Product update</Badge>
+              <time className="text-gray-600 text-sm">{firstBlog.date}</time>
+              <Badge>{firstBlog.category}</Badge>
             </div>
             <h3 className="font-heading group-hover:text-primary-500 font-medium text-3xl mb-2">
-              Introducing SXM Quiz
+              {firstBlog.title}
             </h3>
-            <p className="mb-4">
-              Consectetur anim laboris ut fugiat.Culpa nisi ex ad in. Sint officia irure culpa ullamco enim
-              occaecat laborum aute et occaecat dolore.
-            </p>
+            <p className="mb-4">{firstBlog.intro}</p>
             <div className="flex gap-2 items-center">
               <Avatar />
               <div>
-                <span className="font-medium block">Agis Carty</span>
-                <span className="text-gray-600">Frontend Engineer</span>
+                <span className="font-medium block">{firstBlog.author}</span>
+                <span className="text-gray-600">{firstBlog.position}</span>
               </div>
             </div>
           </Link>
-          <div className="flex flex-col gap-16 lg:gap-6 ">
-            <Link
-              href={"/blog/introducing-multiplayer"}
-              className="flex gap-4 group flex-col lg:flex-row basis-1/2 "
-            >
-              <figure className="aspect-video lg:aspect-auto basis-1/2 relative">
-                <Image src={thumbnail} alt="" fill className="object-cover" />
-              </figure>
-
-              <div className="basis-1/2 flex flex-col justify-between">
-                <div className="grow">
-                  <div className="flex gap-4 items-center ">
-                    <time className="text-gray-600 text-sm">{formatDate(new Date())}</time>
-                    <Badge>Product update</Badge>
-                  </div>
-                  <h3 className="font-heading group-hover:text-primary-500 font-medium text-3xl mb-2">
-                    Introducing multiplayer
-                  </h3>
-                  <p className="mb-4">
-                    Consectetur anim laboris ut fugiat.Culpa nisi ex ad in. Sint officia irure culpa ullamco
-                    enim occaecat laborum aute et occaecat dolore.
-                  </p>
-                </div>
-                <div className="flex mt-auto gap-2 items-center">
-                  <Avatar />
-                  <div>
-                    <span className="font-medium block">Agis Carty</span>
-                    <span className="text-gray-600">Frontend Engineer</span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link
-              href={"/blog/learn-how-to-contribute"}
-              className="flex gap-4 flex-col lg:flex-row group basis-1/2 "
-            >
-              <figure className="aspect-video lg:aspect-auto basis-1/2 relative">
-                <Image src={thumbnail} alt="" fill className="object-cover" />
-              </figure>
-
-              <div className="basis-1/2 flex flex-col justify-between">
-                <div className="grow">
-                  <div className="flex gap-4 items-center ">
-                    <time className="text-gray-600 text-sm">{formatDate(new Date())}</time>
-                    <Badge color={"warn"}>Guide</Badge>
-                  </div>
-                  <h3 className="font-heading group-hover:text-primary-500 font-medium text-3xl mb-2">
-                    Learn how to contribute
-                  </h3>
-                  <p className="mb-4">
-                    Consectetur anim laboris ut fugiat.Culpa nisi ex ad in. Sint officia irure culpa ullamco
-                    enim occaecat laborum aute et occaecat dolore.
-                  </p>
-                </div>
-                <div className="flex mt-auto gap-2 items-center">
-                  <Avatar />
-                  <div>
-                    <span className="font-medium block">Agis Carty</span>
-                    <span className="text-gray-600">Frontend Engineer</span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
         </div>
       </section>
     </main>

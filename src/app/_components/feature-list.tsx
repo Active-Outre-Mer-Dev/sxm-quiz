@@ -13,9 +13,6 @@ export function FeatureList() {
             <Title order={2} className="font-medium font-heading">
               <GradientText>Features</GradientText>
             </Title>
-            <p className="text-xl leading-7">
-              Aliquip Lorem incididunt est ex ut cillum occaecat fugiat irure eu. Commodo est deserunt do ea.
-            </p>
           </header>
           <ul className="space-y-8 leading-7">
             <li className="relative pl-12">

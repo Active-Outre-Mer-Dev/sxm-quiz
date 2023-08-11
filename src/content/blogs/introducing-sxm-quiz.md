@@ -5,7 +5,7 @@ intro: SXM Quiz is a platform that enables people to learn more about Saint Mart
 category: Product update
 position: Frontend Engineer
 date: Jul 31, 2023
-thumbnail: /sxm2.jpg
+thumbnail: /sxm-3.jpg
 profile: agis-carty/profile.jpg
 ---
 
