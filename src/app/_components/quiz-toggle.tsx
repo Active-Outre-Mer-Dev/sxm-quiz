@@ -1,18 +1,16 @@
+import { ActionIcon } from "@aomdev/ui";
+
 type PropTypes = {
   children: React.ReactNode;
   onToggle: () => void;
+  label: string;
 };
 
-export function QuizToggle({ onToggle, children }: PropTypes) {
+export function QuizToggle({ onToggle, children, label }: PropTypes) {
   const onClick = () => onToggle();
   return (
-    <button
-      onClick={onClick}
-      className={`group  ring-neutral-200 ring-1 text-neutral-900 h-9 
-      w-9 bg-white   flex items-center justify-center
-       rounded-md capitalize relative duration-200 ease-out`}
-    >
+    <ActionIcon aria-label={label} onClick={onClick} size={"xl"} variant={"light"}>
       {children}
-    </button>
+    </ActionIcon>
   );
 }

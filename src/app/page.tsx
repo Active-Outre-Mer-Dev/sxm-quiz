@@ -6,6 +6,7 @@ import { Hero } from "./_components/hero";
 import { Badge, WindowFrame } from "@aomdev/ui";
 import { Avatar } from "@/components/avatar";
 import { allBlogs } from "contentlayer/generated";
+import { GradientText } from "@/components/gradient-text";
 import Link from "next/link";
 
 export default async function Home() {
@@ -14,16 +15,13 @@ export default async function Home() {
     <main>
       <Hero />
       <FeatureList />
-      <section className="mx-auto relative  pb-36 bg-white pt-20 overflow-hidden">
+      <section className="mx-auto relative  pb-36 bg-white dark:bg-neutral-900 pt-20 overflow-hidden">
         <div
           className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent
         via-primary-400 to-transparent `}
         />
-        <h2
-          className={`text-center text-3xl lg:text-5xl font-medium mb-6 font-heading
-        bg-gradient-to-b from-gray-600 to-gray-900 bg-clip-text text-transparent `}
-        >
-          Unveil the essence of Saint Martin
+        <h2 className={`text-center text-3xl lg:text-5xl font-medium mb-6 font-heading`}>
+          <GradientText>Unveil the essence of Saint Martin</GradientText>
         </h2>
         <p
           style={{ width: "clamp(36ch, 90%, 50ch)" }}
@@ -40,7 +38,7 @@ export default async function Home() {
           </figure>
         </WindowFrame>
       </section>
-      <section className="py-20 relative flex flex-col items-center gap-6 bg-neutral-900 text-white mb-36">
+      <section className="py-20 relative flex flex-col items-center gap-6 bg-neutral-900 dark:bg-neutral-900 text-white mb-36">
         <h2
           className={`text-center text-4xl lg:text-6xl font-medium  font-heading relative bg-gradient-to-b 
         from-white to-gray-200 bg-clip-text text-transparent`}
@@ -76,11 +74,11 @@ export default async function Home() {
         <header className="mb-16 text-center">
           <h2
             className={`text-center text-3xl lg:text-5xl font-medium mb-6 font-heading
-          bg-gradient-to-b from-gray-600 to-gray-900 bg-clip-text text-transparent `}
+           `}
           >
-            From the blog
+            <GradientText>From the blog</GradientText>
           </h2>
-          <p className="text-lg lg:text-2xl text-gray-700">See what&apos;s next for SXM quiz</p>
+          <p className="text-lg lg:text-2xl ">See what&apos;s next for SXM quiz</p>
         </header>
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-8">
           <Link href={`/blog/${firstBlog.slug}`} className="group">
@@ -93,10 +91,10 @@ export default async function Home() {
               />
             </figure>
             <div className="flex gap-4 items-center">
-              <time className="text-gray-600 text-sm">{firstBlog.date}</time>
+              <time className="text-gray-600 dark:text-gray-300 text-sm">{firstBlog.date}</time>
               <Badge>{firstBlog.category}</Badge>
             </div>
-            <h3 className="font-heading group-hover:text-primary-500 font-medium text-3xl mb-2">
+            <h3 className="font-heading group-hover:text-primary-500 group-hover:dark:text-primary-300 font-medium text-3xl mb-2">
               {firstBlog.title}
             </h3>
             <p className="mb-4">{firstBlog.intro}</p>
@@ -104,7 +102,7 @@ export default async function Home() {
               <Avatar />
               <div>
                 <span className="font-medium block">{firstBlog.author}</span>
-                <span className="text-gray-600">{firstBlog.position}</span>
+                <span className="text-gray-600 dark:text-gray-200">{firstBlog.position}</span>
               </div>
             </div>
           </Link>

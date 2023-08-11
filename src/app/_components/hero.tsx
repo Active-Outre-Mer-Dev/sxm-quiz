@@ -7,7 +7,7 @@ import { GradientText } from "@/components/gradient-text";
 export function Hero() {
   return (
     <>
-      <section className="relative isolate px-6 mb-32 pb-6 lg:px-8 overflow-hidden">
+      <section className="relative isolate px-6 mb-32 pb-6 lg:px-8 overflow-hidden ">
         <div className="lg:hidden absolute top-0 left-0 w-full text-center bg-primary-600 text-white py-4 px-4 ">
           <p>We recommend using SXM Quiz on a computer for a better experience.</p>
         </div>
@@ -27,17 +27,21 @@ export function Hero() {
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
             <Link
               href={"/blog/introducing-sxm-quiz"}
-              className="relative group duration-150 ease-out bg-white rounded-full text-primary  px-3 py-1 text-sm leading-6 text-primary text-gray-600 ring-1 ring-neutral-900/10 hover:ring-primary-500/50"
+              className={`relative group duration-150 ease-out bg-white rounded-full   px-3 py-1 text-sm leading-6 
+               text-gray- dark:text-gray-300 ring-1 ring-neutral-900/10 hover:ring-primary-500/50 dark:bg-neutral-900 hover:dark:ring-primary-300/50`}
             >
               <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-full">
-                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(45deg,transparent_25%,rgba(212,199,236,.3)_50%,transparent_75%,transparent_100%)] ease-out group-hover:translate-x-full group-hover:duration-1000"></span>
+                <span
+                  className={`pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(45deg,transparent_25%,rgba(212,199,236,.3)_50%,transparent_75%,transparent_100%)]
+                 ease-out group-hover:translate-x-full group-hover:duration-1000`}
+                ></span>
               </div>
               Announcing SXM Quiz.{" "}
-              <span className="font-semibold text-primary-500 inline-flex items-center">
+              <span className="font-semibold text-primary-500 dark:text-primary-300 inline-flex items-center">
                 <span className="absolute inset-0" aria-hidden="true" />
                 Read more{" "}
                 <span aria-hidden="true" className="group-hover:translate-x-0.5 duration-150 ease-out">
-                  <ChevronRight size={16} className="text-primary-500" />
+                  <ChevronRight size={16} className="text-primary-500 dark:text-primary-300" />
                 </span>
               </span>
             </Link>
@@ -75,7 +79,7 @@ export function Hero() {
               <GradientText>i</GradientText>
               <GradientText>n</GradientText>
             </h1>
-            <p className="mt-6 text-xl leading-8 text-gray-700">
+            <p className="mt-6 text-xl leading-8 ">
               Test your knowledge, explore hidden gems, and learn fascinating facts about Saint Martin!
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
