@@ -3,11 +3,12 @@ import { Avatar } from "@/components/avatar";
 type PropTypes = {
   position?: string;
   img?: string;
-  firstName: string;
-  lastName: string;
+  name: string;
 };
 
-export function Author({ firstName, lastName, img, position = "SXM Quiz Core Team" }: PropTypes) {
+export function Author({ name, img, position = "SXM Quiz Core Team" }: PropTypes) {
+  const firstName = name.split(" ")[0];
+  const lastName = name.split(" ")[1];
   const initials = firstName[0] + lastName[0];
   return (
     <div className="flex items-center gap-2">
@@ -16,7 +17,7 @@ export function Author({ firstName, lastName, img, position = "SXM Quiz Core Tea
       ) : (
         <div
           style={{ width: 50, height: 50 }}
-          className="rounded-full uppercase font-medium bg-neutral-100 flex items-center justify-center"
+          className="rounded-full uppercase font-medium bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center"
         >
           {initials}
         </div>

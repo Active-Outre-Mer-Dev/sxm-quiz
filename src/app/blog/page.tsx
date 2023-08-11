@@ -4,6 +4,7 @@ import { Avatar } from "@/components/avatar";
 import { formatDate } from "@/lib/format-date";
 import Link from "next/link";
 import { allBlogs } from "contentlayer/generated";
+import { Author } from "@/components/author";
 
 export default function Page() {
   return (
@@ -39,15 +40,7 @@ export default function Page() {
                   {blog.title}
                 </Title>
                 <p className="text-lg">{blog.intro}</p>
-                <div className="flex items-center gap-4">
-                  <Avatar size={64} />
-                  <div>
-                    <span className="block  font-medium">{blog.author}</span>
-                    <span className="block  text-gray-600 dark:text-gray-200">
-                      {blog.position || "SXM Quiz Core Team"}
-                    </span>
-                  </div>
-                </div>
+                <Author name={blog.author} position={blog.position} img={blog.profile} />
               </div>
             </Link>
           );

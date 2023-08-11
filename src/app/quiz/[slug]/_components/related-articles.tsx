@@ -36,7 +36,7 @@ export function RelatedArticles() {
           })}
         </ul>
       ) : (
-        <p className="text-sm text-gray-700 font-medium">Coming soon</p>
+        <p className="text-sm  font-medium">Coming soon</p>
       )}
     </div>
   );

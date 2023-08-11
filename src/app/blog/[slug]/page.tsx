@@ -1,13 +1,12 @@
-import asset from "@/assets/pixel.jpg";
 import { Badge } from "@aomdev/ui";
 import Image from "next/image";
-import { Author } from "./_components/author";
 import { ShareMedia } from "./_components/share-media";
 import { Newsletter } from "./_components/newsletter";
 import { allBlogs } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import { getHeadings } from "@/lib/get-content";
 import { TableOfContents } from "@/components/toc";
+import { Author } from "@/components/author";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const blog = allBlogs.find(blog => blog.slug === params.slug);
@@ -46,7 +45,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             </div>
             <img src={blog.thumbnail} alt={""} className={"rounded-xl mb-10 "} />
             <div className="flex lg:flex-row lg:gap-0 gap-4 flex-col lg:items-end lg:justify-between mb-12 lg:mb-16">
-              <Author />
+              <Author name={blog.author} img={blog.profile} position={blog.position} />
               <ShareMedia />
             </div>
             <div className="flex ">

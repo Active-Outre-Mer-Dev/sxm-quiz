@@ -99,12 +99,7 @@ export default async function Home() {
               {firstBlog.title}
             </h3>
             <p className="mb-4">{firstBlog.intro}</p>
-            <Author
-              firstName={firstBlog.author.split(" ")[0]}
-              lastName={firstBlog.author.split(" ")[1]}
-              img={firstBlog.profile}
-              position={firstBlog.position}
-            />
+            <Author name={firstBlog.author} img={firstBlog.profile} position={firstBlog.position} />
           </Link>
         </div>
       </section>

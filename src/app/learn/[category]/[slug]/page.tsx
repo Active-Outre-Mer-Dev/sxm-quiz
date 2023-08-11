@@ -83,11 +83,7 @@ export default async function Page({ params }: { params: { slug: string; categor
               </span>
               <div className="flex items-end justify-between">
                 <div className="flex items-center gap-2">
-                  <Author
-                    firstName={article.author.split(" ")[0]}
-                    lastName={article.author.split(" ")[1]}
-                    img={article.profile}
-                  />
+                  <Author name={article.author} img={article.profile} />
                 </div>
                 {/* <div>
                   <a
@@ -147,7 +143,10 @@ function RelatedArticles(props: Props) {
         <img src={props.thumbnail} className="w-full h-full object-cover  rounded-xl" alt={""} />
       </figure>
       <div className="basis-2/3 grow">
-        <Title order={3} className="font-heading font-medium mb-4 group-hover:text-primary-500">
+        <Title
+          order={3}
+          className="font-heading font-medium mb-4 group-hover:text-primary-500 group-hover:dark:text-primary-200"
+        >
           {props.title}
         </Title>
         <p className="line-clamp-3">{props.description}</p>

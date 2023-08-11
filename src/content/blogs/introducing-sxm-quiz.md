@@ -6,7 +6,7 @@ category: Product update
 position: Frontend Engineer
 date: Jul 31, 2023
 thumbnail: /sxm-3.jpg
-profile: agis-carty/profile.jpg
+profile: /agis-carty/profile.jpg
 ---
 
 In this article we will quickly go over why SXM Quiz was created, some of our core features, and a sneek peek into what we have planned!
