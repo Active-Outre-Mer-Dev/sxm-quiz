@@ -27,12 +27,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <header className=" mb-4">
                 <h1
                   id={"intro"}
-                  className={"text-4xl mb-5 lg:text-6xl leading-none text-gray-900 font-medium font-heading"}
+                  className={
+                    "text-4xl mb-5 lg:text-6xl leading-none text-gray-900 dark:text-gray-50 font-medium font-heading"
+                  }
                 >
                   {blog.title}
                 </h1>
               </header>
-              <span className="text-gray-600 font-medium text-sm block mb-6">
+              <span className="text-gray-600 dark:text-gray-300 font-medium text-sm block mb-6">
                 {blog.date} - {meta.readTime} min read
               </span>
               <p
@@ -50,7 +52,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div className="flex ">
               <div
                 className={`basis-3/4 prose-img:border prose-img:rounded-md prose-img:border-gray-100 prose-ul:list-disc prose-p:w-clamp prose-p:mb-4 prose-headings:font-medium prose-headings:mb-4 prose-h2:mt-12 
-                prose-headings:font-heading prose-h2:text-4xl prose-ul:pl-4 text-lg prose-ul:mb-4 prose-a:text-primary-500 prose-a:underline`}
+                prose-headings:font-heading prose-h2:text-4xl prose-ul:pl-4 text-lg prose-ul:mb-4 prose-a:text-primary-500 prose-a:underline
+                prose-a:dark:text-primary-200 prose-img:dark:border-gray-700`}
                 dangerouslySetInnerHTML={{ __html: blog.body.html }}
               ></div>
               <TableOfContents headings={meta.headings} />

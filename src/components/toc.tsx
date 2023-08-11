@@ -70,7 +70,7 @@ export function TableOfContents({ headings }: TOCProps) {
           })}
         </ul>
         <div />
-        <Link href={"/learn"} className="text-primary-600">
+        <Link href={"/learn"} className="text-primary-600 dark:text-primary-200">
           ← Go back
         </Link>
       </div>
@@ -89,7 +89,7 @@ function Item({ active, children, id, path }: PropTypes) {
   return (
     <li
       data-active={active}
-      className={`data-[active=true]:text-primary-500  text-neutral-700
+      className={`data-[active=true]:text-primary-500 data-[active=true]:dark:text-primary-200  
         data-[active=true]:underline `}
     >
       <a href={`${path}#${id}`}>{children}</a>

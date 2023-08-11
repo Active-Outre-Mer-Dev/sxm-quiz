@@ -21,7 +21,7 @@ export default function Page() {
               <figure className="basis-1/2 relative aspect-video rounded-md overflow-hidden">
                 <Image
                   src={blog.thumbnail}
-                  className="w-full h-full group-hover:scale-105 duration-200 ease-out"
+                  className="w-full h-full group-hover:scale-105 duration-500 ease-out"
                   fill
                   alt=""
                 />
@@ -29,10 +29,13 @@ export default function Page() {
 
               <div className="basis-1/2 grow space-y-4">
                 <div className="flex gap-6 items-center">
-                  <time className=" text-gray-600">{formatDate(new Date())}</time>
+                  <time className=" text-gray-600 dark:text-gray-300">{blog.date}</time>
                   <Badge color={"error"}>{blog.category}</Badge>
                 </div>
-                <Title order={2} className="mb-2 group-hover:text-primary-500 font-medium font-heading">
+                <Title
+                  order={2}
+                  className="mb-2 group-hover:text-primary-500 group-hover:dark:text-primary-200 font-medium font-heading"
+                >
                   {blog.title}
                 </Title>
                 <p className="text-lg">{blog.intro}</p>
@@ -40,7 +43,9 @@ export default function Page() {
                   <Avatar size={64} />
                   <div>
                     <span className="block  font-medium">{blog.author}</span>
-                    <span className="block  text-gray-600">{blog.position || "SXM Quiz Core Team"}</span>
+                    <span className="block  text-gray-600 dark:text-gray-200">
+                      {blog.position || "SXM Quiz Core Team"}
+                    </span>
                   </div>
                 </div>
               </div>
