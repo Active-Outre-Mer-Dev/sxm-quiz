@@ -35,8 +35,8 @@ export function Filters(props: PropTypes) {
         />
         <Link
           href={"/quiz"}
-          className={`h-8 px-4 flex items-center justify-center text-primary-500 
-          hover:bg-primary-200/20 rounded-md font-medium`}
+          className={`h-8 px-4 flex items-center justify-center text-primary-500 dark:text-primary-200
+          hover:bg-primary-200/30 hover:dark:bg-primary-600/30 rounded-md font-medium`}
         >
           Reset filters
         </Link>
@@ -52,7 +52,7 @@ export function Filters(props: PropTypes) {
         >
           <Shuffle size={"50%"} />
         </ActionIcon>
-        <span className="font-medium text-neutral-700">Random</span>
+        <span className="font-medium text-gray-700 dark:text-gray-200">Random</span>
       </div>
     </div>
   );

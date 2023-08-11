@@ -63,10 +63,10 @@ function Options({ answer, choice, options, description }: Props) {
             <span
               className={`p-2 border rounded-md flex items-center justify-between ${
                 (option === choice && choice === answer) || (option === answer && show)
-                  ? "bg-success-600 text-white"
+                  ? "bg-success-600 dark:bg-success-700 text-white border-success-600 dark:border-success-700"
                   : option === choice && choice !== answer
-                  ? "bg-error-600 text-white"
-                  : "border-neutral-200"
+                  ? "bg-error-600 text-white dark:bg-error-700 dark:border-error-700"
+                  : "border-neutral-200 dark:border-neutral-700"
               }`}
             >
               {option}{" "}

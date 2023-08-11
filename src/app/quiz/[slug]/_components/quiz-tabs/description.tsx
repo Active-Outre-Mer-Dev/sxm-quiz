@@ -35,16 +35,20 @@ export function Description({ count }: PropTypes) {
       <p className="mb-8">{description}</p>
       <div className="flex justify-between">
         <div className="text-center grow">
-          <span className="block text-neutral-600 font-medium text-sm mb-2">Times completed</span>
+          <span className="block text-gray-600 dark:text-gray-200 font-medium text-sm mb-2">
+            Times completed
+          </span>
           <span className="font-semibold font-heading text-xl">{count}</span>
         </div>
-        <div className="w-[1px] bg-neutral-300" />
+        <div role="separator" className="w-[1px] bg-neutral-100 dark:bg-neutral-700" />
         <div className="text-center grow">
-          <span className="block text-neutral-600 font-medium text-sm mb-2">Average score</span>
+          <span className="block text-gray-600 dark:text-gray-200 font-medium text-sm mb-2">
+            Average score
+          </span>
           <span className="font-semibold font-heading text-xl">{average}%</span>
         </div>
       </div>
-      <hr className="text-neutral-100 w-full h-[1px] my-4" />
+      <div role="separator" className="bg-neutral-100 dark:bg-neutral-700 my-4 w-full h-[1px] " />
       <RelatedArticles />
     </>
   );

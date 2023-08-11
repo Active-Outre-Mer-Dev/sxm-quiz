@@ -93,14 +93,14 @@ function QuizCard({ quiz }: PropTypes) {
               className={`font-heading font-medium text-lg rounded-full
            flex items-center justify-center h-10 w-10 ${scoreColor}`}
             >
-              <span className="h-[1px] w-1/4 bg-neutral-600"></span>
+              <span className="h-[1px] w-1/4 bg-neutral-600 dark:bg-neutral-200"></span>
             </div>
           </div>
         </div>
 
         <p className="mb-4">{quiz.description}</p>
         <div className="">
-          <span className="text-sm text-gray-600  mb-4 flex items-center">
+          <span className="text-sm text-gray-600  dark:text-gray-300 mb-4 flex items-center">
             {isQuestionBased ? (
               <>
                 {quiz.quiz_multiple_choice.length}{" "}
@@ -115,7 +115,7 @@ function QuizCard({ quiz }: PropTypes) {
             <Link className={buttonStyles({ size: "sm" })} href={`/quiz/${quiz.slug}`}>
               Take quiz
             </Link>
-            <DetailsWrapper badgeColor={color} {...quiz} />
+            {/* <DetailsWrapper badgeColor={color} {...quiz} /> */}
           </div>
         </div>
       </Card>

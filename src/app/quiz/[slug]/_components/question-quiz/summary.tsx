@@ -5,8 +5,12 @@ import { Rocket, Timer, Zap } from "lucide-react";
 function ringColor(percentage: number) {
   return {
     color: percentage >= 80 ? "success" : "error",
-    rootCircle: percentage >= 80 ? "fill-success-200/30" : "fill-error-200/30",
-    textColor: percentage >= 80 ? "text-success-600" : "text-error-600"
+    rootCircle:
+      percentage >= 80
+        ? "fill-success-200/30 dark:fill-success-600/30"
+        : "fill-error-200/30 dark:fill-error-600/30",
+    textColor:
+      percentage >= 80 ? "text-success-600 dark:text-success-200" : "text-error-600 dark:text-error-200"
   } as const;
 }
 
@@ -29,7 +33,7 @@ export default function QuestionSummary() {
         />
       </div>
       <ul className="space-y-4">
-        <li className="flex p-2 justify-between text-success-600 bg-success-200/30 rounded-md">
+        <li className="flex p-2 justify-between text-success-600 bg-success-200/30 rounded-md dark:bg-success-600/30 dark:text-success-200">
           <p className="flex items-center gap-2">
             {" "}
             <Rocket size={16} />
@@ -39,7 +43,7 @@ export default function QuestionSummary() {
             {score}/{questionCount}
           </p>
         </li>
-        <li className="flex p-2 justify-between text-warn-600 bg-warn-200/30 rounded-md">
+        <li className="flex p-2 justify-between text-warn-600 bg-warn-200/30 rounded-md dark:bg-warn-600/30 dark:text-warn-200 ">
           <p className="flex items-center gap-2">
             {" "}
             <Zap size={16} />
@@ -47,7 +51,7 @@ export default function QuestionSummary() {
           </p>
           <p>{streak}</p>
         </li>
-        <li className="flex p-2 justify-between text-error-600 bg-error-200/30 rounded-md">
+        <li className="flex p-2 justify-between text-error-600 bg-error-200/30 rounded-md dark:bg-error-600/30 dark:text-error-200">
           <p className="flex items-center gap-2">
             {" "}
             <Timer size={16} /> Duration:
