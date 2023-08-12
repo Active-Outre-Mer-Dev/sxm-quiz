@@ -37,17 +37,17 @@ export function QuizDemo() {
         <div className="flex  justify-between items-center">
           <span className="font-semibold text-gray-900">Demo:</span>
           <div className="flex gap-4">
-            <QuizToggle onToggle={toggle}>
+            <QuizToggle label="Toggle quiz" onToggle={toggle}>
               <ChevronRight size={16} className="-rotate-180" />
             </QuizToggle>
-            <QuizToggle onToggle={toggle}>
+            <QuizToggle label="Toggle quiz" onToggle={toggle}>
               <ChevronRight size={16} />
             </QuizToggle>
           </div>
         </div>
         <div className="grow  relative ">
-          <div className="inset-0 bg-neutral-200 blur-md absolute" />
-          <WindowFrame className="relative bg-white w-full h-full">
+          <div className="inset-0 bg-neutral-200 dark:bg-neutral-700 blur-md absolute" />
+          <WindowFrame className="relative  w-full h-full">
             {" "}
             {state ? <QuestionQuizDemo onConfetti={onConfetti} /> : <ListQuizzDemo onConfetti={onConfetti} />}
           </WindowFrame>

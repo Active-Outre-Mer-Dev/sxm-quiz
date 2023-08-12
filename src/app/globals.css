@@ -6,6 +6,10 @@
   scroll-padding-top: 80px;
 }
 
+:root.dark {
+  color-scheme: dark;
+}
+
 .radial-gradient {
   background: radial-gradient(circle, #211539, #090914);
 }

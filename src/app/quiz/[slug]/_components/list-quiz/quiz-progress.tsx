@@ -7,7 +7,7 @@ type PropTypes = {
 
 export function QuizProgression({ optionsLeft, progress }: PropTypes) {
   return (
-    <div className="justify-between mb-5 flex items-end border-b border-b-neutral-200 pb-2">
+    <div className="justify-between mb-5 flex items-end border-b border-b-neutral-200 dark:border-b-neutral-700 pb-2">
       <Progress value={progress} size={"sm"} className="w-1/4" />
 
       <span className="font-medium">

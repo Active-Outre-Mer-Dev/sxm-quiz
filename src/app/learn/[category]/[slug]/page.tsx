@@ -1,6 +1,6 @@
 import { Title } from "@aomdev/ui";
 // import { ExternalLinkIcon } from "lucide-react";
-import { TableOfContents } from "./toc";
+import { TableOfContents } from "@/components/toc";
 import { getHeadings } from "@/lib/get-content";
 import { notFound } from "next/navigation";
 import { ShareButton } from "./share-article";
@@ -12,8 +12,10 @@ import { allArticles } from "contentlayer/generated";
 import Link from "next/link";
 import { ArticleEvent } from "./article-event";
 import { Suspense } from "react";
+import { Avatar } from "@/components/avatar";
 
 import type { Database } from "@/types/database.types";
+import { Author } from "@/components/author";
 
 export function generateStaticParams() {
   const slugs = allArticles.map(({ slug }) => ({ slug }));
@@ -41,14 +43,12 @@ export default async function Page({ params }: { params: { slug: string; categor
   const { headings, readTime } = props;
   const color =
     params.category === "history"
-      ? "text-error-600"
+      ? "text-error-600 dark:text-error-200"
       : params.category === "geography"
-      ? "text-secondary-600"
+      ? "text-secondary-600 dark:text-secondary-200"
       : params.category === "environment"
-      ? "text-success-600"
-      : "text-tertiary-600";
-
-  const [firstName, lastName] = article.author.split(" ");
+      ? "text-success-600 dark:text-success-200"
+      : "text-tertiary-600 dark:text-tertiary-200";
 
   return (
     <>
@@ -57,9 +57,9 @@ export default async function Page({ params }: { params: { slug: string; categor
         <ArticleEvent />
       </Suspense>
 
-      <div className="flex gap-2  lg:w-4/6 items-center border-b border-neutral-200 pb-5 mb-10">
-        <span className="text-3xl font-medium text-neutral-900">Articles</span>
-        <span className="h-10 w-[2px] bg-neutral-900" />
+      <div className="flex gap-2  lg:w-4/6 items-center border-b border-neutral-200 dark:border-neutral-700 pb-5 mb-10">
+        <span className="text-3xl font-medium text-neutral-900 dark:text-gray-50">Articles</span>
+        <span role="separator" className="h-10 w-[2px] bg-neutral-900 dark:bg-neutral-400" />
         <span className={`${color} font-medium text-3xl capitalize`}>{params.category}</span>
       </div>
       <div className="mb-16 lg:mb-36 flex gap-7">
@@ -67,7 +67,10 @@ export default async function Page({ params }: { params: { slug: string; categor
           <article className="lg:mb-16">
             <div className="mb-10">
               <header className="flex items-center justify-between mb-4">
-                <h1 id={"intro"} className={"text-4xl leading-none font-medium font-heading"}>
+                <h1
+                  id={"intro"}
+                  className={"text-4xl leading-none font-medium font-heading text-gray-900 dark:text-gray-50"}
+                >
                   {article.title}
                 </h1>
                 <ShareButton title={article.title} />
@@ -75,25 +78,12 @@ export default async function Page({ params }: { params: { slug: string; categor
               <p style={{ width: "clamp(36ch, 90%, 75ch)" }} className="text-lg mb-4">
                 {article.intro}
               </p>
-              <span className="text-neutral-600 text-sm block mb-6">
+              <span className="text-gray-600 dark:text-gray-300 text-sm block mb-6">
                 {formatDate(new Date(data.created_at))} - {readTime} min read
               </span>
               <div className="flex items-end justify-between">
                 <div className="flex items-center gap-2">
-                  {article.profile ? (
-                    <img src={article.profile} width={50} height={50} className="rounded-full object-cover" />
-                  ) : (
-                    <div
-                      style={{ width: 50, height: 50 }}
-                      className="rounded-full uppercase font-medium bg-neutral-100 flex items-center justify-center"
-                    >
-                      {`${firstName[0]}${lastName[0]}`}
-                    </div>
-                  )}
-                  <div>
-                    <span className="font-medium block text-neutral-800">{article.author}</span>
-                    <span className="text-neutral-600">SXM Quiz core team</span>
-                  </div>
+                  <Author name={article.author} img={article.profile} />
                 </div>
                 {/* <div>
                   <a
@@ -153,7 +143,10 @@ function RelatedArticles(props: Props) {
         <img src={props.thumbnail} className="w-full h-full object-cover  rounded-xl" alt={""} />
       </figure>
       <div className="basis-2/3 grow">
-        <Title order={3} className="font-heading font-medium mb-4 group-hover:text-primary-500">
+        <Title
+          order={3}
+          className="font-heading font-medium mb-4 group-hover:text-primary-500 group-hover:dark:text-primary-200"
+        >
           {props.title}
         </Title>
         <p className="line-clamp-3">{props.description}</p>

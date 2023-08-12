@@ -16,7 +16,7 @@ export function RelatedArticles() {
 
   return (
     <div>
-      <p className="mb-6 text-neutral-600 font-medium">Related Articles</p>
+      <p className="mb-6 text-gray-600 dark:text-gray-200 font-medium">Related Articles</p>
       {relatedArticles.length > 0 ? (
         <ul className="space-y-4">
           {relatedArticles.map(article => {
@@ -24,7 +24,7 @@ export function RelatedArticles() {
             return (
               <li className="group" key={article.slug}>
                 <Link className="flex justify-between item-center" href={`/learn/${category}/${slug}`}>
-                  <span className="block capitalize group-hover:text-primary-500 duration-200 ease-out font-medium">
+                  <span className="block capitalize group-hover:text-primary-500 group-hover:dark:text-primary-200 duration-200 ease-out font-medium">
                     {title}
                   </span>
                   <Badge color={getCatColor(category)} className="capitalize">
@@ -36,7 +36,7 @@ export function RelatedArticles() {
           })}
         </ul>
       ) : (
-        <p className="text-sm text-gray-700 font-medium">Coming soon</p>
+        <p className="text-sm  font-medium">Coming soon</p>
       )}
     </div>
   );

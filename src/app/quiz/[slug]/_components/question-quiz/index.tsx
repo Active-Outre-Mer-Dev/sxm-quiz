@@ -86,7 +86,7 @@ export default function Quiz(props: PropTypes) {
           >
             <QuestionFeedback quizTitle={title} question={{ id: question.id, question: question.question }} />
           </Suspense>
-          <div className=" flex justify-between items-end border-b border-neutral-200 pb-3 mb-5">
+          <div className=" flex justify-between items-end border-b border-neutral-100 dark:border-neutral-700 pb-3 mb-5">
             <Progress aria-label="Quiz progression" size={"sm"} className="w-1/4" value={progress} />
             <span className="font-medium">
               Streak: <span className="font-heading">{state.streak}</span>

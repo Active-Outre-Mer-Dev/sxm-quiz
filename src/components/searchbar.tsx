@@ -56,11 +56,11 @@ export default function Searchbar(props: PropTypes) {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-md items-center flex gap-1 px-4 min-w-fit text-neutral-500 h-8 ring-1 ring-neutral-200"
+        className="rounded-md items-center flex gap-1 px-4 min-w-fit text-neutral-500 dark:text-neutral-200 h-8 ring-1 ring-neutral-200 dark:ring-neutral-700"
       >
-        <SearchIcon size={14} className="text-neutral-500" />
+        <SearchIcon size={14} className="text-neutral-500 dark:text-neutral-300" />
         Search...
-        <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block ml-6 p-[1px] rounded-sm">
+        <kbd className="text-xs bg-neutral-200/30 dark:bg-neutral-600/30 ring-1 ring-neutral-100 dark:ring-neutral-700 inline-block ml-6 p-[1px] rounded-sm">
           Ctrl K
         </kbd>
       </button>
@@ -93,27 +93,30 @@ export default function Searchbar(props: PropTypes) {
             {!page && <Default onNavigate={onSelect} />}
           </ScrollArea>
         </Command.List>
-        <div className="absolute bg-white px-4 text-sm text-gray-500 flex items-center justify-between bottom-0 left-0 h-10 border-t w-full">
+        <div
+          className={`absolute bg-white dark:bg-neutral-800 px-4 text-sm dark:text-gray-300 text-gray-500 flex items-center justify-between bottom-0 left-0 
+        h-10 border-t w-full border-t-neutral-100 dark:border-t-neutral-700`}
+        >
           <div className="flex gap-6 items-center">
             <span className="flex items-center gap-2">
               <span className="flex items-center gap-1">
-                <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+                <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 dark:bg-neutral-600/30 dark:ring-neutral-700 inline-block  p-[1px] rounded-sm">
                   <ChevronUp size={16} />
                 </kbd>
-                <kbd className="text-xs rotate-180 bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+                <kbd className="text-xs rotate-180 bg-neutral-200/30 ring-1 ring-neutral-100 dark:bg-neutral-600/30 dark:ring-neutral-700 inline-block  p-[1px] rounded-sm">
                   <ChevronUp size={16} />
                 </kbd>
               </span>
               <span className="font-medium ">Navigate</span>
             </span>
             <span className="flex items-center gap-2">
-              <kbd className="text-sm bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+              <kbd className="text-sm bg-neutral-200/30 ring-1 ring-neutral-100 dark:bg-neutral-600/30 dark:ring-neutral-700 inline-block  p-[1px] rounded-sm">
                 esc
               </kbd>
               <span className="font-medium ">Close</span>
             </span>
             <span>
-              <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 inline-block  p-[1px] rounded-sm">
+              <kbd className="text-xs bg-neutral-200/30 ring-1 ring-neutral-100 dark:bg-neutral-600/30 dark:ring-neutral-700 inline-block  p-[1px] rounded-sm">
                 CTRL /
               </kbd>{" "}
               <span className="font-medium">Back </span>
@@ -181,21 +184,22 @@ function Default({ onNavigate }: { onNavigate: (value: string) => void }) {
     <>
       <Command.Group heading="Quizzes">
         <Command.Item onSelect={onNavigate} value="Multiple Choice">
-          <CircleDot size={16} className="inline-block mr-2 text-gray-600" /> Multiple Choice
+          <CircleDot size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" /> Multiple
+          Choice
         </Command.Item>
         <Command.Item onSelect={onNavigate} value="Name All">
-          <List size={16} className="inline-block mr-2 text-gray-600" />
+          <List size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" />
           Name All
         </Command.Item>
       </Command.Group>
       <Command.Seperator />
       <Command.Group heading="Resources">
         <Command.Item onSelect={onNavigate} value="Blogs">
-          <Newspaper size={16} className="inline-block mr-2 text-gray-600" />
+          <Newspaper size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" />
           Blogs
         </Command.Item>
         <Command.Item onSelect={onNavigate} value="Articles">
-          <FileText size={16} className="inline-block mr-2 text-gray-600" /> Articles
+          <FileText size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" /> Articles
         </Command.Item>
       </Command.Group>
     </>
