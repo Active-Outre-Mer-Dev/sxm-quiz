@@ -1,32 +1,34 @@
 "use client";
-import { Sun, Moon } from "lucide-react";
-import { useState } from "react";
-import { ActionIcon } from "@aomdev/ui";
+import { Sun, Moon, Monitor } from "lucide-react";
+import { useTheme } from "next-themes";
+import { ActionIcon, Dropdown } from "@aomdev/ui";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-
-  const onToggle = () => {
-    const html = document.documentElement;
-    if (theme === "dark") {
-      html.classList.remove("dark");
-      setTheme("light");
-    } else {
-      html.classList.add("dark");
-      setTheme("dark");
-    }
-  };
-
-  const Icon = theme === "dark" ? Sun : Moon;
+  const { setTheme } = useTheme();
 
   return (
-    <ActionIcon
-      variant={"subtle"}
-      onClick={onToggle}
-      color={theme === "light" ? "primary" : "secondary"}
-      aria-label="Toggle theme"
-    >
-      <Icon size={"60%"} />
-    </ActionIcon>
+    <Dropdown>
+      <Dropdown.Trigger asChild>
+        <ActionIcon
+          variant={"subtle"}
+          className="dark:bg-secondary-600/30 dark:text-secondary-200 bg-tertiary-200/30 text-tertiary-600"
+          aria-label="Toggle theme"
+        >
+          <Sun size={"60%"} className="dark:inline-block hidden" />
+          <Moon size={"60%"} className="inline-block dark:hidden" />
+        </ActionIcon>
+      </Dropdown.Trigger>
+      <Dropdown.Content style={{ zIndex: 9999 }}>
+        <Dropdown.Item onClick={() => setTheme("light")} icon={<Sun size={"16px"} />}>
+          Light
+        </Dropdown.Item>
+        <Dropdown.Item onClick={() => setTheme("dark")} icon={<Moon size={"16px"} />}>
+          Dark
+        </Dropdown.Item>
+        <Dropdown.Item onClick={() => setTheme("system")} icon={<Monitor size={"16px"} />}>
+          System
+        </Dropdown.Item>
+      </Dropdown.Content>
+    </Dropdown>
   );
 }
