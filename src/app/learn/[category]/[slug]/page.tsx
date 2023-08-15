@@ -12,7 +12,6 @@ import { allArticles } from "contentlayer/generated";
 import Link from "next/link";
 import { ArticleEvent } from "./article-event";
 import { Suspense } from "react";
-import { Avatar } from "@/components/avatar";
 
 import type { Database } from "@/types/database.types";
 import { Author } from "@/components/author";
