@@ -2,10 +2,12 @@
 import type { Heading } from "@/lib/get-content";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import { ExternalLink } from "lucide-react";
 
 type TOCProps = {
   headings: Heading[];
+  githubEdit?: boolean;
 };
 
 function createObserver(cb: (id: string) => void) {
@@ -21,9 +23,10 @@ function createObserver(cb: (id: string) => void) {
   );
 }
 
-export function TableOfContents({ headings }: TOCProps) {
+export function TableOfContents({ headings, githubEdit }: TOCProps) {
   const [activeId, setActiveId] = useState("");
   const path = usePathname();
+  const params = useParams();
 
   useEffect(() => {
     const observer = createObserver(setActiveId);
@@ -70,9 +73,17 @@ export function TableOfContents({ headings }: TOCProps) {
           })}
         </ul>
         <div />
-        <Link href={"/learn"} className="text-primary-600 dark:text-primary-200">
-          ← Go back
-        </Link>
+        <div className="space-y-4 border-t border-t-neutral-100 dark:border-t-neutral-700 pt-4">
+          {githubEdit ? (
+            <a
+              target="_blank"
+              className="block hover:dark:text-primary-200 hover:text-primary-500"
+              href={`https://github.com/Active-Outre-Mer-Dev/sxm-quiz/blob/main/src/content/articles/${params.slug}.md`}
+            >
+              Edit this page on Github <ExternalLink size={16} className="inline-block mr-2" />
+            </a>
+          ) : null}
+        </div>
       </div>
     </div>
   );

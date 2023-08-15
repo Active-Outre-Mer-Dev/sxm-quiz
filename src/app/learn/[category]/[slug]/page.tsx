@@ -122,7 +122,7 @@ export default async function Page({ params }: { params: { slug: string; categor
             })}
           </div>
         </div>
-        <TableOfContents headings={headings} />
+        <TableOfContents headings={headings} githubEdit />
       </div>
     </>
   );
