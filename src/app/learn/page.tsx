@@ -49,7 +49,7 @@ export default async function Page() {
 
   return (
     <>
-      <section className="mb-20 container mx-auto pt-16">
+      <section className="mb-20 w-11/12 text-center lg:container mx-auto pt-16">
         <InfoBadge href="/learn" info="Want to write your own articles?" link="Become a contributor" />
         <Title order={1} className="font-heading  leading-none my-4 ">
           <GradientText>All Articles</GradientText>
@@ -57,7 +57,7 @@ export default async function Page() {
         <p className="text-2xl  mb-6">For Saint Martiners, by Saint Martiners</p>
         <div role="separator" className="h-[1px] bg-neutral-100 dark:bg-neutral-700 mb-10" />
       </section>
-      <section className="grid grid-cols-12 container mx-auto gap-4">
+      <section className="grid grid-cols-6 lg:grid-cols-12 w-11/12 lg:container mx-auto gap-y-10 lg:gap-4">
         <Link href={"/learn"} className="col-span-8 group">
           <figure className="col-span-8 relative aspect-video overflow-hidden">
             <Image
@@ -82,7 +82,7 @@ export default async function Page() {
           <p className="w-clamp mb-4">{randomArticle.intro}</p>
           <Author name={randomArticle.author} img={randomArticle.profile} />
         </Link>
-        <Card className="col-span-4 bg-neutral-900 flex flex-col gap-10">
+        <Card className="col-span-6 w-full lg:col-span-4 bg-neutral-900 flex flex-col gap-10">
           <Title order={2} className="font-heading text-secondary-400 mb-6 font-medium">
             New
           </Title>
@@ -109,14 +109,14 @@ export default async function Page() {
           </ul>
         </Card>
       </section>
-      <section className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 rounded-md  min-h-[250px]">
+      <section className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 lg:rounded-md  min-h-[250px]">
         <RandomFacts />
       </section>
-      <section className="border-t container mx-auto border-neutral-100 dark:border-neutral-700 pt-10 grid grid-cols-12 gap-5 mb-36">
-        <div className="col-span-3">
+      <section className="border-t w-11/12 lg:container mx-auto gap-y-5 border-neutral-100 dark:border-neutral-700 pt-10 grid grid-cols-6 lg:grid-cols-12 lg:gap-5 mb-36">
+        <div className="col-span-full lg:col-span-3">
           <ArticleFilter />
         </div>
-        <div className="flex col-span-9 gap-5 gap-y-16 flex-wrap">
+        <div className="flex col-span-full lg:col-span-9 gap-10 lg:gap-y-16 flex-col lg:flex-row flex-wrap">
           {articles.map(article => {
             return <Article key={article.slug} {...article} />;
           })}

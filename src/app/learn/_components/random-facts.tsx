@@ -77,10 +77,10 @@ export function RandomFacts() {
     slide(-1);
   };
   return (
-    <section
+    <div
       onMouseEnter={pause}
       onMouseLeave={start}
-      className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 rounded-md py-10  min-h-[250px] group relative overflow-hidden"
+      className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 lg:rounded-md py-10  min-h-[250px] group relative overflow-hidden"
     >
       <Title order={2} className="font-heading text-primary-600 dark:text-primary-200 mb-4 text-center">
         Did you know?
@@ -115,6 +115,6 @@ export function RandomFacts() {
       >
         <ChevronRight size={"75%"} />
       </button>
-    </section>
+    </div>
   );
 }

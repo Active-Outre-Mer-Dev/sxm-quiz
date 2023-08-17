@@ -8,7 +8,7 @@ import type { ArticleProps } from "@/types/custom.types";
 
 export function Article(props: ArticleProps) {
   return (
-    <Link href={`/learn/${props.category}/${props.slug}`} className="overflow-hidden group basis-1/3 grow">
+    <Link href={`/learn/${props.category}/${props.slug}`} className="overflow-hidden group lg:basis-1/3 grow">
       <figure
         className={`rounded-xl overflow-hidden  mb-4 px-2 relative flex items-center aspect-video w-full
   justify-center  `}

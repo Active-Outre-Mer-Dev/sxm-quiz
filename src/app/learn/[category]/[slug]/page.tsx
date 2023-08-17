@@ -56,7 +56,7 @@ export default async function Page({ params }: { params: { slug: string; categor
         <ArticleEvent />
       </Suspense>
 
-      <div className="flex gap-2  lg:w-4/6 items-center border-b border-neutral-200 dark:border-neutral-700 pb-5 mb-10">
+      <div className="flex gap-2 justify-center lg:justify-start  lg:w-4/6 items-center border-b border-neutral-200 dark:border-neutral-700 pb-5 mb-10">
         <span className="text-3xl font-medium text-neutral-900 dark:text-gray-50">Articles</span>
         <span role="separator" className="h-10 w-[2px] bg-neutral-900 dark:bg-neutral-400" />
         <span className={`${color} font-medium text-3xl capitalize`}>{params.category}</span>
@@ -68,7 +68,9 @@ export default async function Page({ params }: { params: { slug: string; categor
               <header className="flex items-center justify-between mb-4">
                 <h1
                   id={"intro"}
-                  className={"text-4xl leading-none font-medium font-heading text-gray-900 dark:text-gray-50"}
+                  className={
+                    "text-4xl text-center lg:text-start leading-none font-medium font-heading text-gray-900 dark:text-gray-50"
+                  }
                 >
                   {article.title}
                 </h1>
@@ -103,8 +105,8 @@ export default async function Page({ params }: { params: { slug: string; categor
               dangerouslySetInnerHTML={{ __html: article.body.html }}
             ></div>
           </article>
-          <div className="space-y-16">
-            <Title order={2} className="font-medium font-heading mb-6">
+          <div className="space-y-10 mt-16 lg:mt-0 lg:space-y-16">
+            <Title order={2} className="font-medium font-heading lg:mb-6">
               Related Articles
             </Title>
             {relatedArticles.map(article => {
@@ -137,7 +139,7 @@ type Props = {
 
 function RelatedArticles(props: Props) {
   return (
-    <Link href={`/learn/${props.category}/${props.slug}`} className="flex gap-4 group">
+    <Link href={`/learn/${props.category}/${props.slug}`} className="flex flex-col lg:flex-row gap-4 group">
       <figure className="basis-1/3 grow aspect-video">
         <img src={props.thumbnail} className="w-full h-full object-cover  rounded-xl" alt={""} />
       </figure>

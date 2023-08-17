@@ -19,7 +19,13 @@ export function ShareButton({ title }: PropTypes) {
   };
 
   return (
-    <ActionIcon onClick={onShare} aria-label="Share" color={"primary"} size={"lg"}>
+    <ActionIcon
+      onClick={onShare}
+      aria-label="Share"
+      color={"primary"}
+      size={"lg"}
+      className="hidden lg:inline-block"
+    >
       <Share aria-hidden="true" size={"50%"} />
     </ActionIcon>
   );
