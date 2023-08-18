@@ -1,28 +1,19 @@
-import { Title } from "@aomdev/ui";
-import { Button } from "@/components/learn";
-import { RandomFacts } from "./_components/random-facts";
-import { Articles } from "./_components/article-list";
-import { createClient } from "@supabase/supabase-js";
-import { Database } from "@/types/database.types";
+import { Card, Title, Badge } from "@aomdev/ui";
+import { GradientText } from "@/components/gradient-text";
+import { InfoBadge } from "@/components/info-badge";
+import { Author } from "@/components/author";
+import { ArticleFilter } from "./_components/article-filter";
+import Image from "next/image";
+import Link from "next/link";
+import { Article } from "./_components/article";
 import { allArticles } from "contentlayer/generated";
-import { AllArticlesList } from "./_components/all-articles";
-import { Suspense } from "react";
+import { Database } from "@/types/database.types";
+import { createClient } from "@supabase/supabase-js";
+import { formatDate } from "@/lib/format-date";
+import { getCatColor } from "@/get-category-color";
+import { RandomFacts } from "./_components/random-facts";
 
-export const revalidate = 60 * 60;
-
-export type Article = {
-  title: string;
-  thumbnail: string;
-  intro: string;
-  category: string;
-  author: string;
-  profile: string | undefined;
-  created_at: string;
-  slug: string;
-  featured: boolean;
-  community: boolean;
-  views: number;
-};
+export const revalidate = 3600;
 
 export default async function Page() {
   const supabase = createClient<Database>(
@@ -52,53 +43,84 @@ export default async function Page() {
     };
   });
 
-  const featuredArticles = articles.filter(({ featured }) => featured).slice(0, 3);
-  const communityArticles = articles.filter(({ community }) => community);
-  const recentArticles = articles.slice(0, 3).sort((a, b) => {
-    return Date.parse(a.created_at) - Date.parse(b.created_at);
-  });
+  const randomArticle = articles[Math.floor(Math.random() * articles.length)];
+
+  const recent = articles.sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at)).slice(0, 3);
+
   return (
     <>
-      <section className="mb-20 container mx-auto">
-        <Title
-          order={1}
-          className="font-heading text-gray-900 dark:text-gray-50 text-center leading-none mb-2"
-        >
-          Lessons
+      <section className="mb-20 w-11/12 text-center lg:container mx-auto pt-16">
+        <InfoBadge href="/learn" info="Want to write your own articles?" link="Become a contributor" />
+        <Title order={1} className="font-heading  leading-none my-4 ">
+          <GradientText>All Articles</GradientText>
         </Title>
-        <p className="text-2xl text-center ">For Saint Martiners, by Saint Martiners</p>
+        <p className="text-2xl  mb-6">For Saint Martiners, by Saint Martiners</p>
+        <div role="separator" className="h-[1px] bg-neutral-100 dark:bg-neutral-700 mb-10" />
       </section>
-      <section className="w-11/12 lg:container mx-auto mb-36">
-        <Articles articles={featuredArticles} title="Featured" />
+      <section className="grid grid-cols-6 lg:grid-cols-12 w-11/12 lg:container mx-auto gap-y-10 lg:gap-4">
+        <Link href={"/learn"} className="col-span-8 group">
+          <figure className="col-span-8 relative aspect-video overflow-hidden">
+            <Image
+              src={randomArticle.thumbnail}
+              alt=""
+              fill
+              className=" w-full h-full object-cover duration-700 ease-out group-hover:scale-105"
+            />
+          </figure>
+          <div className="flex gap-6 items-center mt-2">
+            <time className=" text-gray-600 dark:text-gray-300">
+              {formatDate(new Date(randomArticle.created_at))}
+            </time>
+            <Badge color={getCatColor(randomArticle.category)}>{randomArticle.category}</Badge>
+          </div>
+          <Title
+            order={2}
+            className="font-heading dark:text-gray-50 text-gray-900 mb-2 font-medium group-hover:text-primary-500 group-hover:dark:text-primary-200"
+          >
+            {randomArticle.title}
+          </Title>
+          <p className="w-clamp mb-4">{randomArticle.intro}</p>
+          <Author name={randomArticle.author} img={randomArticle.profile} />
+        </Link>
+        <Card className="col-span-6 w-full lg:col-span-4 bg-neutral-900 flex flex-col gap-10">
+          <Title order={2} className="font-heading text-secondary-400 mb-6 font-medium">
+            New
+          </Title>
+
+          <ul className=" flex flex-col justify-between grow">
+            {recent.map(article => {
+              return (
+                <>
+                  <li className="  pb-8 group">
+                    <Link href={`/learn/${article.category}/${article.slug}`} className="space-y-3">
+                      <span className="font-medium  text-gray-50 text-2xl font-heading group-hover:text-primary-500  group-hover:dark:text-primary-200">
+                        {article.title}
+                      </span>
+                      <p className="text-gray-200 line-clamp-4">{article.intro}</p>
+                    </Link>
+                  </li>
+                  <li
+                    aria-hidden="true"
+                    className="border-b border-neutral-700 h-[1px] last-of-type:hidden"
+                  />
+                </>
+              );
+            })}
+          </ul>
+        </Card>
       </section>
-      <section className="w-11/12 lg:container mx-auto mb-36">
-        <Articles articles={recentArticles} title="Recently added" />
-      </section>
-      <section className="mb-36">
+      <section className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 lg:rounded-md  min-h-[250px]">
         <RandomFacts />
       </section>
-      <section className="w-11/12 lg:container mx-auto mb-36">
-        <Suspense fallback={null}>
-          <AllArticlesList articles={articles} />
-        </Suspense>
-      </section>
-
-      <section className="mb-36">
-        <div className="radial-gradient p-4 w-11/12 lg:w-3/4 mx-auto text-primary-50  rounded-xl">
-          <Title order={2} className="font-heading mb-2">
-            Become a contributor
-          </Title>
-          <p style={{ width: "clamp(36ch, 90%, 64ch)" }} className="text-xl mb-4">
-            Have some knowledge you&apos;d like to share with the island? Look no further! Become a
-            contributor today and join our community!
-          </p>
-          <Button variant="neutral" className="text-primary-600">
-            Get started
-          </Button>
+      <section className="border-t w-11/12 lg:container mx-auto gap-y-5 border-neutral-100 dark:border-neutral-700 pt-10 grid grid-cols-6 lg:grid-cols-12 lg:gap-5 mb-36">
+        <div className="col-span-full lg:col-span-3">
+          <ArticleFilter />
         </div>
-      </section>
-      <section className="w-11/12 lg:container mx-auto mb-36">
-        <Articles articles={communityArticles} title="Community" />
+        <div className="flex col-span-full lg:col-span-9 gap-10 lg:gap-y-16 flex-col lg:flex-row flex-wrap">
+          {articles.map(article => {
+            return <Article key={article.slug} {...article} />;
+          })}
+        </div>
       </section>
     </>
   );

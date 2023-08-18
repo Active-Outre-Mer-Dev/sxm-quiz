@@ -1,10 +1,8 @@
 import { Title } from "@aomdev/ui";
-import { Articles } from "../_components/article-list";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/database.types";
 import { allArticles } from "contentlayer/generated";
-
-export const revalidate = 60 * 60;
+import { Article } from "../_components/article";
 
 const categories = ["history", "geography", "environment", "economy"];
 
@@ -41,11 +39,13 @@ export default async function Page({ params }: { params: { category: string } })
   });
   return (
     <div className="min-h-screen mb-20">
-      <Title order={1} className="font-heading capitalize mb-10 font-medium">
+      <Title order={1} className="font-heading text-center capitalize mb-10 font-medium">
         {params.category} Articles
       </Title>
-      <section className="container mx-auto mb-36">
-        <Articles type={params.category} articles={articles} />
+      <section className="w-full b mb-36 grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-10">
+        {articles.map(article => {
+          return <Article {...article} key={article.slug} />;
+        })}
       </section>
     </div>
   );

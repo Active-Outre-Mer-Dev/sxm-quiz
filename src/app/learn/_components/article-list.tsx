@@ -1,33 +1,49 @@
-import { Title } from "@aomdev/ui";
+"use client";
 import { Article } from "./article";
-import type { Article as ArticleType } from "../page";
+import { useState } from "react";
+import { ArticleFilter } from "./article-filter";
+import type { ArticleProps } from "@/types/custom.types";
 
 type PropTypes = {
-  title?: "Community" | "Featured" | "Recently added" | "All";
-  type?: string;
-  articles: ArticleType[];
+  articles: ArticleProps[];
 };
 
-export async function Articles({ title, articles }: PropTypes) {
+export type FilterProps = {
+  history: boolean;
+  geography: boolean;
+  economy: boolean;
+  environment: boolean;
+};
+
+export async function Articles({ articles }: PropTypes) {
+  const [filter, setFilter] = useState({
+    history: false,
+    geography: false,
+    economy: false,
+    environment: false
+  });
+  // const filteredArticles = filterArticles(articles, filter);
+
+  const onFilterChange = (key: keyof FilterProps, value: boolean) => {
+    setFilter(prev => ({ ...prev, [key]: value }));
+  };
+
   return (
     <>
-      {title && (
-        <Title order={2} id={title} className="font-heading mb-10">
-          {title} articles
-        </Title>
-      )}
-
-      {articles.length === 0 && (
-        <Title order={2} className="font-heading mb-10">
-          Coming soon
-        </Title>
-      )}
-      <div className="grid lg:grid-cols-3 gap-x-8 gap-y-16">
-        {articles.map(article => {
-          const [firstName, lastName] = article.author.split(" ");
-          return <Article key={article.slug} article={article} initials={`${firstName[0]}${lastName[0]}`} />;
-        })}
-      </div>
+      <section className="border-t container mx-auto border-neutral-100 dark:border-neutral-700 pt-10 grid grid-cols-12 gap-5 mb-36">
+        <div className="col-span-3">{/* <ArticleFilter onFilterChange={onFilterChange} /> */}</div>
+        <div className="flex col-span-9 gap-5 gap-y-16 flex-wrap">
+          {articles.map(article => {
+            return <Article key={article.slug} {...article} />;
+          })}
+        </div>
+      </section>
     </>
   );
 }
+
+// function filterArticles(articles: ArticleProps[], filters: FilterProps) {
+//   let newArticles = articles.slice();
+
+//   return newArticles;
+// }

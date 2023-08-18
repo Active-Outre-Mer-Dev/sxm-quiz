@@ -80,36 +80,38 @@ export function RandomFacts() {
     <div
       onMouseEnter={pause}
       onMouseLeave={start}
-      className="rounded-xl group overflow-hidden relative flex flex-col items-center  radial-gradient text-center h-72 lg:h-56  p-4  mx-auto w-11/12 lg:w-3/4 text-white"
+      className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 lg:rounded-md py-10  min-h-[250px] group relative overflow-hidden"
     >
-      <Title order={2} className="font-heading ">
+      <Title order={2} className="font-heading text-primary-600 dark:text-primary-200 mb-4 text-center">
         Did you know?
       </Title>
-      <AnimatePresence custom={direction}>
-        <motion.span
-          custom={direction}
-          key={current}
-          variants={variants}
-          initial="enter"
-          animate={"visible"}
-          exit={"exit"}
-          className="text-primary-50 text-xl absolute -inset-0  flex items-center justify-center "
-        >
-          <span className="w-11/12 lg:w-3/4">{fact}</span>
-        </motion.span>
-      </AnimatePresence>
+      <div className="relative flex justify-center">
+        <AnimatePresence custom={direction}>
+          <motion.span
+            custom={direction}
+            key={current}
+            variants={variants}
+            initial="enter"
+            animate={"visible"}
+            exit={"exit"}
+            className=" text-xl  text-center block absolute"
+          >
+            <span className="w-clamp">{fact}</span>
+          </motion.span>
+        </AnimatePresence>
+      </div>
 
       <button
         onClick={prev}
-        className={`absolute group-hover:opacity-100 opacity-0 duration-200 ease-out flex items-center justify-center bg-white h-7 w-7 rounded-full
-       text-primary-600 top-2/4 -translate-y-2/4 left-4`}
+        className={`absolute group-hover:opacity-100 opacity-0 duration-200 ease-out flex items-center justify-center bg-primary-600 h-7 w-7 rounded-full
+       text-white top-2/4 -translate-y-2/4 left-4`}
       >
         <ChevronLeft size={"75%"} />
       </button>
       <button
         onClick={() => next(true)}
-        className={`absolute group-hover:opacity-100 opacity-0 duration-200 ease-out flex items-center justify-center bg-white h-7 w-7 rounded-full
-       text-primary-600 top-2/4 -translate-y-2/4 right-4`}
+        className={`absolute group-hover:opacity-100 opacity-0 duration-200 ease-out flex items-center justify-center bg-primary-600 h-7 w-7 rounded-full
+       text-white top-2/4 -translate-y-2/4 right-4`}
       >
         <ChevronRight size={"75%"} />
       </button>

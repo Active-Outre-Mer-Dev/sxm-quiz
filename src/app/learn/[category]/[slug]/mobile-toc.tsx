@@ -16,7 +16,7 @@ export function MobileTOC({ headings, category, slug }: PropTypes) {
             <li key={heading.value}>
               <a
                 href={`/learn/${category}/${slug}`}
-                className="text-primary-500 underline underline-offset-2"
+                className="dark:text-primary-200 text-primary-500 underline underline-offset-2"
               >
                 {heading.value}
               </a>
