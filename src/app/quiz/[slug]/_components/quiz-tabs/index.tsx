@@ -21,7 +21,7 @@ export function QuizTabs({ count }: PropTypes) {
           </Tabs.Trigger>
           <Tabs.Trigger value="feedback">Feedback</Tabs.Trigger>
         </Tabs.List>
-        <Tabs.Content noPadding value="description">
+        <Tabs.Content value="description">
           <Description count={count} />
         </Tabs.Content>
         <Tabs.Content value="summary">

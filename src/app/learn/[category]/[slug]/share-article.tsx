@@ -24,7 +24,7 @@ export function ShareButton({ title }: PropTypes) {
       aria-label="Share"
       color={"primary"}
       size={"lg"}
-      className="hidden lg:inline-block"
+      className="hidden lg:inline-flex items-center justify-center"
     >
       <Share aria-hidden="true" size={"50%"} />
     </ActionIcon>
