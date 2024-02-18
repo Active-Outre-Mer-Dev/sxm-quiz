@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 import { Inter, Familjen_Grotesk } from "next/font/google";
 import { Nav } from "@/components/navbar";
 import { Footer } from "@/components/site-footer";

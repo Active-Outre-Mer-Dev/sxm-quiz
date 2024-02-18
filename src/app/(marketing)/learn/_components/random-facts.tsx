@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import type { Variants } from "framer-motion";
 
 const variants: Variants = {
-  enter: direction => ({
+  enter: (direction) => ({
     x: direction * 600,
     opacity: 0,
     transition: { type: "tween" }
@@ -18,7 +18,7 @@ const variants: Variants = {
     opacity: 1,
     transition: { type: "tween" }
   },
-  exit: direction => ({
+  exit: (direction) => ({
     x: direction * -600,
     opacity: 0,
     transition: { type: "tween" }
@@ -82,7 +82,10 @@ export function RandomFacts() {
       onMouseLeave={start}
       className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 lg:rounded-md py-10  min-h-[250px] group relative overflow-hidden"
     >
-      <Title order={2} className="font-heading text-primary-600 dark:text-primary-200 mb-4 text-center">
+      <Title
+        order={2}
+        className="font-heading text-primary-600 dark:text-primary-200 mb-4 text-center"
+      >
         Did you know?
       </Title>
       <div className="relative flex justify-center">

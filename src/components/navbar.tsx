@@ -1,6 +1,9 @@
 import { NavItem } from "./nav-item";
 import { SearchWrapper } from "./search-wrapper";
 import { ThemeToggle } from "./theme-toggle";
+import { DashboardButton } from "./dashboard-button";
+import { Suspense } from "react";
+import { Button } from "@aomdev/ui";
 
 export function Nav() {
   return (
@@ -22,6 +25,15 @@ export function Nav() {
         <div className="lg:flex items-center gap-4 hidden ">
           <SearchWrapper />
           <ThemeToggle />
+          <Suspense
+            fallback={
+              <Button size={"sm"} variant={"neutral"}>
+                Sign in
+              </Button>
+            }
+          >
+            <DashboardButton />
+          </Suspense>
         </div>
       </div>
     </header>

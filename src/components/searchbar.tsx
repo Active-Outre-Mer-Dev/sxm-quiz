@@ -3,7 +3,7 @@ import { Badge, Command } from "@aomdev/ui";
 import { useState, useEffect } from "react";
 import { SearchIcon, FileText, CircleDot, Newspaper, List, ChevronUp } from "lucide-react";
 import { useRouter } from "next/navigation";
-import type { Quiz } from "@/types/database.types";
+import type { Quiz } from "@/types/custom.types";
 import type { Article, Blog } from "contentlayer/generated";
 import { ScrollArea } from "@aomdev/ui";
 
@@ -58,7 +58,10 @@ export default function Searchbar(props: PropTypes) {
         onClick={() => setOpen(true)}
         className="rounded-md items-center flex gap-1 px-4 min-w-fit text-neutral-500 dark:text-neutral-200 h-8 ring-1 ring-neutral-200 dark:ring-neutral-700"
       >
-        <SearchIcon size={14} className="text-neutral-500 dark:text-neutral-300" />
+        <SearchIcon
+          size={14}
+          className="text-neutral-500 dark:text-neutral-300"
+        />
         Search...
         <kbd className="text-xs bg-neutral-200/30 dark:bg-neutral-600/30 ring-1 ring-neutral-100 dark:ring-neutral-700 inline-block ml-6 p-[1px] rounded-sm">
           Ctrl K
@@ -71,25 +74,51 @@ export default function Searchbar(props: PropTypes) {
       >
         <Command.Input placeholder="Search" />
         <div className="flex gap-2 px-4 mb-2">
-          <Badge variant={"light"} size={"sm"}>
+          <Badge
+            variant={"light"}
+            size={"sm"}
+          >
             Home
           </Badge>
           {page && (
-            <Badge variant={"light"} size={"sm"} className="capitalize">
+            <Badge
+              variant={"light"}
+              size={"sm"}
+              className="capitalize"
+            >
               {page}
             </Badge>
           )}
         </div>
         <Command.List>
-          <ScrollArea style={{ height: window.screen.height / 2 }} className="-mx-4 px-4">
+          <ScrollArea
+            style={{ height: window.screen.height / 2 }}
+            className="-mx-4 px-4"
+          >
             {page.toLowerCase() === "multiple choice" && (
-              <Quiz onNavigate={onNavigate} quizzes={props.multipleChoice} />
+              <Quiz
+                onNavigate={onNavigate}
+                quizzes={props.multipleChoice}
+              />
             )}
-            {page.toLowerCase() === "name all" && <Quiz onNavigate={onNavigate} quizzes={props.nameAll} />}
+            {page.toLowerCase() === "name all" && (
+              <Quiz
+                onNavigate={onNavigate}
+                quizzes={props.nameAll}
+              />
+            )}
             {page.toLowerCase() === "articles" && (
-              <Articles onNavigate={onNavigate} articles={props.articles} />
+              <Articles
+                onNavigate={onNavigate}
+                articles={props.articles}
+              />
             )}
-            {page.toLocaleLowerCase() === "blogs" && <Blogs blogs={props.blogs} onNavigate={onNavigate} />}
+            {page.toLocaleLowerCase() === "blogs" && (
+              <Blogs
+                blogs={props.blogs}
+                onNavigate={onNavigate}
+              />
+            )}
             {!page && <Default onNavigate={onSelect} />}
           </ScrollArea>
         </Command.List>
@@ -133,9 +162,13 @@ type Props = { quizzes: Quiz[]; onNavigate: (val: string) => void };
 function Quiz({ onNavigate, quizzes }: Props) {
   return (
     <>
-      {quizzes.map(quiz => {
+      {quizzes.map((quiz) => {
         return (
-          <Command.Item onSelect={onNavigate} value={`quiz/${quiz.slug}`} key={quiz.id}>
+          <Command.Item
+            onSelect={onNavigate}
+            value={`quiz/${quiz.slug}`}
+            key={quiz.id}
+          >
             {quiz.title}
           </Command.Item>
         );
@@ -148,7 +181,7 @@ type ArticleProps = Pick<PropTypes, "articles"> & { onNavigate: (val: string) =>
 function Articles({ articles, onNavigate }: ArticleProps) {
   return (
     <>
-      {articles.map(article => {
+      {articles.map((article) => {
         return (
           <Command.Item
             value={`learn/${article.category}/${article.slug}`}
@@ -168,9 +201,13 @@ type BlogProps = Pick<PropTypes, "blogs"> & { onNavigate: (val: string) => void 
 function Blogs({ blogs, onNavigate }: BlogProps) {
   return (
     <>
-      {blogs.map(blog => {
+      {blogs.map((blog) => {
         return (
-          <Command.Item value={`blog/${blog.slug}`} key={blog.slug} onSelect={onNavigate}>
+          <Command.Item
+            value={`blog/${blog.slug}`}
+            key={blog.slug}
+            onSelect={onNavigate}
+          >
             {blog.title}
           </Command.Item>
         );
@@ -183,23 +220,48 @@ function Default({ onNavigate }: { onNavigate: (value: string) => void }) {
   return (
     <>
       <Command.Group heading="Quizzes">
-        <Command.Item onSelect={onNavigate} value="Multiple Choice">
-          <CircleDot size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" /> Multiple
-          Choice
+        <Command.Item
+          onSelect={onNavigate}
+          value="Multiple Choice"
+        >
+          <CircleDot
+            size={16}
+            className="inline-block mr-2 text-gray-600 dark:text-gray-200"
+          />{" "}
+          Multiple Choice
         </Command.Item>
-        <Command.Item onSelect={onNavigate} value="Name All">
-          <List size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" />
+        <Command.Item
+          onSelect={onNavigate}
+          value="Name All"
+        >
+          <List
+            size={16}
+            className="inline-block mr-2 text-gray-600 dark:text-gray-200"
+          />
           Name All
         </Command.Item>
       </Command.Group>
       <Command.Seperator />
       <Command.Group heading="Resources">
-        <Command.Item onSelect={onNavigate} value="Blogs">
-          <Newspaper size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" />
+        <Command.Item
+          onSelect={onNavigate}
+          value="Blogs"
+        >
+          <Newspaper
+            size={16}
+            className="inline-block mr-2 text-gray-600 dark:text-gray-200"
+          />
           Blogs
         </Command.Item>
-        <Command.Item onSelect={onNavigate} value="Articles">
-          <FileText size={16} className="inline-block mr-2 text-gray-600 dark:text-gray-200" /> Articles
+        <Command.Item
+          onSelect={onNavigate}
+          value="Articles"
+        >
+          <FileText
+            size={16}
+            className="inline-block mr-2 text-gray-600 dark:text-gray-200"
+          />{" "}
+          Articles
         </Command.Item>
       </Command.Group>
     </>

@@ -5,7 +5,7 @@ import { initialState, reducer } from "./reducer";
 import { useQuiz } from "../container/container.context";
 import { Suspense, lazy } from "react";
 import { QuizDetailsLoad } from "./details-load";
-import type { MultipleChoice } from "@/types/database.types";
+import type { MultipleChoice } from "@/types/custom.types";
 import { AlertCircle } from "lucide-react";
 
 const QuestionQuizDetails = lazy(() => import("./details"));
@@ -23,7 +23,7 @@ function useTimer() {
     clearInterval(id.current);
   };
   const start = () => {
-    id.current = setInterval(() => setTime(prev => prev + 1), 1 * 1000);
+    id.current = setInterval(() => setTime((prev) => prev + 1), 1 * 1000);
   };
   const reset = () => {
     setTime(0);
@@ -79,15 +79,26 @@ export default function Quiz(props: PropTypes) {
         <>
           <Suspense
             fallback={
-              <ActionIcon color="warn" className="flex items-center justify-center  ml-auto mb-2">
+              <ActionIcon
+                color="warn"
+                className="flex items-center justify-center  ml-auto mb-2"
+              >
                 <AlertCircle size={16} />
               </ActionIcon>
             }
           >
-            <QuestionFeedback quizTitle={title} question={{ id: question.id, question: question.question }} />
+            <QuestionFeedback
+              quizTitle={title}
+              question={{ id: question.id, question: question.question }}
+            />
           </Suspense>
           <div className=" flex justify-between items-end border-b border-neutral-100 dark:border-neutral-700 pb-3 mb-5">
-            <Progress aria-label="Quiz progression" size={"sm"} className="w-1/4" value={progress} />
+            <Progress
+              aria-label="Quiz progression"
+              size={"sm"}
+              className="w-1/4"
+              value={progress}
+            />
             <span className="font-medium">
               Streak: <span className="font-heading">{state.streak}</span>
             </span>
@@ -95,8 +106,14 @@ export default function Quiz(props: PropTypes) {
           <div className="">
             <p className="mb-6 text-center text-3xl font-medium font-heading ">{question.question}</p>
             <div className="flex gap-4 flex-wrap">
-              {options.map(option => {
-                return <Option key={option} option={option} onChoose={onChoose} />;
+              {options.map((option) => {
+                return (
+                  <Option
+                    key={option}
+                    option={option}
+                    onChoose={onChoose}
+                  />
+                );
               })}
             </div>
           </div>
@@ -111,7 +128,11 @@ type OptionProps = { onChoose: (choice: string) => void; option: string };
 function Option({ option, onChoose }: OptionProps) {
   const onClick = () => onChoose(option);
   return (
-    <Button variant={"neutral"} onClick={onClick} className="grow basis-full">
+    <Button
+      variant={"neutral"}
+      onClick={onClick}
+      className="grow basis-full"
+    >
       {option}
     </Button>
   );
