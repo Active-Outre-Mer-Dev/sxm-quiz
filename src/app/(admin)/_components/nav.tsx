@@ -52,6 +52,7 @@ export function Nav({ route }: Props) {
           {navLinks[route].map((link) => {
             return (
               <li
+                key={link.href}
                 data-active={path === link.href}
                 className="group"
               >

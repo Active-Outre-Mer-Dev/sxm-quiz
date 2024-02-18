@@ -39,7 +39,7 @@ export async function toggleStatus(id: number, status: boolean) {
     .eq("id", id);
 }
 
-export async function editQuestion(id: number, quiz_id: number, options: string[], formObject: FormData) {
+export async function editQuestion(id: string, quiz_id: number, options: string[], formObject: FormData) {
   const supabase = createClient("server_action", true);
   const data = QuestionSchema.safeParse(Object.fromEntries(formObject));
   if (!data.success) {
@@ -54,7 +54,7 @@ export async function editQuestion(id: number, quiz_id: number, options: string[
   }
 }
 
-export async function deleteQuestion(id: number, quiz_id: number) {
+export async function deleteQuestion(id: string, quiz_id: number) {
   "use server";
   const supabase = createClient("server_action", true);
   const { error } = await supabase.from("multiple_choice").delete().eq("id", id);

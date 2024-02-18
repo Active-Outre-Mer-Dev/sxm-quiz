@@ -1,3 +1,5 @@
+import { Database } from "./database.types";
+
 export type ArticleProps = {
   title: string;
   thumbnail: string;
@@ -11,3 +13,7 @@ export type ArticleProps = {
   community: boolean;
   views: number;
 };
+
+export type MultipleChoice = Database["public"]["Tables"]["multiple_choice"]["Row"];
+export type Quiz = Database["public"]["Tables"]["quiz"]["Row"];
+export type NameAll = Database["public"]["Tables"]["quiz_name_all"]["Row"];

@@ -3,7 +3,7 @@ import { ScrollArea, Button } from "@aomdev/ui";
 import { useState } from "react";
 import { useQuiz } from "../container/container.context";
 
-import type { MultipleChoice } from "@/types/database.types";
+import type { MultipleChoice } from "@/types/custom.types";
 
 type PropTypes = {
   questions: MultipleChoice[];
@@ -21,7 +21,11 @@ export default function QuestionQuizDetails({ choices, questions }: PropTypes) {
       >
         <div className="flex justify-between">
           <p className="font-heading text-2xl font-medium mb-4 ">Details</p>
-          <Button onClick={onReset} size={"sm"} className="lg:hidden">
+          <Button
+            onClick={onReset}
+            size={"sm"}
+            className="lg:hidden"
+          >
             Try again
           </Button>
         </div>
@@ -57,7 +61,7 @@ function Options({ answer, choice, options, description }: Props) {
   const [show, setShow] = useState(choice === answer);
   return (
     <ul className="space-y-2">
-      {options.map(option => {
+      {options.map((option) => {
         return (
           <li key={option}>
             <span
@@ -75,7 +79,7 @@ function Options({ answer, choice, options, description }: Props) {
                   size={"sm"}
                   variant={"neutral"}
                   className="text-neutral-800"
-                  onClick={() => setShow(prev => !prev)}
+                  onClick={() => setShow((prev) => !prev)}
                 >
                   {show ? "Hide answer" : "Show answer"}
                 </Button>

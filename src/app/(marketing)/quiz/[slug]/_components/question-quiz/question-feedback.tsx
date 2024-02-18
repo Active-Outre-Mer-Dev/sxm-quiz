@@ -7,7 +7,7 @@ import type { FormEvent } from "react";
 
 type PropTypes = {
   quizTitle: string;
-  question: { id: number; question: string };
+  question: { id: string; question: string };
 };
 
 export default function QuestionFeedback({ quizTitle, question }: PropTypes) {
@@ -47,19 +47,40 @@ export default function QuestionFeedback({ quizTitle, question }: PropTypes) {
   };
 
   return (
-    <Popover onOpenChange={setOpen} open={open}>
+    <Popover
+      onOpenChange={setOpen}
+      open={open}
+    >
       <Popover.Trigger asChild>
-        <ActionIcon color="warn" className="flex items-center justify-center  ml-auto mb-2">
+        <ActionIcon
+          color="warn"
+          className="flex items-center justify-center  ml-auto mb-2"
+        >
           <AlertCircle size={16} />
         </ActionIcon>
       </Popover.Trigger>
       <Popover.Content>
         <Card className="w-">
           <p className="mb-2">Submit feedback for this question.</p>
-          <form className="space-y-4 mb-6" onSubmit={onSubmit}>
-            <TextInput label="Title" name="title" id="feedback_title" />
-            <Textarea label="Description" name="description" id="feedback_description" required />
-            <Button fullWidth loading={loading}>
+          <form
+            className="space-y-4 mb-6"
+            onSubmit={onSubmit}
+          >
+            <TextInput
+              label="Title"
+              name="title"
+              id="feedback_title"
+            />
+            <Textarea
+              label="Description"
+              name="description"
+              id="feedback_description"
+              required
+            />
+            <Button
+              fullWidth
+              loading={loading}
+            >
               Submit
             </Button>
           </form>

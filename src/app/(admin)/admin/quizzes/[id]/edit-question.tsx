@@ -9,7 +9,7 @@ type PropTypes = {
   question: {
     answer: string;
     description: string;
-    id: number;
+    id: string;
     options: string[];
     question: string;
     quiz_id: number;
@@ -79,6 +79,7 @@ export function EditQuestionDialog({ question }: PropTypes) {
               {options.map((option) => {
                 return (
                   <EditOption
+                    key={option}
                     onOptionEdit={onOptionEdit}
                     option={option}
                   />

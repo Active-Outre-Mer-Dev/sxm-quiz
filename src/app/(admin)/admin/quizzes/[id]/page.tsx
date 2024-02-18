@@ -72,7 +72,7 @@ type PropTypes = {
   questions: {
     answer: string;
     description: string;
-    id: number;
+    id: string;
     options: string[];
     question: string;
     quiz_id: number;
