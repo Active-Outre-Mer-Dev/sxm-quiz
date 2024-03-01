@@ -1,3 +1,3 @@
 export default function SettingsPage() {
-  return <p>Hello</p>;
+  return <p></p>;
 }

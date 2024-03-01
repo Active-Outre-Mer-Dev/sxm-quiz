@@ -15,7 +15,6 @@ export default async function QuizPage() {
   console.log(data);
   return (
     <>
-      <Nav route="home" />
       <div className="container mx-auto">
         <header className="flex items-center justify-between  mb-10 my-10">
           <Title

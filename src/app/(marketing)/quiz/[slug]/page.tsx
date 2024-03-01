@@ -23,7 +23,7 @@ type PageProps = {
 async function s(supabase: SupabaseClient, id: number, type: "multiple_choice" | "list" | null) {
   switch (type) {
     case "multiple_choice":
-      return supabase.from("quiz_multiple_choice").select("*").eq("quiz_id", id);
+      return supabase.from("multiple_choice").select("*").eq("quiz_id", id);
 
     case "list": {
       return supabase.from("quiz_name_all").select("*").eq("quiz_id", id).single();
@@ -72,10 +72,15 @@ export default async function Page({ params }: PageProps) {
         type={quizData.type}
       >
         <Suspense fallback={<p>Loading quiz...</p>}>
-          {"options" in data && <ListQuiz options={data.options} task={data.task} />}
+          {"options" in data && (
+            <ListQuiz
+              options={data.options}
+              task={data.task}
+            />
+          )}
           {Array.isArray(data) && (
             <Quiz
-              questions={data.map(question => ({
+              questions={data.map((question) => ({
                 ...question,
                 options: randomize([...question.options, question.answer])
               }))}

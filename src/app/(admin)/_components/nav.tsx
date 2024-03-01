@@ -2,54 +2,37 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const links = [
-  {
-    label: "Home",
-    href: "/admin"
-  },
-  {
-    label: "Articles",
-    href: "/admin/articles"
-  },
-  {
-    label: "Quizzes",
-    href: "/admin/quizzes"
-  }
-];
+type RouteTypes = "articles" | "quizzes";
 
-const quizLinks = [
-  {
-    label: "Quizzes",
-    href: "/admin/quizzes"
-  },
+function createRoute(href: string, label: string) {
+  return {
+    href,
+    label
+  };
+}
 
-  {
-    label: "Analytics",
-    href: "/admin/quizzes/Wanalytics"
-  },
-  {
-    label: "Settings",
-    href: "/admin/quizzes/settings"
-  }
-];
-
-const navLinks = {
-  home: links,
-  quizzes: quizLinks
-};
+function createNavbar(route: RouteTypes, id: string) {
+  const routes = [
+    { label: "Home", href: `/admin/${route}/${id}` },
+    { label: "Settings", href: `/admin/${route}/${id}/settings` }
+  ];
+  return routes.map((route) => createRoute(route.href, route.label));
+}
 
 type Props = {
-  route: keyof typeof navLinks;
+  route: RouteTypes;
+  id: string;
 };
 
-export function Nav({ route }: Props) {
+export function Nav({ route, id }: Props) {
   const path = usePathname();
-  console.log(path);
+  const routes = createNavbar(route, id);
+  console.log(routes);
   return (
-    <div className="border-b pb-4 border-b-neutral-700 mb-4 sticky top-16">
-      <div className="mx-auto w-11/12">
+    <div className="border-b py-4 border-b-neutral-700 mb-4 z-30 sticky top-0 bg-neutral-900">
+      <div className="mx-auto px-2 container">
         <ul className="flex gap-4">
-          {navLinks[route].map((link) => {
+          {routes.map((link) => {
             return (
               <li
                 key={link.href}
@@ -57,7 +40,7 @@ export function Nav({ route }: Props) {
                 className="group"
               >
                 <Link
-                  className="group-data-[active=true]:text-primary-300"
+                  className="group-data-[active=true]:text-primary-300 capitalize"
                   href={link.href}
                   key={link.href}
                 >

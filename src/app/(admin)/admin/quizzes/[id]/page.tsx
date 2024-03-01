@@ -32,7 +32,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   const average = Math.round(data.scores.reduce((a, c) => a + c.score, 0) / data.scores.length);
   return (
     <>
-      <Nav route="quizzes" />
       <div className="container mx-auto">
         <div className="flex items-center border-b justify-between border-b-neutral-700 mb-16">
           <Title
@@ -41,9 +40,6 @@ export default async function Page({ params }: { params: { id: string } }) {
           >
             {data.title}
           </Title>
-          <form action={toggleStatus.bind(null, data.id, data.status === "published")}>
-            <Button variant={"neutral"}>{data.status === "published" ? "Unpublish" : "Publish"}</Button>
-          </form>
         </div>
         <div className="flex gap-4">
           <Card className="basis-1/3 space-y-4">
