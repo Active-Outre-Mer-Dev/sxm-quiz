@@ -14,12 +14,13 @@ type PropTypes = {
     content: string;
     isLinked: boolean;
   }[];
+  children: React.ReactNode;
 };
 
 function filterArticles(articles: PropTypes["articles"], value: string) {
   return articles.filter((article) => article.title.toLowerCase().includes(value.toLowerCase().trim()));
 }
-export function ArticleSidebar({ articles }: PropTypes) {
+export function ArticleSidebar({ articles, children }: PropTypes) {
   const params = useParams();
   const [search, setSearch] = useState("");
 
@@ -35,7 +36,8 @@ export function ArticleSidebar({ articles }: PropTypes) {
       <div className="sticky top-12 ">
         <ScrollArea style={{ height: "calc(100vh - 64px)" }}>
           <div className="px-4 pt-4">
-            <div className="mb-4">
+            {children}
+            <div className="mb-4 mt-4">
               <TextInput
                 icon={<Search size={16} />}
                 placeholder="Search"

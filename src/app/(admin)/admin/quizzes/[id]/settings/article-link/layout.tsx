@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase";
 import { ArticleSidebar } from "./article-sidebar";
 import { allArticles } from "contentlayer/generated";
+import { SettingsBreadcrumbs } from "@/components/admin/settings-breadcrumbs";
 
 export default async function ArticleLinkLayout({
   children,
@@ -35,7 +36,13 @@ export default async function ArticleLinkLayout({
 
   return (
     <div className=" relative -mt-4 flex">
-      <ArticleSidebar articles={articles} />
+      <ArticleSidebar articles={articles}>
+        <SettingsBreadcrumbs
+          id={params.id}
+          link="Link Articles"
+          route="quizzes"
+        />
+      </ArticleSidebar>
       {children}
     </div>
   );
