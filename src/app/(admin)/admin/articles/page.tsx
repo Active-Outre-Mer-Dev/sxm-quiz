@@ -54,7 +54,6 @@ export default async function Page() {
   };
   return (
     <>
-      <Nav route="home" />
       <main className="container mx-auto">
         <form action={createFile}>
           <Button>Create</Button>
