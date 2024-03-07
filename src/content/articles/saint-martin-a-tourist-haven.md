@@ -9,7 +9,7 @@ profile: /rayan-louisy/profile.png
 
 ## A Tropical Escape:
 
-Saint-Martin's allure lies in its breathtaking natural beauty. Visitors are drawn to the island's stunning beaches, where powdery white sands meet azure waters. Orient Bay, Maho Beach, and Baie Rouge are among the most popular destinations, offering sun-seekers a perfect spot to unwind, soak up the sun, and revel in the island's tranquility.
+Saint-Martin's allure lies in its breathtaking natural beauty. Visitors are drawn to the island's stunning beaches, where powdery white sands meet azure waters. Orient Bay, Maho Beach, and Baie Rouge are among the most popular destinations, offering sun-seekers a perfect spot to unwind, soak up the sun, and revel in the island's tranquility
 
 ## Water Sports and Adventure:
 

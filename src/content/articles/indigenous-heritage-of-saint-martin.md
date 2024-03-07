@@ -9,7 +9,7 @@ profile: /rayan-louisy/profile.png
 
 ## The Arawak Indigenous People:
 
-The Arawak people were the original inhabitants of Saint-Martin, establishing settlements that dotted the island's lush landscape. With a deep connection to nature, they relied on fishing, farming, and gathering to sustain their communities. The crystal-clear waters surrounding the island teemed with an abundance of fish, providing a vital source of sustenance. The Arawak also cultivated crops such as maize, cassava, and sweet potatoes, utilizing advanced agricultural techniques to maximize yields. Their resourcefulness allowed them to create self-sufficient villages, fostering a harmonious relationship with the island's ecosystem.
+The Arawak people were the original inhabitants of Saint-Martin, establishing settlements that dotted the island's lush landscape. With a deep connection to nature, they relied on fishing, farming, and gathering to sustain their communities. The crystal-clear waters surrounding the island teemed with an abundance of fish, providing a vital source of sustenance. The Arawak also cultivated crops such as maize, cassava, and sweet potatoes, utilizing advanced agricultural techniques to maximize yields. Their resourcefulness allowed them to create self-sufficient villages, fostering a harmonious relationship with the island's ecosystem
 
 ## The Carib Indigenous People:
 
