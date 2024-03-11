@@ -2,13 +2,11 @@ import { Title, Card, Badge } from "@aomdev/ui";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { Filters } from "./quiz-filters";
-import { MultipleChoice, NameAll, Quiz } from "@/types/custom.types";
+import type { MultipleChoice, NameAll, Quiz, Search } from "@/types/custom.types";
 import type { Database } from "@/types/database.types";
 import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
-
-type Search = string | string[][] | Record<string, string> | URLSearchParams | undefined;
 
 type PageProps = {
   searchParams: Search;

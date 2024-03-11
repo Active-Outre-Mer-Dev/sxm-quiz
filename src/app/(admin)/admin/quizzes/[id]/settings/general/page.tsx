@@ -4,29 +4,13 @@ import { createClient } from "@/lib/supabase";
 import { deleteQuiz, updateQuiz } from "../actions";
 import { SettingsBreadcrumbs } from "@/components/admin/settings-breadcrumbs";
 
-const categories = [
-  {
-    label: "History",
-    value: "history"
-  },
-  {
-    label: "Economy",
-    value: "economy"
-  },
-  {
-    label: "Environment",
-    value: "environment"
-  },
-  {
-    label: "Geography",
-    value: "geography"
-  }
-];
-
 export default async function QuizSettings({ params }: { params: { id: string } }) {
   const supabase = createClient("server_component");
   const { data, error } = await supabase.from("quiz").select("*").eq("id", params.id).single();
-  if (error) throw error;
+  const { data: categories, error: catError } = await supabase.from("categories").select("*");
+  if (error || catError) throw error;
+
+  const cats = categories.map((cat) => ({ value: cat.id, label: cat.title }));
 
   return (
     <div className="w-3/4 mx-auto space-y-6">
@@ -61,8 +45,8 @@ export default async function QuizSettings({ params }: { params: { id: string } 
             <Select
               name="category"
               fullWidth
-              defaultValue={data.category}
-              items={categories}
+              defaultValue={data.category || ""}
+              items={cats}
             />
           </div>
           <Switch
