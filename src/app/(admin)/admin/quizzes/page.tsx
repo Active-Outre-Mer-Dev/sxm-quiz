@@ -1,20 +1,85 @@
-import { getCatColor } from "@/get-category-color";
 import { createClient } from "@/lib/supabase";
 import { Title, Badge, Table, BadgeProps } from "@aomdev/ui";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { cookies as nextCookies } from "next/headers";
-import { Categories, Quiz, QuizCat } from "@/types/custom.types";
-import { ViewSwitch } from "./view-switch";
+import { QuizCat } from "@/types/custom.types";
 import QuizBoard from "./kanban-board";
+import { Custom } from "./_client/dropdown";
+
+function sortView(data: QuizCat[], sort: string) {
+  if (sort === "status") {
+    return data.toSorted((a, b) => {
+      const firstVal = a.status || "";
+      const secondVal = b.status || "";
+      if (firstVal < secondVal) return -1;
+      if (firstVal > secondVal) return 1;
+      return 0;
+    });
+  } else if (sort === "categories") {
+    return data.toSorted((a, b) => {
+      const firstVal = a.categories?.title || "";
+      const secondVal = b.categories?.title || "";
+      if (firstVal < secondVal) return -1;
+      if (firstVal > secondVal) return 1;
+      return 0;
+    });
+  } else {
+    return data;
+  }
+}
 
 export default async function QuizPage() {
   const supabase = createClient("server_component", true);
   const { error, data } = await supabase.from("quiz").select("*, categories (*)");
   if (error) return <p>Failed to get data</p>;
+
   const cookies = nextCookies();
-  const isChecked = cookies.get("board-view")?.value === "kanban";
+  const isBoard = cookies.get("board-view")?.value === "kanban";
+  const isStatusGroup = cookies.get("grouping")?.value === "status";
+  const newData = sortView(data, isStatusGroup ? "status" : "categories");
+
+  // const categories = Array.from(new Set(data.map((quiz) => quiz.categories?.title || ""))).map((cat) => ({
+  //   id: cat.toLowerCase(),
+  //   label: cat
+  // }));
+
+  // const quizTypes: Record<string, any> = {
+  //   beta: [],
+  //   published: [],
+  //   pending: []
+  // };
+
+  // const statuses = [
+  //   {
+  //     id: "beta",
+  //     label: "Beta"
+  //   },
+  //   {
+  //     id: "pending",
+  //     label: "Pending"
+  //   },
+  //   {
+  //     id: "published",
+  //     label: "Published"
+  //   }
+  // ];
+
+  // categories.forEach((cat) => {
+  //   quizTypes[cat.id] = newData.filter((quiz) => quiz.categories?.title === cat.label);
+  // });
+
+  // for (const quiz of newData) {
+  //   if (quiz.status === "published") {
+  //     quizTypes.published.push(quiz);
+  //   } else if (quiz.status === "pending") {
+  //     quizTypes.pending.push(quiz);
+  //   } else {
+  //     quizTypes.beta.push(quiz);
+  //   }
+  // }
+
   return (
     <>
       <div className="container mx-auto">
@@ -38,8 +103,22 @@ export default async function QuizPage() {
             </Link>
           </div>
         </header>
-        <ViewSwitch defaultChecked={isChecked} />
-        {!isChecked ? <QuizTable data={data} /> : <QuizBoard quizzes={data} />}
+        <div className="flex items-center justify-end gap-4">
+          <Custom
+            initialState={{
+              grouping: isStatusGroup ? "status" : "categories",
+              view: isBoard ? "board" : "table"
+            }}
+          />
+        </div>
+        {!isBoard ? (
+          <QuizTable data={newData} />
+        ) : (
+          <QuizBoard
+            quizzes={newData}
+            isStatusGroup={isStatusGroup}
+          />
+        )}
       </div>
     </>
   );

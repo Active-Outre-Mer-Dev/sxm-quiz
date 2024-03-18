@@ -3,7 +3,18 @@ import { createClient } from "@/lib/supabase";
 import { Quiz } from "@/types/custom.types";
 import { revalidatePath } from "next/cache";
 import { cookies as nextCookies } from "next/headers";
-export const updateQuiz = async (id: number, status: Quiz["status"]) => {
+
+type Props =
+  | {
+      isStatusUpdate: false;
+      category: string;
+    }
+  | {
+      isStatusUpdate: true;
+      status: Quiz["status"];
+    };
+
+export const updateQuizStatus = async (id: number, status: "beta" | "published" | "pending" | null) => {
   await createClient("server_action").from("quiz").update({ status }).eq("id", id);
   revalidatePath("/admin/quizzes");
 };
@@ -17,5 +28,17 @@ export const setView = async () => {
     cookies.set("board-view", "table");
   } else {
     cookies.set("board-view", "kanban");
+  }
+};
+
+export const setGrouping = async () => {
+  const cookies = nextCookies();
+  const grouping = cookies.get("grouping");
+  if (grouping?.value === "categories") {
+    cookies.set("grouping", "status");
+  } else if (grouping?.value === "status") {
+    cookies.set("grouping", "categories");
+  } else {
+    cookies.set("grouping", "categories");
   }
 };
