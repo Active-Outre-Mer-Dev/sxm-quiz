@@ -33,53 +33,23 @@ function sortView(data: QuizCat[], sort: string) {
 export default async function QuizPage() {
   const supabase = createClient("server_component", true);
   const { error, data } = await supabase.from("quiz").select("*, categories (*)");
-  if (error) return <p>Failed to get data</p>;
+  const { data: categories, error: categoryError } = await supabase.from("categories").select("*");
+  if (error || categoryError) return <p>Failed to get data</p>;
 
   const cookies = nextCookies();
   const isBoard = cookies.get("board-view")?.value === "kanban";
   const isStatusGroup = cookies.get("grouping")?.value === "status";
   const newData = sortView(data, isStatusGroup ? "status" : "categories");
+  const categoryIds: Record<string, string> = {};
 
-  // const categories = Array.from(new Set(data.map((quiz) => quiz.categories?.title || ""))).map((cat) => ({
-  //   id: cat.toLowerCase(),
-  //   label: cat
-  // }));
-
-  // const quizTypes: Record<string, any> = {
-  //   beta: [],
-  //   published: [],
-  //   pending: []
-  // };
-
-  // const statuses = [
-  //   {
-  //     id: "beta",
-  //     label: "Beta"
-  //   },
-  //   {
-  //     id: "pending",
-  //     label: "Pending"
-  //   },
-  //   {
-  //     id: "published",
-  //     label: "Published"
-  //   }
-  // ];
-
-  // categories.forEach((cat) => {
-  //   quizTypes[cat.id] = newData.filter((quiz) => quiz.categories?.title === cat.label);
-  // });
-
-  // for (const quiz of newData) {
-  //   if (quiz.status === "published") {
-  //     quizTypes.published.push(quiz);
-  //   } else if (quiz.status === "pending") {
-  //     quizTypes.pending.push(quiz);
-  //   } else {
-  //     quizTypes.beta.push(quiz);
-  //   }
-  // }
-
+  for (const category of categories) {
+    if (!categoryIds[category.title]) categoryIds[category.title] = category.id;
+  }
+  const allCategories = categories.map((cat) => ({
+    label: cat.title,
+    id: cat.title.toLowerCase(),
+    categoryId: cat.id
+  }));
   return (
     <>
       <div className="container mx-auto">
@@ -117,6 +87,8 @@ export default async function QuizPage() {
           <QuizBoard
             quizzes={newData}
             isStatusGroup={isStatusGroup}
+            categoryIds={categoryIds}
+            allCategories={allCategories}
           />
         )}
       </div>

@@ -1,21 +1,15 @@
 "use server";
 import { createClient } from "@/lib/supabase";
-import { Quiz } from "@/types/custom.types";
 import { revalidatePath } from "next/cache";
 import { cookies as nextCookies } from "next/headers";
 
-type Props =
-  | {
-      isStatusUpdate: false;
-      category: string;
-    }
-  | {
-      isStatusUpdate: true;
-      status: Quiz["status"];
-    };
-
 export const updateQuizStatus = async (id: number, status: "beta" | "published" | "pending" | null) => {
   await createClient("server_action").from("quiz").update({ status }).eq("id", id);
+  revalidatePath("/admin/quizzes");
+};
+
+export const updateQuizCategory = async (id: number, category: string) => {
+  await createClient("server_action").from("quiz").update({ category }).eq("id", id);
   revalidatePath("/admin/quizzes");
 };
 

@@ -1,7 +1,7 @@
 "use client";
 import { DragDropContext, Draggable, DropResult, Droppable } from "@hello-pangea/dnd";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
-import { updateQuizStatus } from "./actions";
+import { updateQuizCategory, updateQuizStatus } from "./actions";
 import type { Quiz, QuizCat } from "@/types/custom.types";
 import { useOptimistic, useTransition } from "react";
 import Link from "next/link";
@@ -10,18 +10,15 @@ type PropTypes = {
   quizzes: QuizCat[];
   // drops: { id: string; label: string }[];
   isStatusGroup: boolean;
+  categoryIds: Record<string, string>;
+  allCategories: { id: string; label: string; categoryId: string }[];
 };
 
-export default function QuizBoard({ quizzes, isStatusGroup }: PropTypes) {
+export default function QuizBoard({ quizzes, isStatusGroup, categoryIds, allCategories }: PropTypes) {
   const [state, setState] = useOptimistic(quizzes, (quizzes, newQuiz: QuizCat) => {
     return quizzes.map((old) => (old.slug === newQuiz.slug ? newQuiz : old));
   });
   const [, startTransition] = useTransition();
-
-  const categories = Array.from(new Set(quizzes.map((quiz) => quiz.categories?.title || ""))).map((cat) => ({
-    id: cat.toLowerCase(),
-    label: cat
-  }));
 
   const quizTypes: Record<string, any> = {
     beta: [],
@@ -44,7 +41,7 @@ export default function QuizBoard({ quizzes, isStatusGroup }: PropTypes) {
     }
   ];
 
-  categories.forEach((cat) => {
+  allCategories.forEach((cat) => {
     quizTypes[cat.id] = quizzes.filter((quiz) => quiz.categories?.title === cat.label);
   });
 
@@ -62,12 +59,24 @@ export default function QuizBoard({ quizzes, isStatusGroup }: PropTypes) {
     const quiz = state.find((t) => result.draggableId === `${t.slug}`);
     if (!quiz || !result.destination) return;
     if (result.destination.droppableId === result.source.droppableId) return;
-    quiz.status = result.destination.droppableId as Quiz["status"];
-
-    startTransition(() => {
-      updateQuizStatus(quiz.id, quiz.status);
-      setState(quiz);
-    });
+    if (isStatusGroup) {
+      quiz.status = result.destination.droppableId as Quiz["status"];
+      startTransition(() => {
+        updateQuizStatus(quiz.id, quiz.status);
+        setState(quiz);
+      });
+    } else {
+      if (quiz.categories) {
+        const newCat = allCategories.find(
+          (cat) => cat.label.toLowerCase() === result.destination?.droppableId.toLowerCase()
+        )!;
+        quiz.categories.title = newCat.label;
+        startTransition(() => {
+          updateQuizCategory(quiz.id, newCat.categoryId);
+          setState(quiz);
+        });
+      }
+    }
   };
 
   return (
@@ -85,7 +94,7 @@ export default function QuizBoard({ quizzes, isStatusGroup }: PropTypes) {
             );
           })}
         {!isStatusGroup &&
-          categories.map((value) => {
+          allCategories.map((value) => {
             return (
               <QuizDrop
                 key={value.id}
@@ -153,7 +162,7 @@ function QuizDrop({ id, quiz, label }: QuizDropProps) {
             {...provided.droppableProps}
             className="data-[dropping=true]:bg-neutral-800/30 p-4 pb-24 basis-1/3"
           >
-            <p className="mb-4 font-medium text-xl capitalize">
+            <p className="mb-4 font-medium text-xl">
               {label} ({quiz.length})
             </p>
             {quiz.map((quiz, index) => (
