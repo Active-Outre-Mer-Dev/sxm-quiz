@@ -37,7 +37,7 @@ async function s(supabase: SupabaseClient, id: number, type: "multiple_choice" |
 export default async function Page({ params }: PageProps) {
   const { data: quizData, error: quizError } = await supabase
     .from("quiz")
-    .select("*, scores (quiz_id, score)")
+    .select("*, scores (quiz_id, score), categories (title)")
     .eq("slug", params.slug)
     .eq("status", "published")
     .single();
@@ -64,7 +64,7 @@ export default async function Page({ params }: PageProps) {
         id={quizData.id}
         update={update ?? 0}
         average={Number.isInteger(average) ? average : 0}
-        category={quizData.category}
+        category={quizData.categories?.title || ""}
         questionCount={Array.isArray(data) ? data.length : data.options.length}
         description={quizData.description}
         count={quizData.completions}

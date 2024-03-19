@@ -11,6 +11,7 @@ export function ColorSelect() {
         {colors.map((color) => {
           return (
             <button
+              key={color}
               type="button"
               onClick={setColor.bind(null, color || "")}
               data-selected={color === selectedColor}
