@@ -1,30 +1,57 @@
 "use client";
 import { DragDropContext, Draggable, DropResult, Droppable } from "@hello-pangea/dnd";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
-import { updateQuiz } from "./actions";
-import type { Quiz } from "@/types/custom.types";
+import { updateQuizCategory, updateQuizStatus } from "./actions";
+import type { Quiz, QuizCat } from "@/types/custom.types";
 import { useOptimistic, useTransition } from "react";
 import Link from "next/link";
 
 type PropTypes = {
-  quizzes: Quiz[];
+  quizzes: QuizCat[];
+  // drops: { id: string; label: string }[];
+  isStatusGroup: boolean;
+  categoryIds: Record<string, string>;
+  allCategories: { id: string; label: string; categoryId: string }[];
 };
 
-export default function QuizBoard({ quizzes }: PropTypes) {
-  const [state, setState] = useOptimistic(quizzes, (quizzes, newQuiz: Quiz) => {
+export default function QuizBoard({ quizzes, isStatusGroup, categoryIds, allCategories }: PropTypes) {
+  const [state, setState] = useOptimistic(quizzes, (quizzes, newQuiz: QuizCat) => {
     return quizzes.map((old) => (old.slug === newQuiz.slug ? newQuiz : old));
   });
   const [, startTransition] = useTransition();
-  const unpublished: typeof quizzes = [];
-  const published: typeof quizzes = [];
-  const beta: typeof quizzes = [];
-  for (const quiz of state) {
+
+  const quizTypes: Record<string, any> = {
+    beta: [],
+    published: [],
+    pending: []
+  };
+
+  const statuses = [
+    {
+      id: "beta",
+      label: "Beta"
+    },
+    {
+      id: "pending",
+      label: "Pending"
+    },
+    {
+      id: "published",
+      label: "Published"
+    }
+  ];
+
+  allCategories.forEach((cat) => {
+    quizTypes[cat.id] = quizzes.filter((quiz) => quiz.categories?.title === cat.label);
+  });
+
+  for (const quiz of quizzes) {
     if (quiz.status === "published") {
-      published.push(quiz);
+      quizTypes.published.push(quiz);
     } else if (quiz.status === "pending") {
-      unpublished.push(quiz);
+      quizTypes.pending.push(quiz);
     } else {
-      beta.push(quiz);
+      quizTypes.beta.push(quiz);
     }
   }
 
@@ -32,35 +59,51 @@ export default function QuizBoard({ quizzes }: PropTypes) {
     const quiz = state.find((t) => result.draggableId === `${t.slug}`);
     if (!quiz || !result.destination) return;
     if (result.destination.droppableId === result.source.droppableId) return;
-    quiz.status = result.destination.droppableId as Quiz["status"];
-
-    startTransition(() => {
-      updateQuiz(quiz.id, quiz.status);
-      setState(quiz);
-    });
+    if (isStatusGroup) {
+      quiz.status = result.destination.droppableId as Quiz["status"];
+      startTransition(() => {
+        updateQuizStatus(quiz.id, quiz.status);
+        setState(quiz);
+      });
+    } else {
+      if (quiz.categories) {
+        const newCat = allCategories.find(
+          (cat) => cat.label.toLowerCase() === result.destination?.droppableId.toLowerCase()
+        )!;
+        quiz.categories.title = newCat.label;
+        startTransition(() => {
+          updateQuizCategory(quiz.id, newCat.categoryId);
+          setState(quiz);
+        });
+      }
+    }
   };
 
   return (
     <div className="flex gap-8">
       <DragDropContext onDragEnd={onDragEnd}>
-        <QuizDrop
-          label="Pending"
-          key={0}
-          id="pending"
-          quiz={unpublished}
-        />
-        <QuizDrop
-          label="Beta"
-          key={1}
-          id="beta"
-          quiz={beta}
-        />
-        <QuizDrop
-          label="Published"
-          key={2}
-          id="published"
-          quiz={published}
-        />
+        {isStatusGroup &&
+          statuses.map((value) => {
+            return (
+              <QuizDrop
+                key={value.id}
+                id={value.id}
+                label={value.label}
+                quiz={quizTypes[value.id]}
+              />
+            );
+          })}
+        {!isStatusGroup &&
+          allCategories.map((value) => {
+            return (
+              <QuizDrop
+                key={value.id}
+                id={value.id}
+                label={value.label}
+                quiz={quizTypes[value.id]}
+              />
+            );
+          })}
       </DragDropContext>
     </div>
   );

@@ -6,7 +6,7 @@ import { useTransition } from "react";
 export function ViewSwitch({ defaultChecked }: { defaultChecked: boolean }) {
   const [, startTransition] = useTransition();
   return (
-    <div className="ml-auto w-fit">
+    <>
       <Switch
         defaultChecked={defaultChecked}
         onCheckedChange={(e) => {
@@ -17,6 +17,6 @@ export function ViewSwitch({ defaultChecked }: { defaultChecked: boolean }) {
         label="Board view"
         name="board-view"
       />
-    </div>
+    </>
   );
 }

@@ -65,6 +65,24 @@ export type Database = {
         }
         Relationships: []
       }
+      categories: {
+        Row: {
+          color: string
+          id: string
+          title: string
+        }
+        Insert: {
+          color: string
+          id?: string
+          title: string
+        }
+        Update: {
+          color?: string
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
       multiple_choice: {
         Row: {
           answer: string
@@ -102,7 +120,7 @@ export type Database = {
       }
       quiz: {
         Row: {
-          category: string
+          category: string | null
           completions: number
           created_at: string | null
           description: string
@@ -113,7 +131,7 @@ export type Database = {
           type: Database["public"]["Enums"]["quiz_type"]
         }
         Insert: {
-          category: string
+          category?: string | null
           completions?: number
           created_at?: string | null
           description: string
@@ -124,7 +142,7 @@ export type Database = {
           type: Database["public"]["Enums"]["quiz_type"]
         }
         Update: {
-          category?: string
+          category?: string | null
           completions?: number
           created_at?: string | null
           description?: string
@@ -134,7 +152,15 @@ export type Database = {
           title?: string
           type?: Database["public"]["Enums"]["quiz_type"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_quiz_category_fkey"
+            columns: ["category"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       quiz_name_all: {
         Row: {

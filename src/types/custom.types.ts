@@ -17,3 +17,7 @@ export type ArticleProps = {
 export type MultipleChoice = Database["public"]["Tables"]["multiple_choice"]["Row"];
 export type Quiz = Database["public"]["Tables"]["quiz"]["Row"];
 export type NameAll = Database["public"]["Tables"]["quiz_name_all"]["Row"];
+export type Search = string | string[][] | Record<string, string> | URLSearchParams | undefined;
+export type Categories = Database["public"]["Tables"]["categories"]["Row"];
+
+export type QuizCat = Quiz & { categories: Categories | null };
