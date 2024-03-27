@@ -1,8 +1,18 @@
 import { Title } from "@aomdev/ui";
-import Tiptap from "./editor";
+import Tiptap from "./_client/editor";
 import { allArticles } from "contentlayer/generated";
+
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   const article = allArticles.find((article) => article.slug === params.slug)!;
+
+  const articleData = {
+    title: article.title,
+    author: article.author,
+    category: article.category,
+    intro: article.intro,
+    thumbnail: article.thumbnail,
+    profile: article.profile
+  };
 
   return (
     <main className="p-2">
@@ -18,6 +28,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         </Title>
       </div>
       <Tiptap
+        articleData={articleData}
         slug={params.slug}
         defaultContent={article.body.html}
       />
