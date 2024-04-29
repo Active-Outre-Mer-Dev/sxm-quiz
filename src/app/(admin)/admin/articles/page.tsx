@@ -3,6 +3,8 @@ import { formatDate } from "@/lib/format-date";
 import { createClient } from "@/lib/supabase";
 import { Badge, Table } from "@aomdev/ui";
 import Link from "next/link";
+import { buttonStyles } from "@aomdev/ui/src/button/styles";
+import { Plus } from "lucide-react";
 
 export default async function Page() {
   const { error, data } = await createClient("server_component").from("articles").select("*");
@@ -10,8 +12,18 @@ export default async function Page() {
 
   return (
     <>
-      <main className="container mx-auto">
-        <Table className="w-full mt-20">
+      <main className="container mx-auto mt-20">
+        <Link
+          href={"articles/new"}
+          className={buttonStyles({ className: "w-fit ml-auto block mb-8" })}
+        >
+          <Plus
+            size={16}
+            className="inline-block mr-2"
+          />
+          New
+        </Link>
+        <Table className="w-full ">
           <Table.Header>
             <Table.Row>
               <Table.Head>Slug</Table.Head>

@@ -11,7 +11,7 @@ export function createMarkdown(content: JSONContent, data: ArticleData) {
   intro: ${data.intro}
   thumbnail: ${data.thumbnail}
   profile: ${data.profile}
-  --- \n
+---\n
     `;
   if (!content.content) return markdown;
   for (const element of content.content) {
