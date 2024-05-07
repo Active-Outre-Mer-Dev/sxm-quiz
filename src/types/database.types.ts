@@ -36,12 +36,15 @@ export type Database = {
           created_at: string
           featured: boolean
           intro: string | null
+          pr_number: number | null
           shares: number
           slug: string
           status: Database["public"]["Enums"]["status_type"]
           thumbnail: string | null
+          thumbnail_path: string | null
           title: string | null
           updated_at: string
+          user_id: string | null
           views: number
         }
         Insert: {
@@ -50,12 +53,15 @@ export type Database = {
           created_at?: string
           featured?: boolean
           intro?: string | null
+          pr_number?: number | null
           shares?: number
           slug: string
           status?: Database["public"]["Enums"]["status_type"]
           thumbnail?: string | null
+          thumbnail_path?: string | null
           title?: string | null
           updated_at?: string
+          user_id?: string | null
           views?: number
         }
         Update: {
@@ -64,15 +70,26 @@ export type Database = {
           created_at?: string
           featured?: boolean
           intro?: string | null
+          pr_number?: number | null
           shares?: number
           slug?: string
           status?: Database["public"]["Enums"]["status_type"]
           thumbnail?: string | null
+          thumbnail_path?: string | null
           title?: string | null
           updated_at?: string
+          user_id?: string | null
           views?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "articles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       categories: {
         Row: {
@@ -310,7 +327,7 @@ export type Database = {
     }
     Enums: {
       quiz_type: "multiple_choice" | "list"
-      status_type: "beta" | "published" | "pending"
+      status_type: "beta" | "published" | "pending" | "in_review" | "draft"
     }
     CompositeTypes: {
       [_ in never]: never

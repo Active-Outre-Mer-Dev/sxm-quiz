@@ -28,7 +28,7 @@ export async function createArticle(previousState: any, formData: FormData) {
     const imageType = imageFile.type.replace("image/", "");
     const { data, error: imageError } = await supabase.storage
       .from("images")
-      .upload(`articles/${schema.data.article_slug}-thumbnail.${imageType}`, imageFile, { upsert: true });
+      .upload(`articles/${schema.data.article_slug}-thumbnail`, imageFile, { upsert: true });
 
     if (imageError) {
       console.log(imageError);
@@ -41,7 +41,8 @@ export async function createArticle(previousState: any, formData: FormData) {
       status: "beta",
       intro: schema.data.article_description,
       title: schema.data.article_title,
-      thumbnail: imageURL.publicUrl
+      thumbnail: imageURL.publicUrl,
+      user_id: userData.id
     });
 
     if (error) {

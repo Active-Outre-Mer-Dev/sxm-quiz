@@ -6,10 +6,12 @@ type PropTypes = {
   name: "article" | "quiz";
   titleError?: string;
   slugError?: string;
+  defaultTitle?: string;
+  defaultSlug?: string;
 };
 
-export function TitleSlug({ name, slugError, titleError }: PropTypes) {
-  const [slug, setSlug] = useState<string>();
+export function TitleSlug({ name, slugError, titleError, defaultSlug, defaultTitle }: PropTypes) {
+  const [slug, setSlug] = useState<string>(defaultSlug || "");
   const [slugValue, setSlugValue] = useState<string>();
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export function TitleSlug({ name, slugError, titleError }: PropTypes) {
   return (
     <>
       <TextInput
+        defaultValue={defaultTitle}
         name={`${name}_title`}
         label="Title"
         // required

@@ -3,8 +3,11 @@
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 import { FormEvent, useRef, useState } from "react";
 import { Image } from "lucide-react";
+type PropTypes = {
+  defaultImg?: string;
+};
 
-export function ImageDropzone() {
+export function ImageDropzone({ defaultImg }: PropTypes) {
   const [image, setImage] = useState<File>();
   const ref = useRef<HTMLInputElement>(null);
   const onClick = () => {
@@ -17,7 +20,7 @@ export function ImageDropzone() {
     }
   };
 
-  const imageURL = image ? URL.createObjectURL(image?.slice()!) : "";
+  const imageURL = image ? URL.createObjectURL(image?.slice()!) : defaultImg ? defaultImg : "";
 
   return (
     <div>
@@ -31,6 +34,13 @@ export function ImageDropzone() {
             <p className="text-xl">Drag and drop images here</p>
           </div>
         </div>
+        {!image && (
+          <input
+            hidden
+            name="default_image"
+            defaultValue={defaultImg}
+          />
+        )}
         <input
           ref={ref}
           type="file"
@@ -39,13 +49,13 @@ export function ImageDropzone() {
           onChange={onChange}
         />
       </div>
-      {image && (
+      {(image || defaultImg) && (
         <div className="space-y-2">
           <img
-            src={imageURL}
+            src={imageURL || defaultImg}
             className="mt-5"
           />
-          <p className="text-gray-200">{image.name}</p>
+          {image && <p className="text-gray-200">{image.name}</p>}
         </div>
       )}
     </div>

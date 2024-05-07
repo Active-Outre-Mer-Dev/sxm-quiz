@@ -2,26 +2,28 @@ import { Title } from "@aomdev/ui";
 import Tiptap from "./_client/editor";
 import { allArticles } from "contentlayer/generated";
 import { createClient } from "@/lib/supabase";
-import { redirect } from "next/navigation";
-import { getUser } from "@/lib/get-user";
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const article = allArticles.find((article) => article.slug === params.slug)!;
+
   const { error, data } = await createClient("server_component")
     .from("articles")
-    .select("*")
+    .select("*, profiles (first_name, last_name, profile_image)")
     .eq("slug", params.slug)
     .single();
-  if (error) redirect("/admin");
-  const { error: userError, userData } = await getUser("server_component");
-  if (userError) return <>Bruh</>;
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
   const articleData = {
     title: data.title || "",
-    author: userData?.first_name || "",
+    author: `${data.profiles?.first_name} ${data.profiles?.last_name}`,
     category: data.category,
     intro: data.category,
     thumbnail: data.thumbnail || "",
-    profile: userData?.profile_image || ""
+    profile: data.profiles?.profile_image || undefined
   };
 
   return (

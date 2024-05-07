@@ -112,7 +112,7 @@ const updateFile = async (options: Omit<Props, "title">) => {
 };
 
 export async function createPullRequest(body: string, title: string, head: string) {
-  await octokit.request(`POST /repos/${repoOwner}/${repo}/pulls`, {
+  const res = await octokit.request(`POST /repos/${repoOwner}/${repo}/pulls`, {
     owner: repoOwner,
     repo,
     body,
@@ -123,6 +123,7 @@ export async function createPullRequest(body: string, title: string, head: strin
       "X-GitHub-Api-Version": "2022-11-28"
     }
   });
+  return res.data.number as number;
 }
 
 export const github = {

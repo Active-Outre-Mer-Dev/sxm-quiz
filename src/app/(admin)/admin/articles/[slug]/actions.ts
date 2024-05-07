@@ -1,5 +1,6 @@
 "use server";
 import { github } from "@/lib/github-api";
+import { createClient } from "@/lib/supabase";
 
 type Props = {
   content: string;
@@ -31,5 +32,10 @@ export const createPullRequest = async (options: Pick<Props, "slug" | "content">
   }
 
   await github.updateFile({ branch, sha, content, slug: options.slug, commitMessage });
-  await github.createPullRequest(body, title, branch);
+  const pr_number = await github.createPullRequest(body, title, branch);
+
+  await createClient("server_action")
+    .from("articles")
+    .update({ status: "in_review", pr_number })
+    .eq("slug", options.slug);
 };
