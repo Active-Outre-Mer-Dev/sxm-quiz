@@ -11,10 +11,7 @@ export function CustomDialog({ children, ...props }: DialogProps) {
         {...props}
         open
       >
-        <Dialog.Content
-          portalProps={{ onClick: () => router.back() }}
-          className="w-1/4"
-        >
+        <Dialog.Content className="w-1/4">
           <ScrollArea
             style={{ height: "75vh" }}
             className="p-4 -m-4"
