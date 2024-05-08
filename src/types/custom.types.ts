@@ -21,3 +21,5 @@ export type Search = string | string[][] | Record<string, string> | URLSearchPar
 export type Categories = Database["public"]["Tables"]["categories"]["Row"];
 
 export type QuizCat = Quiz & { categories: Categories | null };
+export type User = Database["public"]["Tables"]["profiles"]["Row"];
+export type Article = Database["public"]["Tables"]["articles"]["Row"];

@@ -1,64 +1,29 @@
-import remarkHtml from "remark-html";
-import { remark } from "remark";
-import matter from "gray-matter";
-import { createClient } from "@/lib/supabase";
-import { Button, Table } from "@aomdev/ui";
-import { Badge } from "@aomdev/ui";
-import { formatDate } from "@/lib/format-date";
 import { getCatColor } from "@/get-category-color";
+import { formatDate } from "@/lib/format-date";
+import { Badge, Table } from "@aomdev/ui";
 import Link from "next/link";
-import { Octokit } from "octokit";
-import { Nav } from "../../_components/nav";
-const repoOwner = "Active-Outre-Mer-Dev";
-const repo = "sxm-quiz";
-const octokit = new Octokit({ auth: process.env.GITHUB_API_TOKEN });
-
-const getMainSHA = async () => {
-  const data = await octokit.request(`GET /repos/${repoOwner}/${repo}/git/ref/heads/main`);
-  console.log(data);
-  return data.data.object.sha as string;
-};
-
-const createBranch = async () => {
-  const sha = await getMainSHA();
-  const data = await octokit.request(`POST /repos/${repoOwner}/${repo}/git/refs`, {
-    owner: "Agis Carty",
-    repo,
-    ref: "refs/heads/new-api-branch-name",
-    sha
-  });
-  console.log(data.data);
-  return data.data.ref.replace("refs/heads/", "") as string;
-};
+import { buttonStyles } from "@aomdev/ui/src/button/styles";
+import { Plus } from "lucide-react";
+import { getArticles } from "@/lib/get-articles";
 
 export default async function Page() {
-  const { error, data } = await createClient("server_component").from("articles").select("*");
+  const { error, data } = await getArticles();
   if (error) throw error;
 
-  const createFile = async () => {
-    "use server";
-    const branch = await createBranch();
-    const message = "This is markdown";
-    await octokit.request("PUT /repos/Active-Outre-Mer-Dev/sxm-quiz/contents/src/content/articles/test.md", {
-      owner: "Active-Outre-Mer-Dev",
-      repo: "sxm-quiz",
-      path: "/src/content/articles/test.md",
-      message: "testing github api",
-      committer: {
-        name: "Agis Carty",
-        email: "a.carty2555@gmail.com"
-      },
-      content: Buffer.from(message).toString("base64"),
-      branch
-    });
-  };
   return (
     <>
-      <main className="container mx-auto">
-        <form action={createFile}>
-          <Button>Create</Button>
-        </form>
-        <Table className="w-full mt-20">
+      <main className="container mx-auto mt-20">
+        <Link
+          href={"articles/new"}
+          className={buttonStyles({ className: "w-fit ml-auto block mb-8" })}
+        >
+          <Plus
+            size={16}
+            className="inline-block mr-2"
+          />
+          New
+        </Link>
+        <Table className="w-full ">
           <Table.Header>
             <Table.Row>
               <Table.Head>Slug</Table.Head>

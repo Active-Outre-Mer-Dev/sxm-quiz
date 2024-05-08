@@ -1,9 +1,10 @@
 "use server";
 import { createClient } from "@/lib/supabase";
+import { Quiz } from "@/types/custom.types";
 import { revalidatePath } from "next/cache";
 import { cookies as nextCookies } from "next/headers";
 
-export const updateQuizStatus = async (id: number, status: "beta" | "published" | "pending" | null) => {
+export const updateQuizStatus = async (id: number, status: Quiz["status"]) => {
   await createClient("server_action").from("quiz").update({ status }).eq("id", id);
   revalidatePath("/admin/quizzes");
 };
