@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase";
 import { createMarkdown } from "@/lib/create-markdown";
 import { redirect } from "next/navigation";
 import { getUser } from "@/lib/get-user";
+import { uploadImage } from "@/lib/upload-image";
 
 const ArticleSchema = z.object({
   article_title: z.string().trim().min(1, { message: "Title is required" }),
@@ -25,32 +26,9 @@ export async function createArticle(previousState: any, formData: FormData) {
       return;
     }
     const imageFile = formEntries.image as File;
-    const imageType = imageFile.type.replace("image/", "");
-    const { data, error: imageError } = await supabase.storage
-      .from("images")
-      .upload(`articles/${schema.data.article_slug}-thumbnail`, imageFile, { upsert: true });
+    const { url, path } = await uploadImage(imageFile, `articles/${schema.data.article_slug}`);
 
-    if (imageError) {
-      console.log(imageError);
-      return;
-    }
-    const { data: imageURL } = supabase.storage.from("images").getPublicUrl(data.path);
-    const { error } = await supabase.from("articles").insert({
-      category: schema.data.article_category,
-      slug: schema.data.article_slug,
-      status: "beta",
-      intro: schema.data.article_description,
-      title: schema.data.article_title,
-      thumbnail: imageURL.publicUrl,
-      user_id: userData.id
-    });
-
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    const { branch, sha } = await github.createBranch(schema.data.article_title);
+    const { branch, sha } = await github.createBranch(schema.data.article_slug);
     await github.createFile({
       branch,
       sha,
@@ -62,12 +40,27 @@ export async function createArticle(previousState: any, formData: FormData) {
           author: `${userData.first_name} ${userData.last_name}`,
           category: schema.data.article_category,
           intro: schema.data.article_description,
-          thumbnail: imageURL.publicUrl,
+          thumbnail: url,
           title: schema.data.article_title,
           profile: userData.profile_image || ""
         }
       )
     });
+    const { error } = await supabase.from("articles").insert({
+      category: schema.data.article_category,
+      slug: schema.data.article_slug,
+      status: "beta",
+      intro: schema.data.article_description,
+      title: schema.data.article_title,
+      thumbnail: url,
+      user_id: userData.id,
+      thumbnail_path: path,
+      branch
+    });
+    if (error) {
+      console.log(error);
+      return;
+    }
     redirect(`/admin/articles/${schema.data.article_slug}`);
   } else {
     return schema.error.flatten().fieldErrors;

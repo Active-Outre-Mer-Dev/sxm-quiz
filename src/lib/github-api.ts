@@ -10,13 +10,12 @@ export const getMainSHA = async () => {
   return data.data.object.sha as string;
 };
 
-export const createBranch = async (title: string) => {
+export const createBranch = async (slug: string) => {
   const sha = await getMainSHA();
-  const formattedTitle = title.toLowerCase().replaceAll(" ", "-").trim();
   const data = await octokit.request(`POST /repos/${repoOwner}/${repo}/git/refs`, {
     owner: "Agis Carty",
     repo,
-    ref: `refs/heads/${formattedTitle}`,
+    ref: `refs/heads/${slug}`,
     sha
   });
   return { branch: data.data.ref.replace("refs/heads/", "") as string, sha };
@@ -42,9 +41,13 @@ type GetBranch =
       message: string;
     };
 
-export async function getBranch(title: string): Promise<GetBranch> {
+export async function getBranch(branch: string | null): Promise<GetBranch> {
   try {
-    const branch = title.toLowerCase().replaceAll(" ", "-").trim();
+    if (!branch)
+      return {
+        error: true,
+        message: "No Branch"
+      };
     const response = await octokit.request(`GET /repos/${repoOwner}/${repo}/branches/${branch}`, {
       owner: repoOwner,
       repo: repo,

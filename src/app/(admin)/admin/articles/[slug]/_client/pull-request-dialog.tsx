@@ -6,9 +6,10 @@ import { createPullRequest } from "../actions";
 
 type PropTypes = {
   content: string;
+  branch: string | null;
 } & DialogProps;
 
-export function PullRequestDialog({ content, ...props }: PropTypes) {
+export function PullRequestDialog({ content, branch, ...props }: PropTypes) {
   const params = useParams();
   return (
     <Dialog {...props}>
@@ -22,7 +23,7 @@ export function PullRequestDialog({ content, ...props }: PropTypes) {
         <form
           className="space-y-4"
           action={async (form) => {
-            await createPullRequest({ content, slug: params.slug as string }, form);
+            await createPullRequest({ content, slug: params.slug as string, branch }, form);
             if (props.onOpenChange) {
               props?.onOpenChange(false);
             }

@@ -2,8 +2,11 @@ import { Title } from "@aomdev/ui";
 import Tiptap from "./_client/editor";
 import { allArticles } from "contentlayer/generated";
 import { createClient } from "@/lib/supabase";
+import { unstable_noStore } from "next/cache";
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
+  unstable_noStore();
+
   const article = allArticles.find((article) => article.slug === params.slug)!;
 
   const { error, data } = await createClient("server_component")
@@ -23,7 +26,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     category: data.category,
     intro: data.category,
     thumbnail: data.thumbnail || "",
-    profile: data.profiles?.profile_image || undefined
+    profile: data.profiles?.profile_image || undefined,
+    branch: data.branch
   };
 
   return (
@@ -40,6 +44,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         </Title>
       </div>
       <Tiptap
+        branch={data.branch}
         articleData={articleData}
         slug={params.slug}
         defaultContent={data.status === "beta" ? "" : article.body.html}

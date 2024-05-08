@@ -18,10 +18,11 @@ import { PullRequestDialog } from "./pull-request-dialog";
 type PropTypes = {
   articleData: ArticleData;
   editor: Editor;
+  branch: string | null;
   onSave: () => void;
 };
 
-export function Menu({ editor, onSave, articleData }: PropTypes) {
+export function Menu({ editor, onSave, articleData, branch }: PropTypes) {
   const [isOpened, setisOpened] = useState(false);
   const onClick = async () => {
     const markdown = createMarkdown(editor.getJSON(), articleData);
@@ -85,6 +86,7 @@ export function Menu({ editor, onSave, articleData }: PropTypes) {
         open={isOpened}
         onOpenChange={setisOpened}
         content={createMarkdown(editor.getJSON(), articleData)}
+        branch={branch}
       />
       <Dropdown>
         <Dropdown.Trigger>

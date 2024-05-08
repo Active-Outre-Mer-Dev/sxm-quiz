@@ -9,11 +9,12 @@ import { MarkdownSaves } from "./markdown-saves";
 type PropTypes = {
   defaultContent: string;
   slug: string;
+  branch: string | null;
   articleData: ArticleData;
 };
 export type ContentSave = { timestamp: Date; content: string; html: string; id: string; isActive: boolean };
 
-const Tiptap = ({ defaultContent, slug, articleData }: PropTypes) => {
+const Tiptap = ({ defaultContent, slug, articleData, branch }: PropTypes) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: defaultContent,
@@ -120,6 +121,7 @@ const Tiptap = ({ defaultContent, slug, articleData }: PropTypes) => {
               editor={editor}
               onSave={handleSave}
               articleData={articleData}
+              branch={branch}
             />
 
             <EditorContent editor={editor} />

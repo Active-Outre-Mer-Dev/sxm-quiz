@@ -31,6 +31,7 @@ export type Database = {
       }
       articles: {
         Row: {
+          branch: string | null
           category: string
           community: boolean
           created_at: string
@@ -48,6 +49,7 @@ export type Database = {
           views: number
         }
         Insert: {
+          branch?: string | null
           category: string
           community?: boolean
           created_at?: string
@@ -65,6 +67,7 @@ export type Database = {
           views?: number
         }
         Update: {
+          branch?: string | null
           category?: string
           community?: boolean
           created_at?: string

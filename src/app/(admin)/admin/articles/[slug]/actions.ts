@@ -1,24 +1,28 @@
 "use server";
 import { github } from "@/lib/github-api";
 import { createClient } from "@/lib/supabase";
+import { redirect } from "next/navigation";
 
 type Props = {
   content: string;
   slug: string;
   sha: string;
-  branch: string;
+  branch: string | null;
   commitMessage: string;
   title: string;
 };
 
-export const createPullRequest = async (options: Pick<Props, "slug" | "content">, formData: FormData) => {
+export const createPullRequest = async (
+  options: Pick<Props, "slug" | "content" | "branch">,
+  formData: FormData
+) => {
   const form = Object.fromEntries(formData);
   const content = options.content;
   const commitMessage = form.commit_name.toString() || "";
   const title = form.pr_title.toString() || "";
   const body = form.pr_description.toString() || "";
 
-  const branchData = await github.getBranch(options.slug);
+  const branchData = await github.getBranch(options.branch);
   let branch = "";
   let sha = "";
 
@@ -38,4 +42,5 @@ export const createPullRequest = async (options: Pick<Props, "slug" | "content">
     .from("articles")
     .update({ status: "in_review", pr_number })
     .eq("slug", options.slug);
+  redirect("/admin/articles");
 };

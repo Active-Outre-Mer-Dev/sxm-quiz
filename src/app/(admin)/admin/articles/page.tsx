@@ -1,13 +1,13 @@
 import { getCatColor } from "@/get-category-color";
 import { formatDate } from "@/lib/format-date";
-import { createClient } from "@/lib/supabase";
 import { Badge, Table } from "@aomdev/ui";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { Plus } from "lucide-react";
+import { getArticles } from "@/lib/get-articles";
 
 export default async function Page() {
-  const { error, data } = await createClient("server_component").from("articles").select("*");
+  const { error, data } = await getArticles();
   if (error) throw error;
 
   return (

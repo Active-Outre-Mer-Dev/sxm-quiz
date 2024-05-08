@@ -1,8 +1,10 @@
 import { Title } from "@aomdev/ui";
 import { ArticleForm } from "./_client/article-form";
 import { createClient } from "@/lib/supabase";
+import { unstable_noStore } from "next/cache";
 
 export default async function ArticleSettings({ params }: { params: { slug: string } }) {
+  unstable_noStore();
   const { data, error } = await createClient("server_component")
     .from("articles")
     .select("*")
