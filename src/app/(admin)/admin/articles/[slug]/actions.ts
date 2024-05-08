@@ -44,3 +44,12 @@ export const createPullRequest = async (
     .eq("slug", options.slug);
   redirect("/admin/articles");
 };
+
+export async function deleteArticle(slug: string, imgPath: string, branch: string) {
+  const supabase = createClient("server_action");
+  await Promise.all([
+    supabase.from("articles").delete().eq("slug", slug),
+    supabase.storage.from("images").remove([imgPath]),
+    github.deleteBranch(branch)
+  ]);
+}

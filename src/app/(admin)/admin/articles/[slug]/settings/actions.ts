@@ -22,29 +22,35 @@ export async function editArticle(
   const schema = ArticleSchema.safeParse(Object.fromEntries(formData));
   const image = formData.get("default_image")?.toString();
   let thumbnail = "";
-
-  if (!image) {
-    const newImage = formData.get("image") as File;
-    const { path, url } = await uploadImage(newImage, `articles/${slug}`, {
-      prevPath: thumbnail_path
-    });
-    thumbnail = url;
-    thumbnail_path = path;
-  } else {
-    thumbnail = image;
-  }
-  const newData: Record<string, string> = { thumbnail, thumbnail_path: thumbnail_path || "" };
+  let newPath = "";
+  const newData: Record<string, string> = { thumbnail_path: thumbnail_path || "" };
 
   if (schema.success) {
+    if (!image) {
+      const newImage = formData.get("image") as File;
+      console.log(thumbnail_path);
+      const { path, url } = await uploadImage(newImage, `articles/${schema.data.article_slug}`, {
+        prevPath: thumbnail_path
+      });
+      thumbnail = url;
+      newPath = path;
+    } else {
+      thumbnail = image;
+    }
     Object.entries(schema.data).forEach(([entry, value]) => {
       const t = entry.replace("article_", "");
       newData[t] = value;
     });
-
+    if (thumbnail) {
+      newData.thumbnail = thumbnail;
+    }
+    if (newPath) {
+      newData.thumbnail_path = newPath;
+    }
     const { error } = await supabase.from("articles").update(newData).eq("slug", slug);
 
     if (!error) {
-      redirect(`/admin/articles/${schema.data.article_slug}/settings`);
+      redirect(`/admin/articles/${schema.data.article_slug}`);
     }
   } else {
     console.log(schema.error.flatten().fieldErrors);

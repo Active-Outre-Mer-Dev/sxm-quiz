@@ -76,6 +76,33 @@ export async function getBranch(branch: string | null): Promise<GetBranch> {
   }
 }
 
+export async function deleteBranch(branch: string | null) {
+  try {
+    if (!branch)
+      return {
+        error: true,
+        message: "Bruh"
+      };
+    await octokit.request(`DELETE /repos/${repoOwner}/${repo}/git/refs/heads/${branch}`, {
+      owner: "OWNER",
+      repo: "REPO",
+      ref: "REF",
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28"
+      }
+    });
+    return {
+      error: false,
+      message: " Branch deleted"
+    };
+  } catch (error) {
+    return {
+      error: true,
+      message: "Failed to delete branch"
+    };
+  }
+}
+
 export const createFile = async (options: Omit<Props, "title">) => {
   await octokit.request(`PUT /repos/${repoOwner}/${repo}/contents/src/content/articles/${options.slug}.md`, {
     owner: repoOwner,
@@ -134,5 +161,6 @@ export const github = {
   createFile,
   createPullRequest,
   getBranch,
-  updateFile
+  updateFile,
+  deleteBranch
 };

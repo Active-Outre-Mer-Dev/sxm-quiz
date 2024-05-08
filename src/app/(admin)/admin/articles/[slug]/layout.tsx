@@ -1,29 +1,38 @@
-import Link from "next/link";
+import { Suspense } from "react";
+import { Sidebar } from "./sidebar";
+import { getArticle } from "@/lib/get-articles";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default function ArticleLayout({
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const { data, error } = await getArticle(params.slug);
+  if (error) throw error;
+  return {
+    title: data.title
+  };
+}
+
+export default async function ArticleLayout({
   children,
+  settings,
   params
 }: {
   children: React.ReactNode;
+  settings: React.ReactNode;
   params: { slug: string };
 }) {
   return (
-    <>
-      <div className="border-b border-b-neutral-700 py-4 px-4">
-        <ul className="flex gap-4">
-          <li>
-            <Link href={`/admin/articles/${params.slug}`}>Home</Link>
-          </li>
-          <li>
-            {" "}
-            <Link href={`/admin/articles/${params.slug}/settings`}>Settings</Link>
-          </li>
-        </ul>
+    <div className="flex">
+      {" "}
+      <div className="basis-[80%]">
+        {settings}
+        {children}
       </div>
-      {children}
-    </>
+      <Suspense fallback={<p>Loading</p>}>
+        <Sidebar slug={params.slug} />
+      </Suspense>
+    </div>
   );
 }

@@ -1,19 +1,17 @@
-import { Title } from "@aomdev/ui";
-import Tiptap from "./_client/editor";
 import { allArticles } from "contentlayer/generated";
-import { createClient } from "@/lib/supabase";
 import { unstable_noStore } from "next/cache";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@aomdev/ui";
+import { getArticle } from "@/lib/get-articles";
+
+const Tiptap = dynamic(() => import("./_client/editor"), { ssr: false, loading: () => <TiptapLoading /> });
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   unstable_noStore();
 
   const article = allArticles.find((article) => article.slug === params.slug)!;
 
-  const { error, data } = await createClient("server_component")
-    .from("articles")
-    .select("*, profiles (first_name, last_name, profile_image)")
-    .eq("slug", params.slug)
-    .single();
+  const { error, data } = await getArticle(params.slug);
 
   if (error) {
     console.log(error);
@@ -31,24 +29,61 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   };
 
   return (
-    <main className="p-2">
-      <div
-        style={{ zIndex: 9999 }}
-        className="flex items-center border-b justify-between border-b-neutral-700 mb-4 z-50 bg-neutral-900"
-      >
-        <Title
-          order={1}
-          className="font-bold text-2xl font-heading capitalize my-2"
-        >
-          {data.title}
-        </Title>
+    <main className="">
+      <div>
+        <Tiptap
+          branch={data.branch}
+          imgPath={data.thumbnail_path}
+          articleData={articleData}
+          slug={params.slug}
+          defaultContent={data.status === "beta" ? "" : article.body.html}
+        />
       </div>
-      <Tiptap
-        branch={data.branch}
-        articleData={articleData}
-        slug={params.slug}
-        defaultContent={data.status === "beta" ? "" : article.body.html}
-      />
     </main>
+  );
+}
+
+function TiptapLoading() {
+  return (
+    <>
+      <div className="basis-[80%]">
+        <div className="ring-1 min-h-screen ring-gray-700">
+          <MenuLoading />
+        </div>
+      </div>
+    </>
+  );
+}
+
+function MenuLoading() {
+  return (
+    <div className=" border-b flex justify-between items-center bg-neutral-900 z-10 border-b-gray-700 h-16 px-4 sticky top-0 left-0">
+      <div className="flex gap-4">
+        <div className="flex gap-1">
+          <Skeleton
+            className="h-6 w-6 rounded-full"
+            animate
+          />
+          <Skeleton
+            className="h-6 w-6 rounded-full"
+            animate
+          />
+          <Skeleton
+            className="h-6 w-6 rounded-full"
+            animate
+          />
+        </div>
+        <div className="flex gap-1">
+          <Skeleton
+            className="h-6 w-6 rounded-full"
+            animate
+          />
+          <Skeleton
+            className="h-6 w-6 rounded-full"
+            animate
+          />
+        </div>
+      </div>
+    </div>
   );
 }

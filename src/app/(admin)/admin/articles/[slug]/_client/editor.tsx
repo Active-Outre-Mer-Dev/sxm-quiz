@@ -11,10 +11,11 @@ type PropTypes = {
   slug: string;
   branch: string | null;
   articleData: ArticleData;
+  imgPath: string | null;
 };
 export type ContentSave = { timestamp: Date; content: string; html: string; id: string; isActive: boolean };
 
-const Tiptap = ({ defaultContent, slug, articleData, branch }: PropTypes) => {
+const Tiptap = ({ defaultContent, slug, articleData, branch, imgPath }: PropTypes) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: defaultContent,
@@ -114,25 +115,24 @@ const Tiptap = ({ defaultContent, slug, articleData, branch }: PropTypes) => {
 
   return (
     <>
-      <div>
-        <div className="flex gap-6">
-          <div className="basis-3/5 ring-1 h-fit ring-gray-700">
-            <Menu
-              editor={editor}
-              onSave={handleSave}
-              articleData={articleData}
-              branch={branch}
-            />
+      <div className="basis-[80%]">
+        <div className="ring-1 min-h-screen ring-gray-700">
+          <Menu
+            editor={editor}
+            onSave={handleSave}
+            articleData={articleData}
+            branch={branch}
+            imgPath={imgPath}
+          />
 
-            <EditorContent editor={editor} />
-          </div>
-          <MarkdownSaves
+          <EditorContent editor={editor} />
+        </div>
+        {/* <MarkdownSaves
             clearSave={clearSave}
             clearAll={clearAll}
             saves={saves}
             setSave={setSave}
-          />
-        </div>
+          /> */}
       </div>
     </>
   );

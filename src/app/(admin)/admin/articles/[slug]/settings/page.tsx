@@ -1,15 +1,10 @@
 import { Title } from "@aomdev/ui";
-import { ArticleForm } from "./_client/article-form";
-import { createClient } from "@/lib/supabase";
 import { unstable_noStore } from "next/cache";
+import { getArticle } from "@/lib/get-articles";
 
 export default async function ArticleSettings({ params }: { params: { slug: string } }) {
   unstable_noStore();
-  const { data, error } = await createClient("server_component")
-    .from("articles")
-    .select("*")
-    .eq("slug", params.slug)
-    .single();
+  const { error } = await getArticle(params.slug);
   if (error) throw new Error("Bruh");
 
   return (
@@ -19,12 +14,10 @@ export default async function ArticleSettings({ params }: { params: { slug: stri
           order={1}
           className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight "
         >
-          Update Article
+          Settings for article
         </Title>
       </div>
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <ArticleForm article={data} />
-      </div>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"></div>
     </div>
   );
 }

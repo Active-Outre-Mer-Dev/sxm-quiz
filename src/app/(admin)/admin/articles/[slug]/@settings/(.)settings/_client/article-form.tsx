@@ -1,6 +1,6 @@
 "use client";
 import { useFormState } from "react-dom";
-import { editArticle } from "../actions";
+import { editArticle } from "../../../settings/actions";
 import { Button, Select, Textarea } from "@aomdev/ui";
 import { TitleSlug } from "@/components/title-slug";
 import { ImageDropzone } from "@/components/image-dropzone";
