@@ -8,19 +8,15 @@ import Link from "next/link";
 import { Article } from "./_components/article";
 import { allArticles } from "contentlayer/generated";
 import { Database } from "@/types/database.types";
-import { createClient } from "@supabase/supabase-js";
 import { formatDate } from "@/lib/format-date";
 import { getCatColor } from "@/get-category-color";
 import { RandomFacts } from "./_components/random-facts";
+import { createClient } from "@/lib/supabase";
 
 export const revalidate = 3600;
 
 export default async function Page() {
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-    { global: { fetch } }
-  );
+  const supabase = createClient("server_component");
 
   const { data, error } = await supabase
     .from("articles")
