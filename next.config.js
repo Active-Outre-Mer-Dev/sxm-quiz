@@ -7,6 +7,13 @@ const nextConfig = {
       transform: "@aomdev/ui/src/{{ kebabCase member }}",
       skipDefaultConversion: true
     }
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "daiuieddiuwtzqtsxaoh.supabase.co"
+      }
+    ]
   }
 };
 
