@@ -123,7 +123,7 @@ export const createFile = async (options: Omit<Props, "title">) => {
 };
 
 const updateFile = async (options: Omit<Props, "title">) => {
-  await octokit.request(`PUT /repos/${repoOwner}/${repo}/contents/src/content/${options.slug}.md`, {
+  await octokit.request(`PUT /repos/${repoOwner}/${repo}/contents/src/content/articles/${options.slug}.md`, {
     owner: repoOwner,
     repo,
     path: `/src/content/${options.slug}.md`,
