@@ -126,7 +126,7 @@ const updateFile = async (options: Omit<Props, "title">) => {
   await octokit.request(`PUT /repos/${repoOwner}/${repo}/contents/src/content/articles/${options.slug}.md`, {
     owner: repoOwner,
     repo,
-    path: `/src/content/${options.slug}.md`,
+    path: `/src/content/articles/${options.slug}.md`,
     message: options.commitMessage,
     committer: {
       name: "Agis Carty",

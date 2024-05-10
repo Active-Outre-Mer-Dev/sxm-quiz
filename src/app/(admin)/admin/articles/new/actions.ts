@@ -1,9 +1,7 @@
 "use server";
 import { z } from "zod";
-import { github } from "@/lib/github-api";
 import { categories } from "@/lib/categories";
 import { createClient } from "@/lib/supabase";
-import { createMarkdown } from "@/lib/create-markdown";
 import { redirect } from "next/navigation";
 import { getUser } from "@/lib/get-user";
 import { uploadImage } from "@/lib/upload-image";
@@ -28,24 +26,6 @@ export async function createArticle(previousState: any, formData: FormData) {
     const imageFile = formEntries.image as File;
     const { url, path } = await uploadImage(imageFile, `articles/${schema.data.article_slug}`);
 
-    const { branch, sha } = await github.createBranch(schema.data.article_slug);
-    await github.createFile({
-      branch,
-      sha,
-      commitMessage: `Create ${schema.data.article_title}`,
-      slug: schema.data.article_slug,
-      content: createMarkdown(
-        {},
-        {
-          author: `${userData.first_name} ${userData.last_name}`,
-          category: schema.data.article_category,
-          intro: schema.data.article_description,
-          thumbnail: url,
-          title: schema.data.article_title,
-          profile: userData.profile_image || ""
-        }
-      )
-    });
     const { error } = await supabase.from("articles").insert({
       category: schema.data.article_category,
       slug: schema.data.article_slug,
@@ -54,8 +34,7 @@ export async function createArticle(previousState: any, formData: FormData) {
       title: schema.data.article_title,
       thumbnail: url,
       user_id: userData.id,
-      thumbnail_path: path,
-      branch
+      thumbnail_path: path
     });
     if (error) {
       console.log(error);

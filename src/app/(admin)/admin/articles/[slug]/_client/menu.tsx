@@ -1,4 +1,4 @@
-import { createMarkdown, type ArticleData } from "@/lib/create-markdown";
+import { createMarkdown } from "@/lib/create-markdown";
 import { ActionIcon, Dropdown } from "@aomdev/ui";
 import type { Editor } from "@tiptap/react";
 import {
@@ -14,26 +14,22 @@ import {
   Save,
   Trash
 } from "lucide-react";
-import { useState } from "react";
-import { PullRequestDialog } from "./pull-request-dialog";
 import { useParams, useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { deleteArticle } from "../actions";
+import { deleteArticle, editContent } from "../actions";
+
 type PropTypes = {
-  articleData: ArticleData;
   editor: Editor;
-  branch: string | null;
   onSave: () => void;
   imgPath: string | null;
 };
 
-export function Menu({ editor, onSave, articleData, branch, imgPath }: PropTypes) {
-  const [isOpened, setisOpened] = useState(false);
+export function Menu({ editor, onSave, imgPath }: PropTypes) {
   const [isPending, startTransition] = useTransition();
   const params = useParams();
   const router = useRouter();
   const onClick = async () => {
-    const markdown = createMarkdown(editor.getJSON(), articleData);
+    const markdown = createMarkdown(editor.getJSON());
     await navigator.clipboard.writeText(markdown);
   };
 
@@ -43,8 +39,14 @@ export function Menu({ editor, onSave, articleData, branch, imgPath }: PropTypes
 
   const onDelete = () => {
     startTransition(async () => {
-      await deleteArticle(params.slug as string, imgPath!, branch!);
+      await deleteArticle(params.slug as string, imgPath!);
       router.push("/admin/articles");
+    });
+  };
+
+  const onEditContent = () => {
+    startTransition(async () => {
+      await editContent(editor.getHTML(), params.slug as string);
     });
   };
 
@@ -101,12 +103,6 @@ export function Menu({ editor, onSave, articleData, branch, imgPath }: PropTypes
           </ActionIcon>
         </div>
       </div>
-      <PullRequestDialog
-        open={isOpened}
-        onOpenChange={setisOpened}
-        content={createMarkdown(editor.getJSON(), articleData)}
-        branch={branch}
-      />
       <Dropdown>
         <Dropdown.Trigger>
           <ActionIcon color="gray">
@@ -129,10 +125,10 @@ export function Menu({ editor, onSave, articleData, branch, imgPath }: PropTypes
             Save locally
           </Dropdown.Item>
           <Dropdown.Item
-            onSelect={setisOpened.bind(null, true)}
+            onSelect={onEditContent}
             icon={<GitPullRequest size={14} />}
           >
-            Create Pull Request
+            Save to db
           </Dropdown.Item>
           <Dropdown.Separator />
           <Dropdown.Item

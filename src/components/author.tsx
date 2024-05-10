@@ -2,18 +2,20 @@ import { Avatar } from "@/components/avatar";
 
 type PropTypes = {
   position?: string;
-  img?: string;
-  name: string;
+  img?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
 };
 
-export function Author({ name, img, position = "SXM Quiz Core Team" }: PropTypes) {
-  const firstName = name.split(" ")[0];
-  const lastName = name.split(" ")[1];
-  const initials = firstName[0] + lastName[0];
+export function Author({ firstName, lastName, img, position = "SXM Quiz Core Team" }: PropTypes) {
+  const initials = firstName && lastName ? `${firstName[0]}${lastName[0]}` : "";
   return (
     <div className="flex items-center gap-2">
       {img ? (
-        <Avatar size={50} src={img} />
+        <Avatar
+          size={50}
+          src={img}
+        />
       ) : (
         <div
           style={{ width: 50, height: 50 }}

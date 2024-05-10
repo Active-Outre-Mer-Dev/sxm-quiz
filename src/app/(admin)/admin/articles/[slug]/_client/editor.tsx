@@ -4,18 +4,16 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useState } from "react";
 import { Menu } from "./menu";
-import { MarkdownSaves } from "./markdown-saves";
 
 type PropTypes = {
   defaultContent: string;
   slug: string;
-  branch: string | null;
   articleData: ArticleData;
   imgPath: string | null;
 };
 export type ContentSave = { timestamp: Date; content: string; html: string; id: string; isActive: boolean };
 
-const Tiptap = ({ defaultContent, slug, articleData, branch, imgPath }: PropTypes) => {
+const Tiptap = ({ defaultContent, slug, articleData, imgPath }: PropTypes) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: defaultContent,
@@ -54,7 +52,7 @@ const Tiptap = ({ defaultContent, slug, articleData, branch, imgPath }: PropType
         if (e.altKey && e.key === "c") {
           e.preventDefault();
           console.log("test");
-          await navigator.clipboard.writeText(createMarkdown(editor.getJSON(), articleData));
+          await navigator.clipboard.writeText(createMarkdown(editor.getJSON()));
         }
       };
       window.addEventListener("keydown", handleKeyDown);
@@ -120,8 +118,6 @@ const Tiptap = ({ defaultContent, slug, articleData, branch, imgPath }: PropType
           <Menu
             editor={editor}
             onSave={handleSave}
-            articleData={articleData}
-            branch={branch}
             imgPath={imgPath}
           />
 

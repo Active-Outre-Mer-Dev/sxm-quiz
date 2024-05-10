@@ -27,6 +27,7 @@ export function ArticleForm({ article }: PropTypes) {
         defaultValue={article?.intro || ""}
         label="Description"
         name="article_intro"
+        rows={5}
       />
       <Select
         defaultValue={article.category}

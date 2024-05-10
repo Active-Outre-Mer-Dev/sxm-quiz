@@ -4,7 +4,6 @@ import photo from "@/assets/article-demo.png";
 import { FeatureList } from "./_components/feature-list";
 import { Hero } from "./_components/hero";
 import { Badge, WindowFrame } from "@aomdev/ui";
-import { Avatar } from "@/components/avatar";
 import { allBlogs } from "contentlayer/generated";
 import { GradientText } from "@/components/gradient-text";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import { Author } from "@/components/author";
 
 export default async function Home() {
   const [firstBlog] = allBlogs;
+  const [firstName, lastName] = firstBlog.author.split(" ");
   return (
     <main>
       <Hero />
@@ -30,12 +30,23 @@ export default async function Home() {
         >
           Written articles by the community to teach you everything about the island!
         </p>
-        <Button variant={"neutral"} className="block mx-auto mb-20 ">
+        <Button
+          variant={"neutral"}
+          className="block mx-auto mb-20 "
+        >
           Get started
         </Button>
-        <WindowFrame classNames={{ body: "p-0" }} className="mx-auto w-11/12 lg:w-4/5 overflow-hidden">
+        <WindowFrame
+          classNames={{ body: "p-0" }}
+          className="mx-auto w-11/12 lg:w-4/5 overflow-hidden"
+        >
           <figure className="relative aspect-video">
-            <Image src={photo} alt={""} fill className="object-cover" />
+            <Image
+              src={photo}
+              alt={""}
+              fill
+              className="object-cover"
+            />
           </figure>
         </WindowFrame>
       </section>
@@ -53,7 +64,10 @@ export default async function Home() {
           Have some knowledge you&apos;d like to share with the island? Look no further! Become a contributor
           today and join our community!
         </p>
-        <Button variant="neutral" className="text-primary-600 relative block mb-6">
+        <Button
+          variant="neutral"
+          className="text-primary-600 relative block mb-6"
+        >
           Learn more
         </Button>
         <div className="flex flex-col lg:flex-row gap-0.5 w-3/5 rounded-2xl overflow-hidden">
@@ -82,7 +96,10 @@ export default async function Home() {
           <p className="text-lg lg:text-2xl ">See what&apos;s next for SXM quiz</p>
         </header>
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-8">
-          <Link href={`/blog/${firstBlog.slug}`} className="group">
+          <Link
+            href={`/blog/${firstBlog.slug}`}
+            className="group"
+          >
             <figure className="aspect-video relative mb-2 overflow-hidden">
               <Image
                 src={firstBlog.thumbnail}
@@ -99,7 +116,12 @@ export default async function Home() {
               {firstBlog.title}
             </h3>
             <p className="mb-4">{firstBlog.intro}</p>
-            <Author name={firstBlog.author} img={firstBlog.profile} position={firstBlog.position} />
+            <Author
+              firstName={firstName}
+              lastName={lastName}
+              img={firstBlog.profile}
+              position={firstBlog.position}
+            />
           </Link>
         </div>
       </section>

@@ -1,7 +1,6 @@
 import { getCatColor } from "@/get-category-color";
 import { getArticle } from "@/lib/get-articles";
 import { Badge, Title } from "@aomdev/ui";
-import { ExternalLink } from "lucide-react";
 
 type PropTypes = {
   slug: string;
@@ -18,20 +17,6 @@ export async function Sidebar({ slug }: PropTypes) {
           <span className="font-medium hover:underline flex items-center  text-gray-50">
             {data.profiles?.first_name} {data.profiles?.last_name}
           </span>
-        </>
-      )
-    },
-    {
-      title: "Branch",
-      element: (
-        <>
-          <a className="font-medium hover:underline flex items-center cursor-pointer text-gray-50">
-            {data.branch}{" "}
-            <ExternalLink
-              size={16}
-              className="inline-block ml-2"
-            />
-          </a>
         </>
       )
     },
@@ -63,7 +48,7 @@ export async function Sidebar({ slug }: PropTypes) {
     }
   ];
   return (
-    <div className=" grow ">
+    <div className=" basis-1/5 ">
       <div className=" p-4 sticky top-0 left-0 h-screen">
         <Title
           order={1}

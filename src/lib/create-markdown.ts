@@ -3,16 +3,8 @@ import type { Article } from "contentlayer/generated";
 
 export type ArticleData = Omit<Article, "_id" | "_raw" | "body" | "type" | "slug">;
 
-export function createMarkdown(content: JSONContent, data: ArticleData) {
-  let markdown = `---
-  title: ${data.title}
-  author: ${data.author}
-  category: ${data.category}
-  intro: ${data.intro}
-  thumbnail: ${data.thumbnail}
-  profile: ${data.profile}
----\n
-    `;
+export function createMarkdown(content: JSONContent) {
+  let markdown = "";
   if (!content.content) return markdown;
   for (const element of content.content) {
     if (element.type === "paragraph" && element.content) {

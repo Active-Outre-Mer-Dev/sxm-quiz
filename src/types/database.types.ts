@@ -31,55 +31,49 @@ export type Database = {
       }
       articles: {
         Row: {
-          branch: string | null
           category: string
-          community: boolean
+          content: string | null
           created_at: string
           featured: boolean
-          intro: string | null
-          pr_number: number | null
+          intro: string
           shares: number
           slug: string
           status: Database["public"]["Enums"]["status_type"]
-          thumbnail: string | null
-          thumbnail_path: string | null
-          title: string | null
+          thumbnail: string
+          thumbnail_path: string
+          title: string
           updated_at: string
           user_id: string | null
           views: number
         }
         Insert: {
-          branch?: string | null
           category: string
-          community?: boolean
+          content?: string | null
           created_at?: string
           featured?: boolean
-          intro?: string | null
-          pr_number?: number | null
+          intro: string
           shares?: number
           slug: string
           status?: Database["public"]["Enums"]["status_type"]
-          thumbnail?: string | null
-          thumbnail_path?: string | null
-          title?: string | null
+          thumbnail: string
+          thumbnail_path: string
+          title: string
           updated_at?: string
           user_id?: string | null
           views?: number
         }
         Update: {
-          branch?: string | null
           category?: string
-          community?: boolean
+          content?: string | null
           created_at?: string
           featured?: boolean
-          intro?: string | null
-          pr_number?: number | null
+          intro?: string
           shares?: number
           slug?: string
           status?: Database["public"]["Enums"]["status_type"]
-          thumbnail?: string | null
-          thumbnail_path?: string | null
-          title?: string | null
+          thumbnail?: string
+          thumbnail_path?: string
+          title?: string
           updated_at?: string
           user_id?: string | null
           views?: number

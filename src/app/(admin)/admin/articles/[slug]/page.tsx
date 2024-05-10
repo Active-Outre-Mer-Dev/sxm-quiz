@@ -1,16 +1,18 @@
-import { allArticles } from "contentlayer/generated";
 import { unstable_noStore } from "next/cache";
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
 import { Skeleton } from "@aomdev/ui";
 import { getArticle } from "@/lib/get-articles";
 
-const Tiptap = dynamic(() => import("./_client/editor"), { ssr: false, loading: () => <TiptapLoading /> });
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const Tiptap = nextDynamic(() => import("./_client/editor"), {
+  ssr: false,
+  loading: () => <TiptapLoading />
+});
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   unstable_noStore();
-
-  const article = allArticles.find((article) => article.slug === params.slug)!;
-
   const { error, data } = await getArticle(params.slug);
 
   if (error) {
@@ -24,19 +26,17 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     category: data.category,
     intro: data.category,
     thumbnail: data.thumbnail || "",
-    profile: data.profiles?.profile_image || undefined,
-    branch: data.branch
+    profile: data.profiles?.profile_image || undefined
   };
 
   return (
     <main className="">
       <div>
         <Tiptap
-          branch={data.branch}
           imgPath={data.thumbnail_path}
           articleData={articleData}
           slug={params.slug}
-          defaultContent={data.status === "beta" ? "" : article.body.html}
+          defaultContent={data.content || ""}
         />
       </div>
     </main>

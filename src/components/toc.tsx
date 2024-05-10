@@ -1,19 +1,17 @@
 "use client";
-import type { Heading } from "@/lib/get-content";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 
 type TOCProps = {
-  headings: Heading[];
+  headings: { title: string; id: string }[];
   githubEdit?: boolean;
 };
 
 function createObserver(cb: (id: string) => void) {
   return new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+    (entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           cb(entry.target.id);
         }
@@ -33,8 +31,8 @@ export function TableOfContents({ headings, githubEdit }: TOCProps) {
 
     const intro = document.getElementById("intro");
     if (intro) observer.observe(intro);
-    headings.forEach(heading => {
-      const element = document.getElementById(`${heading.data.hProperties.id}`);
+    headings.forEach((heading) => {
+      const element = document.getElementById(`${heading.id}`);
       if (element) {
         observer.observe(element);
       }
@@ -42,8 +40,8 @@ export function TableOfContents({ headings, githubEdit }: TOCProps) {
     return () => {
       const intro = document.getElementById("intro");
       if (intro) observer.unobserve(intro);
-      headings.forEach(heading => {
-        const element = document.getElementById(`${heading.data.hProperties.id}`);
+      headings.forEach((heading) => {
+        const element = document.getElementById(`${heading.id}`);
         if (element) {
           observer.unobserve(element);
         }
@@ -56,18 +54,22 @@ export function TableOfContents({ headings, githubEdit }: TOCProps) {
       <div className="sticky top-20">
         <p className="font-medium text-lg mb-5">On this page</p>
         <ul className="space-y-2 mb-5">
-          <Item path={path} active={activeId === "intro"} id={"intro"}>
+          <Item
+            path={path}
+            active={activeId === "intro"}
+            id={"intro"}
+          >
             Intro
           </Item>
-          {headings.map(heading => {
+          {headings.map((heading) => {
             return (
               <Item
                 path={path}
-                key={`${heading.data.hProperties.id}`}
-                active={activeId === `${heading.data.hProperties.id}`}
-                id={`${heading.data.hProperties.id}`}
+                key={`${heading.title}`}
+                active={activeId === heading.id}
+                id={`${heading.id}`}
               >
-                {heading.value}
+                {heading.title}
               </Item>
             );
           })}
@@ -78,9 +80,13 @@ export function TableOfContents({ headings, githubEdit }: TOCProps) {
             <a
               target="_blank"
               className="block hover:dark:text-primary-200 hover:text-primary-500"
-              href={`https://github.com/Active-Outre-Mer-Dev/sxm-quiz/blob/main/src/content/articles/${params.slug}.md`}
+              href={`https://github.com/Active-Outre-Mer-Dev/sxm-quiz/issues/new`}
             >
-              Edit this page on Github <ExternalLink size={16} className="inline-block mr-2" />
+              See an issue? Give us feedback{" "}
+              <ExternalLink
+                size={16}
+                className="inline-block mr-2"
+              />
             </a>
           ) : null}
         </div>

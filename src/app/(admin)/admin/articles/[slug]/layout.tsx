@@ -1,20 +1,10 @@
 import { Suspense } from "react";
 import { Sidebar } from "./sidebar";
-import { getArticle } from "@/lib/get-articles";
-import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const { data, error } = await getArticle(params.slug);
-  if (error) throw error;
-  return {
-    title: data.title
-  };
-}
-
-export default async function ArticleLayout({
+export default function ArticleLayout({
   children,
   settings,
   params
