@@ -1,32 +1,39 @@
 import { Title } from "@aomdev/ui";
-// import { ExternalLinkIcon } from "lucide-react";
 import { TableOfContents } from "@/components/toc";
-import { getHeadings } from "@/lib/get-content";
 import { notFound } from "next/navigation";
 import { ShareButton } from "./share-article";
 import { ExternalLink } from "./external-link";
 import { MobileTOC } from "./mobile-toc";
 import { formatDate } from "@/lib/format-date";
-import { allArticles } from "contentlayer/generated";
 import Link from "next/link";
 import { ArticleEvent } from "./article-event";
 import { Suspense } from "react";
 
 import { Author } from "@/components/author";
 import { createClient } from "@/lib/supabase";
+import { Article } from "contentlayer/generated";
+import { addIds, getHTMLHeadings, getReadTime } from "@/lib/get-html-headings";
 
 export default async function Page({ params }: { params: { slug: string; category: string } }) {
-  const props = await getHeadings(params.slug, "articles");
-  if (props.error) throw new Error(props.message);
   const supabase = createClient("server_component");
-  const { error, data } = await supabase.from("articles").select("*").eq("slug", params.slug).single();
-  const relatedArticles = allArticles
-    .filter(({ slug, category }) => slug !== params.slug && params.category === category)
-    .slice(0, 3);
+  const { error, data } = await supabase
+    .from("articles")
+    .select("*, profiles(*)")
+    .eq("slug", params.slug)
+    .single();
+  const { error: relatedError, data: relatedData } = await supabase
+    .from("articles")
+    .select("intro, title, thumbnail, category, slug")
+    .neq("slug", params.slug)
+    .eq("category", params.category)
+    .limit(3);
 
-  const article = allArticles.find((article) => article.slug === params.slug);
-  if (!article || error) notFound();
-  const { headings, readTime } = props;
+  if (error || relatedError) notFound();
+
+  const newContent = addIds(data?.content || "");
+  const headings = getHTMLHeadings(data.content || "");
+  const readTime = getReadTime(data.content || "");
+
   const color =
     params.category === "history"
       ? "text-error-600 dark:text-error-200"
@@ -62,15 +69,15 @@ export default async function Page({ params }: { params: { slug: string; categor
                     "text-4xl text-center lg:text-start leading-none font-medium font-heading text-gray-900 dark:text-gray-50"
                   }
                 >
-                  {article.title}
+                  {data.title}
                 </h1>
-                <ShareButton title={article.title} />
+                <ShareButton title={data.title} />
               </header>
               <p
                 style={{ width: "clamp(36ch, 90%, 75ch)" }}
                 className="text-lg mb-4"
               >
-                {article.intro}
+                {data.intro}
               </p>
               <span className="text-gray-600 dark:text-gray-300 text-sm block mb-6">
                 {formatDate(new Date(data.created_at))} - {readTime} min read
@@ -78,23 +85,15 @@ export default async function Page({ params }: { params: { slug: string; categor
               <div className="flex items-end justify-between">
                 <div className="flex items-center gap-2">
                   <Author
-                    name={article.author}
-                    img={article.profile}
+                    firstName={data.profiles?.first_name}
+                    lastName={data.profiles?.last_name}
+                    img={data.profiles?.profile_image}
                   />
                 </div>
-                {/* <div>
-                  <a
-                    target="_blank"
-                    href={"https://github.com/bluepnwage"}
-                    className="text-primary-500 flex items-center"
-                  >
-                    Github <ExternalLinkIcon size={16} className="inline-block ml-2" />
-                  </a>
-                </div> */}
               </div>
             </div>
             <img
-              src={article.thumbnail}
+              src={data.thumbnail || ""}
               alt={""}
               className={"rounded-xl mb-10"}
             />
@@ -105,7 +104,7 @@ export default async function Page({ params }: { params: { slug: string; categor
             <div
               className={`prose-ul:list-disc prose-headings:font-medium prose-h2:mt-10 prose-lg prose-h2:mb-4
                prose-h2:text-3xl prose-a:text-primary-500`}
-              dangerouslySetInnerHTML={{ __html: article.body.html }}
+              dangerouslySetInnerHTML={{ __html: newContent }}
             ></div>
           </article>
           <div className="space-y-10 mt-16 lg:mt-0 lg:space-y-16">
@@ -115,15 +114,11 @@ export default async function Page({ params }: { params: { slug: string; categor
             >
               Related Articles
             </Title>
-            {relatedArticles.map((article) => {
+            {relatedData.map((article) => {
               return (
                 <RelatedArticles
                   key={article.slug}
-                  category={article.category}
-                  slug={article.slug}
-                  description={article.intro}
-                  thumbnail={article.thumbnail}
-                  title={article.title}
+                  {...article}
                 />
               );
             })}
@@ -138,13 +133,7 @@ export default async function Page({ params }: { params: { slug: string; categor
   );
 }
 
-type Props = {
-  slug: string;
-  thumbnail: string;
-  description: string;
-  title: string;
-  category: string;
-};
+type Props = Pick<Article, "intro" | "title" | "thumbnail" | "category" | "slug">;
 
 function RelatedArticles(props: Props) {
   return (
@@ -166,7 +155,7 @@ function RelatedArticles(props: Props) {
         >
           {props.title}
         </Title>
-        <p className="line-clamp-3">{props.description}</p>
+        <p className="line-clamp-3">{props.intro}</p>
       </div>
     </Link>
   );

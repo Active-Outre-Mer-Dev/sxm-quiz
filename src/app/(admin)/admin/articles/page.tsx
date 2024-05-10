@@ -5,8 +5,10 @@ import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { Plus } from "lucide-react";
 import { getArticles } from "@/lib/get-articles";
+import { unstable_noStore } from "next/cache";
 
 export default async function Page() {
+  unstable_noStore();
   const { error, data } = await getArticles();
   if (error) throw error;
 

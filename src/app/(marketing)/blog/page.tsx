@@ -10,15 +10,23 @@ export default function Page() {
   return (
     <main>
       <header className="mb-16 lg:mb-20">
-        <Title order={1} className="text-center mb-2  font-medium font-heading">
+        <Title
+          order={1}
+          className="text-center mb-2  font-medium font-heading"
+        >
           Blog
         </Title>
         <p className="text-xl text-center">Get updates and insights about SXM Quiz!</p>
       </header>
       <div className="grid lg:grid-cols-3 gap-x-10 gap-y-20 w-11/12 lg:container mx-auto mb-36">
-        {allBlogs.map(blog => {
+        {allBlogs.map((blog) => {
+          const [firstName, lastName] = blog.author.split(" ");
           return (
-            <Link key={blog.slug} href={"/blog/introducing-sxm-quiz"} className="group flex flex-col gap-4 ">
+            <Link
+              key={blog.slug}
+              href={"/blog/introducing-sxm-quiz"}
+              className="group flex flex-col gap-4 "
+            >
               <figure className="basis-1/2 relative aspect-video rounded-md overflow-hidden">
                 <Image
                   src={blog.thumbnail}
@@ -40,7 +48,12 @@ export default function Page() {
                   {blog.title}
                 </Title>
                 <p className="text-lg">{blog.intro}</p>
-                <Author name={blog.author} position={blog.position} img={blog.profile} />
+                <Author
+                  firstName={firstName}
+                  lastName={lastName}
+                  position={blog.position}
+                  img={blog.profile}
+                />
               </div>
             </Link>
           );

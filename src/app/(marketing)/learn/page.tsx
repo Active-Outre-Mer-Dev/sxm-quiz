@@ -6,8 +6,6 @@ import { ArticleFilter } from "./_components/article-filter";
 import Image from "next/image";
 import Link from "next/link";
 import { Article } from "./_components/article";
-import { allArticles } from "contentlayer/generated";
-import { Database } from "@/types/database.types";
 import { formatDate } from "@/lib/format-date";
 import { getCatColor } from "@/get-category-color";
 import { RandomFacts } from "./_components/random-facts";
@@ -18,30 +16,12 @@ export const revalidate = 3600;
 export default async function Page() {
   const supabase = createClient("server_component");
 
-  const { data, error } = await supabase
-    .from("articles")
-    .select("created_at, slug, featured, community, views");
+  const { data, error } = await supabase.from("articles").select("*, profiles (*)");
   if (error) throw new Error("There was an error fetching the articles");
 
-  const articles = allArticles.map(({ slug, title, thumbnail, intro, category, author, profile }) => {
-    const articleMetadata = data.find(
-      (article) => article.slug.toLowerCase().trim() === slug.trim().toLowerCase()
-    );
-    if (!articleMetadata) throw new Error(`Must add ${slug} article metadata to supabase`);
-    return {
-      ...articleMetadata,
-      title,
-      thumbnail,
-      intro,
-      category,
-      author,
-      profile
-    };
-  });
+  const randomArticle = data[Math.floor(Math.random() * data.length)];
 
-  const randomArticle = articles[Math.floor(Math.random() * articles.length)];
-
-  const recent = articles.sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at)).slice(0, 3);
+  const recent = data.sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at)).slice(0, 3);
 
   return (
     <>
@@ -70,7 +50,7 @@ export default async function Page() {
         >
           <figure className="col-span-8 relative aspect-video overflow-hidden">
             <Image
-              src={randomArticle.thumbnail}
+              src={randomArticle.thumbnail || ""}
               alt=""
               fill
               className=" w-full h-full object-cover duration-700 ease-out group-hover:scale-105"
@@ -90,8 +70,8 @@ export default async function Page() {
           </Title>
           <p className="w-clamp mb-4">{randomArticle.intro}</p>
           <Author
-            name={randomArticle.author}
-            img={randomArticle.profile}
+            firstName={randomArticle.profiles?.first_name || ""}
+            img={randomArticle.profiles?.profile_image || ""}
           />
         </Link>
         <Card className="col-span-6 w-full lg:col-span-4 bg-neutral-900 flex flex-col gap-10">
@@ -135,7 +115,7 @@ export default async function Page() {
           <ArticleFilter />
         </div>
         <div className="flex col-span-full lg:col-span-9 gap-10 lg:gap-y-16 flex-col lg:flex-row flex-wrap">
-          {articles.map((article) => {
+          {data.map((article) => {
             return (
               <Article
                 key={article.slug}
