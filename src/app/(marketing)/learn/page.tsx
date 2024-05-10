@@ -70,7 +70,8 @@ export default async function Page() {
           </Title>
           <p className="w-clamp mb-4">{randomArticle.intro}</p>
           <Author
-            firstName={randomArticle.profiles?.first_name || ""}
+            firstName={randomArticle.profiles?.first_name}
+            lastName={randomArticle.profiles?.last_name}
             img={randomArticle.profiles?.profile_image || ""}
           />
         </Link>

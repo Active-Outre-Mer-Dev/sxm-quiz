@@ -9,26 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      admins: {
-        Row: {
-          id: string
-        }
-        Insert: {
-          id: string
-        }
-        Update: {
-          id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "admins_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       articles: {
         Row: {
           category: string
@@ -148,6 +128,7 @@ export type Database = {
           id: string
           last_name: string | null
           profile_image: string | null
+          role: Database["public"]["Enums"]["role"] | null
         }
         Insert: {
           created_at?: string
@@ -155,6 +136,7 @@ export type Database = {
           id: string
           last_name?: string | null
           profile_image?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
         }
         Update: {
           created_at?: string
@@ -162,6 +144,7 @@ export type Database = {
           id?: string
           last_name?: string | null
           profile_image?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
         }
         Relationships: [
           {
@@ -324,6 +307,7 @@ export type Database = {
     }
     Enums: {
       quiz_type: "multiple_choice" | "list"
+      role: "admin" | "user"
       status_type: "beta" | "published" | "pending" | "in_review" | "draft"
     }
     CompositeTypes: {

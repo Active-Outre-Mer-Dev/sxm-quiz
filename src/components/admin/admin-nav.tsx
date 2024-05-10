@@ -1,6 +1,15 @@
 import { User } from "@/app/(admin)/_components/users";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
-import { ExternalLink, Home, LucideIcon, Search, FilePen, Book, Settings } from "lucide-react";
+import {
+  ExternalLink,
+  Home,
+  LucideIcon,
+  Search,
+  FilePen,
+  Book,
+  Settings,
+  User as UserIcon
+} from "lucide-react";
 import Link from "next/link";
 import { SignOut } from "./signout";
 import dynamic from "next/dynamic";
@@ -79,6 +88,16 @@ export function AdminNav() {
             className="inline-block mr-2"
           />{" "}
           Return to SXM Quiz
+        </Link>
+        <Link
+          href={"/dashboard"}
+          className="w-full rounded hover:bg-neutral-600/30 p-2 items-center flex"
+        >
+          <UserIcon
+            size={16}
+            className="inline-block mr-2"
+          />
+          View dashboard
         </Link>
         <ThemeToggle />
         <SignOut />

@@ -5,6 +5,7 @@ import { FormEvent, useRef, useState } from "react";
 import { Image } from "lucide-react";
 type PropTypes = {
   defaultImg?: string;
+  rounded?: string;
 };
 
 export function ImageDropzone({ defaultImg }: PropTypes) {
