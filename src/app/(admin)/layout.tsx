@@ -3,6 +3,8 @@ import { Metadata } from "next";
 import { Inter, Familjen_Grotesk } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AdminNav } from "@/components/admin/admin-nav";
+import { getUser } from "@/lib/get-user";
+import { notFound } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const heading = Familjen_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
@@ -12,6 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
+  const { error } = await getUser("server_component", true);
+  if (error) notFound();
   return (
     <html
       suppressHydrationWarning
