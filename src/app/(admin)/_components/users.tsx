@@ -14,7 +14,7 @@ export async function User() {
         <span className="font-medium">
           {data.data?.first_name} {data.data?.last_name}
         </span>
-        <span className="text-gray-300">a.carty2555@gmail.com</span>
+        <span className="text-gray-300">{data.data.email}</span>
       </span>
     </div>
   );

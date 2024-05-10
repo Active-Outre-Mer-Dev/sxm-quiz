@@ -1,4 +1,4 @@
-import { User } from "@/types/custom.types";
+import { Profiles } from "@/types/custom.types";
 import { createClient } from "./supabase";
 import { cache } from "react";
 
@@ -8,7 +8,7 @@ type GetUser =
       message: string;
       data: null;
     }
-  | { error: false; message: string; data: User };
+  | { error: false; message: string; data: Profiles & { email?: string } };
 
 export const getUser = cache(
   async (env: Parameters<typeof createClient>[0], checkAdmin?: boolean): Promise<GetUser> => {
@@ -36,7 +36,7 @@ export const getUser = cache(
       if (userData.role === "admin") {
         return {
           error: false,
-          data: userData,
+          data: { ...userData, email: data.user.email },
           message: "User must be an admin"
         };
       } else {
@@ -49,7 +49,7 @@ export const getUser = cache(
     } else {
       return {
         error: false,
-        data: userData,
+        data: { ...userData, email: data.user.email },
         message: ""
       };
     }

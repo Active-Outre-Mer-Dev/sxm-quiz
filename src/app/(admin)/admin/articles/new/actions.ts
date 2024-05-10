@@ -19,7 +19,7 @@ export async function createArticle(previousState: any, formData: FormData) {
   const supabase = createClient("server_action");
 
   if (schema.success) {
-    const { error: userError, userData } = await getUser("server_action");
+    const { error: userError, data } = await getUser("server_action");
     if (userError) {
       return;
     }
@@ -33,7 +33,7 @@ export async function createArticle(previousState: any, formData: FormData) {
       intro: schema.data.article_description,
       title: schema.data.article_title,
       thumbnail: url,
-      user_id: userData.id,
+      user_id: data.id,
       thumbnail_path: path
     });
     if (error) {
