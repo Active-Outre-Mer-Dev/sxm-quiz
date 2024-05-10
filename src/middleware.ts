@@ -56,10 +56,11 @@ export async function getAdminSession(request: NextRequest) {
   );
 
   const user = await supabase.auth.getUser();
+  if (user.error) return false;
   const { data: userData, error: userError } = await supabase
     .from("profiles")
     .select("role")
-    .eq("id", user.data.user?.id)
+    .eq("id", user.data.user.id)
     .single();
   if (userError) return false;
   if (userData.role === "admin") return true;
