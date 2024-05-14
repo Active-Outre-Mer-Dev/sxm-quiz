@@ -1,4 +1,4 @@
-import { User } from "@/app/(admin)/_components/users";
+import { User, UserLoading } from "@/app/(admin)/_components/users";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 import {
   ExternalLink,
@@ -14,6 +14,7 @@ import Link from "next/link";
 import { SignOut } from "./signout";
 import dynamic from "next/dynamic";
 import { ThemeLoading } from "./theme-loading";
+import { Suspense } from "react";
 
 const ThemeToggle = dynamic(() => import("@/components/admin/theme"), {
   ssr: false,
@@ -40,7 +41,9 @@ export function AdminNav() {
     <header className="h-screen fixed top-0 left-0 w-1/6 flex flex-col justify-between  border-r border-r-neutral-700">
       <div>
         <div className="border-b border-b-neutral-700 w-full p-4">
-          <User />
+          <Suspense fallback={<UserLoading />}>
+            <User />
+          </Suspense>
         </div>
 
         <div className="p-4 space-y-4">

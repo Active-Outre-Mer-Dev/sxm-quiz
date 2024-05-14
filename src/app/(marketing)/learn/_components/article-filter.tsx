@@ -1,4 +1,4 @@
-import { NavLink } from "./nav-link";
+import { NavLink } from "@/components/nav-link";
 
 export function ArticleFilter() {
   return (
