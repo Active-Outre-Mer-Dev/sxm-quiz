@@ -12,8 +12,7 @@ export function Avatar({ size = 50, src }: PropTypes) {
           loading="lazy"
           decoding="async"
           src={src}
-          width={size}
-          height={size}
+          style={{ borderRadius: "50%", width: size, height: size }}
           className="rounded-full object-cover"
         />
       ) : (
@@ -21,7 +20,7 @@ export function Avatar({ size = 50, src }: PropTypes) {
           style={{ width: size, height: size }}
           className="bg-gray-800 rounded-full flex items-center justify-center"
         >
-          <User />
+          <User size={"75%"} />
         </div>
       )}
     </>

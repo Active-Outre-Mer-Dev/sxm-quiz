@@ -1,7 +1,7 @@
 import { Profiles } from "@/types/custom.types";
 import { createClient } from "./supabase";
 import { cache } from "react";
-
+import { unstable_noStore as noStore } from "next/cache";
 type GetUser =
   | {
       error: true;
@@ -12,6 +12,7 @@ type GetUser =
 
 export const getUser = cache(
   async (env: Parameters<typeof createClient>[0], checkAdmin?: boolean): Promise<GetUser> => {
+    noStore();
     const supabase = createClient(env);
     const { data, error } = await supabase.auth.getUser();
     if (error)

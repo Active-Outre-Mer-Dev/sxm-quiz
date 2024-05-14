@@ -1,76 +1,19 @@
-import { ImageDropzone } from "@/components/image-dropzone";
 import { getUser } from "@/lib/get-user";
 import { createClient } from "@/lib/supabase";
-import { uploadImage } from "@/lib/upload-image";
-import { Button, TextInput, Title } from "@aomdev/ui";
-import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
-import { z } from "zod";
-
-const UserSchema = z.object({
-  first_name: z.string(),
-  last_name: z.string()
-});
 
 export default async function Page() {
-  unstable_noStore();
   const { error, data } = await getUser("server_component");
   if (error) notFound();
-  const updateUser = async (formData: FormData) => {
-    "use server";
-    const { data, error } = await getUser("server_action");
-    if (error) throw error;
-    const schema = UserSchema.safeParse(Object.fromEntries(formData));
-    if (schema.success) {
-      let profile = "";
-      let profilePath = "";
+  const { error: articleError, data: articleData } = await createClient("server_component")
+    .from("articles")
+    .select("slug")
+    .eq("user_id", data.id);
 
-      const image = formData.get("default_image")?.toString();
-      if (!image) {
-        const newImage = formData.get("image") as File;
-        const { path, url } = await uploadImage(newImage, `users/${data.id}`);
-        profile = url;
-        profilePath = path;
-      } else {
-        profile = image;
-      }
-      const newData: Record<string, string> = {
-        ...schema.data
-      };
-      if (profile) {
-        newData.profile_image = profile;
-      }
-      if (profilePath) {
-        newData.profile_path = profilePath;
-      }
-      await createClient("server_action").from("profiles").update(newData).eq("id", data.id);
-    }
-  };
+  const articleCount = articleError ? 0 : articleData.length;
   return (
     <>
-      <Title
-        order={1}
-        className="font-heading mx-auto text-3xl mb-10 font-bold w-fit mt-20"
-      >
-        Account
-      </Title>
-      <form
-        className="w-1/4 mx-auto  space-y-4 mb-20"
-        action={updateUser}
-      >
-        <TextInput
-          label="First name"
-          name="first_name"
-          defaultValue={data.first_name || ""}
-        />
-        <TextInput
-          label="Last name"
-          name="last_name"
-          defaultValue={data.last_name || ""}
-        />
-        <ImageDropzone defaultImg={data.profile_image || ""} />
-        <Button fullWidth>Submit</Button>
-      </form>
+      <p>You have written {articleCount} articles</p>
     </>
   );
 }
