@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { getUser } from "@/lib/get-user";
 import { createClient } from "@/lib/supabase";
-import type { ActionReturn } from "@/types/actionts.type";
+import type { ActionReturn } from "@/lib/action-return";
 
 const PasswordSchema = z.object({
   new_password: z.string(),
@@ -22,7 +22,8 @@ export const updatePassword = async (
     return {
       status: "error",
       message,
-      inputErrors: null
+      inputErrors: null,
+      submitId: crypto.randomUUID()
     };
 
   const schema = PasswordSchema.safeParse(Object.fromEntries(formData));
@@ -31,7 +32,8 @@ export const updatePassword = async (
       return {
         status: "error",
         message: "Passwords do not match",
-        inputErrors: null
+        inputErrors: null,
+        submitId: crypto.randomUUID()
       };
     }
     const { error } = await createClient("server_action").auth.updateUser({
@@ -41,19 +43,22 @@ export const updatePassword = async (
       return {
         status: "error",
         message: error.message,
-        inputErrors: null
+        inputErrors: null,
+        submitId: crypto.randomUUID()
       };
     }
     return {
       status: "success",
       message: "Password updated successfully",
-      inputErrors: null
+      inputErrors: null,
+      submitId: crypto.randomUUID()
     };
   } else {
     return {
       status: "error",
       inputErrors: schema.error.flatten().fieldErrors,
-      message: "There was an error processing the data you provided"
+      message: "There was an error processing the data you provided",
+      submitId: crypto.randomUUID()
     };
   }
 };

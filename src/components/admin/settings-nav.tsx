@@ -6,6 +6,7 @@ export function SettingsNav() {
       <ul className="flex gap-4">
         <NavItem href={"/admin/settings"}>General</NavItem>
         <NavItem href={"/admin/settings/categories"}>Categories</NavItem>
+        <NavItem href={"/admin/settings/random-facts"}>Random facts</NavItem>
       </ul>
     </div>
   );
