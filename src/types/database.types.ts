@@ -128,6 +128,7 @@ export type Database = {
           id: string
           last_name: string | null
           profile_image: string | null
+          profile_path: string | null
           role: Database["public"]["Enums"]["role"] | null
         }
         Insert: {
@@ -136,6 +137,7 @@ export type Database = {
           id: string
           last_name?: string | null
           profile_image?: string | null
+          profile_path?: string | null
           role?: Database["public"]["Enums"]["role"] | null
         }
         Update: {
@@ -144,6 +146,7 @@ export type Database = {
           id?: string
           last_name?: string | null
           profile_image?: string | null
+          profile_path?: string | null
           role?: Database["public"]["Enums"]["role"] | null
         }
         Relationships: [
@@ -228,6 +231,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      random_facts: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+        }
+        Relationships: []
       }
       related_quiz_articles: {
         Row: {
