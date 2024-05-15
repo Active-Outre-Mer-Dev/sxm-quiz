@@ -6,7 +6,7 @@ import { useActionState } from "@/lib/hooks/use-action-state";
 import type { PasswordSchemaType } from "./actions";
 
 export function PasswordForm() {
-  const [state, action] = useActionState<PasswordSchemaType>(updatePassword);
+  const { state, formAction } = useActionState<PasswordSchemaType>(updatePassword);
 
   const [passwords, setPasswords] = useState({ new_password: "", confirm_password: "" });
   useEffect(() => {
@@ -25,7 +25,7 @@ export function PasswordForm() {
   return (
     <form
       className="w-2/4 space-y-6"
-      action={action}
+      action={formAction}
     >
       {state?.status === "error" && <Alert color="error">{state.message}</Alert>}
       <PasswordInput

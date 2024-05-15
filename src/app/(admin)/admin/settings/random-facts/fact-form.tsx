@@ -41,9 +41,6 @@ export function FactForm() {
   const onClear = () => {
     setFileFacts("");
     setFileName("");
-    if (fileRef.current) {
-      fileRef.current.removeAttribute("value");
-    }
   };
   return (
     <>
@@ -64,6 +61,7 @@ export function FactForm() {
           defaultValue={fileFacts}
         />
         <input
+          key={crypto.randomUUID()}
           ref={fileRef}
           type="file"
           onChange={handleChange}

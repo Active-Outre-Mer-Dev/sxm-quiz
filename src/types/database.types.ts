@@ -234,14 +234,17 @@ export type Database = {
       }
       random_facts: {
         Row: {
+          created_at: string
           description: string
           id: string
         }
         Insert: {
+          created_at?: string
           description: string
           id?: string
         }
         Update: {
+          created_at?: string
           description?: string
           id?: string
         }

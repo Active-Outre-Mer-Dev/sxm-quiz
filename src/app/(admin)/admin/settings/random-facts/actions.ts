@@ -5,8 +5,9 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const FactSchema = z.object({ description: z.string().optional(), file_facts: z.string().optional() });
+
 export type FactSchemaType = z.infer<typeof FactSchema>;
-export type FactSchemaState = ActionReturn<FactSchemaType>;
+type FactSchemaState = ActionReturn<FactSchemaType>;
 
 export const addFact = async (prevState: FactSchemaState, formData: FormData): Promise<FactSchemaState> => {
   "use server";
@@ -41,3 +42,55 @@ export const addFact = async (prevState: FactSchemaState, formData: FormData): P
     });
   }
 };
+
+const FactDeleteSchema = z.object({
+  id: z.string()
+});
+
+export type FactDeleteSchemaType = z.infer<typeof FactDeleteSchema>;
+type FactDeleteSchemaState = ActionReturn<FactDeleteSchemaType>;
+
+export async function deleteFact(
+  prevState: FactDeleteSchemaState,
+  formData: FormData
+): Promise<FactDeleteSchemaState> {
+  const schema = FactDeleteSchema.safeParse(Object.fromEntries(formData));
+  if (schema.success) {
+    const { error } = await createClient("server_action")
+      .from("random_facts")
+      .delete()
+      .eq("id", schema.data.id);
+    if (error) {
+      return errorActionReturn({ inputErrors: null, message: error.message });
+    }
+    revalidatePath("/admin/settings/random-facts");
+    return successActionReturn("Nice");
+  } else {
+    return errorActionReturn({ inputErrors: schema.error.flatten().fieldErrors, message: "bruh" });
+  }
+}
+
+const FactUpdateScema = z.object({ id: z.string(), description: z.string() });
+
+export type FactUpdateScema = z.infer<typeof FactUpdateScema>;
+type FactUpdateScemaState = ActionReturn<FactUpdateScema>;
+
+export async function updateFact(prevState: any, formData: FormData): Promise<FactUpdateScemaState> {
+  const schema = FactUpdateScema.safeParse(Object.fromEntries(formData));
+  if (schema.success) {
+    const { error } = await createClient("server_action")
+      .from("random_facts")
+      .update({ description: schema.data.description })
+      .eq("id", schema.data.id);
+    if (error) {
+      return errorActionReturn({ inputErrors: null, message: error.message });
+    }
+    console.log(error);
+    console.log("what bruh");
+    revalidatePath("/admin/settings/random-facts");
+    return successActionReturn("Nice");
+  } else {
+    console.log("bruh");
+    return errorActionReturn({ inputErrors: schema.error.flatten().fieldErrors, message: "Bruh" });
+  }
+}

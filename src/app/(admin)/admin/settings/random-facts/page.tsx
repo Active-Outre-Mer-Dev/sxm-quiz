@@ -1,10 +1,13 @@
 import { createClient } from "@/lib/supabase";
-import { ActionIcon, Title } from "@aomdev/ui";
-import { Trash2 } from "lucide-react";
+import { Title } from "@aomdev/ui";
 import { FactForm } from "./fact-form";
+import { Fact } from "./fact";
 
 export default async function RandomFacts() {
-  const { data, error } = await createClient("server_component").from("random_facts").select("*");
+  const { data, error } = await createClient("server_component")
+    .from("random_facts")
+    .select("description, id")
+    .order("created_at", { ascending: false });
   if (error) throw error;
 
   return (
@@ -17,20 +20,13 @@ export default async function RandomFacts() {
         >
           All facts
         </Title>
-        <ul className="space-y-4">
+        <ul className="space-y-8">
           {data.map((fact) => {
             return (
-              <li
+              <Fact
+                {...fact}
                 key={fact.id}
-                className="flex items-start justify-between border-b-neutral-700 border-b pb-4"
-              >
-                {fact.description}
-                <form>
-                  <ActionIcon>
-                    <Trash2 size={"75%"} />
-                  </ActionIcon>
-                </form>
-              </li>
+              />
             );
           })}
         </ul>
