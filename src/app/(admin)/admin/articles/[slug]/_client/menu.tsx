@@ -11,20 +11,19 @@ import {
   Heading2,
   Heading3,
   Italic,
-  Save,
   Trash
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { deleteArticle, editContent } from "../actions";
+import { toast } from "sonner";
 
 type PropTypes = {
   editor: Editor;
-  onSave: () => void;
   imgPath: string | null;
 };
 
-export function Menu({ editor, onSave, imgPath }: PropTypes) {
+export function Menu({ editor, imgPath }: PropTypes) {
   const [isPending, startTransition] = useTransition();
   const params = useParams();
   const router = useRouter();
@@ -39,14 +38,22 @@ export function Menu({ editor, onSave, imgPath }: PropTypes) {
 
   const onDelete = () => {
     startTransition(async () => {
-      await deleteArticle(params.slug as string, imgPath!);
-      router.push("/admin/articles");
+      const { status, message } = await deleteArticle(params.slug as string, imgPath!);
+      if (status === "error") {
+        toast.error(message);
+      }
+      if (status === "success") {
+        toast.success(message);
+        router.push("/admin/articles");
+      }
     });
   };
 
   const onEditContent = () => {
     startTransition(async () => {
-      await editContent(editor.getHTML(), params.slug as string);
+      const data = await editContent(editor.getHTML(), params.slug as string);
+      if (data.status === "error") toast.error(data.message);
+      if (data.status === "success") toast.success(data.message);
     });
   };
 
@@ -116,13 +123,6 @@ export function Menu({ editor, onSave, imgPath }: PropTypes) {
             rightSection={<>SHIFT S</>}
           >
             Copy content
-          </Dropdown.Item>
-          <Dropdown.Item
-            onSelect={onSave}
-            icon={<Save size={14} />}
-            rightSection={<>CTRL S</>}
-          >
-            Save locally
           </Dropdown.Item>
           <Dropdown.Item
             onSelect={onEditContent}

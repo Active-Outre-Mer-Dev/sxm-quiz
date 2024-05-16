@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import { getUser } from "@/lib/get-user";
 import { uploadImage } from "@/lib/upload-image";
+import { ActionReturn, errorActionReturn } from "@/lib/action-return";
 
 const ArticleSchema = z.object({
   article_title: z.string().trim().min(1, { message: "Title is required" }),
@@ -13,7 +14,10 @@ const ArticleSchema = z.object({
   article_slug: z.string({ required_error: "Missing Slug" }).min(1, { message: "Slug is required" })
 });
 
-export async function createArticle(previousState: any, formData: FormData) {
+export type ArticleSchemaType = z.infer<typeof ArticleSchema>;
+type ArticleSchemaState = ActionReturn<ArticleSchemaType>;
+
+export async function createArticle(previousState: any, formData: FormData): Promise<ArticleSchemaState> {
   const formEntries = Object.fromEntries(formData);
   const schema = ArticleSchema.safeParse(formEntries);
   const supabase = createClient("server_action");
@@ -21,7 +25,7 @@ export async function createArticle(previousState: any, formData: FormData) {
   if (schema.success) {
     const { error: userError, data } = await getUser("server_action");
     if (userError) {
-      return;
+      return errorActionReturn({ inputErrors: null, message: "User error" });
     }
     const imageFile = formEntries.image as File;
     const { url, path } = await uploadImage(imageFile, `articles/${schema.data.article_slug}`);
@@ -37,11 +41,13 @@ export async function createArticle(previousState: any, formData: FormData) {
       thumbnail_path: path
     });
     if (error) {
-      console.log(error);
-      return;
+      return errorActionReturn({ inputErrors: null, message: error.message });
     }
     redirect(`/admin/articles/${schema.data.article_slug}`);
   } else {
-    return schema.error.flatten().fieldErrors;
+    return errorActionReturn({
+      inputErrors: schema.error.flatten().fieldErrors,
+      message: "Failed to do something"
+    });
   }
 }

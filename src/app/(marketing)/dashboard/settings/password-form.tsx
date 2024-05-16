@@ -1,20 +1,22 @@
 "use client";
 import { Button, PasswordInput, Alert } from "@aomdev/ui";
-import { FormEvent, useState, useEffect } from "react";
+import { useState } from "react";
 import { updatePassword } from "./actions";
 import { useActionState } from "@/lib/hooks/use-action-state";
+import { toast } from "sonner";
 import type { PasswordSchemaType } from "./actions";
+import type { FormEvent } from "react";
 
 export function PasswordForm() {
-  const { state, formAction } = useActionState<PasswordSchemaType>(updatePassword);
+  const { state, formAction } = useActionState<PasswordSchemaType>(updatePassword, {
+    onSuccess(message) {
+      toast.success(message);
+      setPasswords({ new_password: "", confirm_password: "" });
+    }
+  });
 
   const [passwords, setPasswords] = useState({ new_password: "", confirm_password: "" });
-  useEffect(() => {
-    if (state?.status === "success") {
-      alert("Password updated");
-      setPasswords({ confirm_password: "", new_password: "" });
-    }
-  }, [state?.status]);
+
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     setPasswords((prev) => ({ ...prev, [name]: value }));

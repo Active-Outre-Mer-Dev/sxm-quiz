@@ -5,6 +5,7 @@ import type { ActionReturn } from "../action-return";
 type Options = {
   resetOnSuccess?: boolean;
   onSuccess?: (message: string) => void;
+  onError?: (message: string) => void;
 };
 
 type ActionFunction<State> = (
@@ -28,7 +29,12 @@ export function useActionState<State>(action: ActionFunction<State>, options?: P
 
   useEffect(() => {
     if (options?.onSuccess && state.status === "success") {
-      options.onSuccess(state.message);
+      console.log("is this running");
+      options.onSuccess.call(null, state.message);
+    }
+
+    if (options?.onError && state.status === "error") {
+      options.onError(state.message);
     }
   }, [state.submitId, state.message]);
 

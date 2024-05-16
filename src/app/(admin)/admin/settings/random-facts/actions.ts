@@ -14,6 +14,7 @@ export const addFact = async (prevState: FactSchemaState, formData: FormData): P
   const schema = FactSchema.safeParse(Object.fromEntries(formData));
 
   if (schema.success) {
+    let multiple = false;
     if (!schema.data.description && !schema.data.file_facts) {
       return errorActionReturn({
         message: "Must enter facts either through text field or by uploading a .txt file",
@@ -31,10 +32,11 @@ export const addFact = async (prevState: FactSchemaState, formData: FormData): P
         .filter((fact) => fact)
         .map((fact) => ({ description: fact }));
       await createClient("server_action").from("random_facts").insert(allFacts);
+      multiple = true;
     }
     revalidatePath("/admin/settings/random-facts");
 
-    return successActionReturn("Fact added");
+    return successActionReturn(multiple ? "Facts added" : "Fact added");
   } else {
     return errorActionReturn({
       message: "An error occurred",
@@ -64,9 +66,12 @@ export async function deleteFact(
       return errorActionReturn({ inputErrors: null, message: error.message });
     }
     revalidatePath("/admin/settings/random-facts");
-    return successActionReturn("Nice");
+    return successActionReturn("Fact deleted");
   } else {
-    return errorActionReturn({ inputErrors: schema.error.flatten().fieldErrors, message: "bruh" });
+    return errorActionReturn({
+      inputErrors: schema.error.flatten().fieldErrors,
+      message: "Failed to delete fact"
+    });
   }
 }
 
@@ -85,12 +90,13 @@ export async function updateFact(prevState: any, formData: FormData): Promise<Fa
     if (error) {
       return errorActionReturn({ inputErrors: null, message: error.message });
     }
-    console.log(error);
-    console.log("what bruh");
     revalidatePath("/admin/settings/random-facts");
-    return successActionReturn("Nice");
+    return successActionReturn("Fact updated");
   } else {
     console.log("bruh");
-    return errorActionReturn({ inputErrors: schema.error.flatten().fieldErrors, message: "Bruh" });
+    return errorActionReturn({
+      inputErrors: schema.error.flatten().fieldErrors,
+      message: "Failed to update"
+    });
   }
 }
