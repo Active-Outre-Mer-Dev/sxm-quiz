@@ -1,22 +1,23 @@
 "use client";
-import { useFormState } from "react-dom";
-import { createArticle } from "../actions";
-import { Button, Select, Textarea } from "@aomdev/ui";
+import { ArticleSchemaType, createArticle } from "../actions";
+import { Select, Textarea } from "@aomdev/ui";
 import { TitleSlug } from "@/components/title-slug";
 import { ImageDropzone } from "@/components/image-dropzone";
+import { useActionState } from "@/lib/hooks/use-action-state";
+import { FormButton } from "@/components/form-button";
 
 export function ArticleForm() {
-  const [state, action] = useFormState(createArticle, null);
+  const { formAction, state } = useActionState<ArticleSchemaType>(createArticle);
 
   return (
     <form
       className="space-y-6"
-      action={action}
+      action={formAction}
     >
       <TitleSlug
         name="article"
-        slugError={state?.article_slug?.join(" \n")}
-        titleError={state?.article_title?.join("\n")}
+        slugError={state?.inputErrors?.article_slug?.join(" \n")}
+        titleError={state?.inputErrors?.article_title?.join("\n")}
       />
       <Textarea
         label="Description"
@@ -32,15 +33,14 @@ export function ArticleForm() {
           { label: "Environment", value: "environment" }
         ]}
       />
-      {state?.article_category?.join("\n")}
       <ImageDropzone />
 
-      <Button
+      <FormButton
         type="submit"
         fullWidth
       >
         Create article
-      </Button>
+      </FormButton>
     </form>
   );
 }

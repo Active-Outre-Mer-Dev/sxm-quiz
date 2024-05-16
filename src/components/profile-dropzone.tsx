@@ -44,7 +44,7 @@ export function ProfileDropzone({ defaultImg }: PropTypes) {
       />
 
       <Tooltip>
-        <Tooltip.Trigger>
+        <Tooltip.Trigger type="button">
           <div
             onClick={onClick}
             className="space-y-2 relative w-fit cursor-pointer"

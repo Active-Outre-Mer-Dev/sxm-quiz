@@ -7,12 +7,13 @@ import { useRef, useState } from "react";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 import type { FormEvent } from "react";
 import type { FactSchemaType } from "./actions";
+import { toast } from "sonner";
 
 export function FactForm() {
   const { ref, formAction, state } = useActionState<FactSchemaType>(addFact, {
     resetOnSuccess: true,
     onSuccess(message) {
-      alert(message);
+      toast.success(message);
     }
   });
   const [fileFacts, setFileFacts] = useState("");
@@ -48,7 +49,7 @@ export function FactForm() {
       <form
         ref={ref}
         action={formAction}
-        className="space-y-4 mb-10"
+        className="space-y-4 mb-10 mt-4"
       >
         <Textarea
           label="New fact"
