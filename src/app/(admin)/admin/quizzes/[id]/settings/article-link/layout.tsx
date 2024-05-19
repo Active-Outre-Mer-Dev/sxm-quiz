@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase";
 import { ArticleSidebar } from "./article-sidebar";
-import { allArticles } from "contentlayer/generated";
 import { SettingsBreadcrumbs } from "@/components/admin/settings-breadcrumbs";
+import { getArticles } from "@/lib/get-articles";
 
 export default async function ArticleLinkLayout({
   children,
@@ -11,7 +11,8 @@ export default async function ArticleLinkLayout({
   params: { id: string };
 }) {
   const client = createClient("server_component");
-  const { data, error } = await client.from("articles").select("*").eq("status", "published");
+  const { data, error } = await getArticles();
+
   const { data: testData } = await client
     .from("related_quiz_articles")
     .select("*")
@@ -20,16 +21,13 @@ export default async function ArticleLinkLayout({
   if (error) throw error;
 
   const articles = data.map((article) => {
-    const data = allArticles.find((data) => data.slug === article.slug);
-    if (!data) throw new Error("Data out of sync");
-    const isLinked = testData?.find((t) => t.article_slug === data.slug);
-
+    const isLinked = testData?.find((t) => t.article_slug === article.slug);
     return {
-      title: data.title,
-      thumbnail: data.thumbnail,
-      description: data.intro,
-      slug: data.slug,
-      content: data.body.html,
+      title: article.title,
+      thumbnail: article.thumbnail,
+      description: article.intro,
+      slug: article.slug,
+      content: article.content || "",
       isLinked: isLinked !== undefined
     };
   });
