@@ -1,11 +1,12 @@
 import { createClient } from "@/lib/supabase";
-import { Card, Title, ActionIcon, Button } from "@aomdev/ui";
+import { Card, Title, ActionIcon, Button, TextInput } from "@aomdev/ui";
 import { redirect } from "next/navigation";
-import { Trash } from "lucide-react";
+import { Trash, Trash2 } from "lucide-react";
 import { NewQuestion } from "./new-question";
 import { EditQuestionDialog } from "./edit-question";
-import { deleteQuestion, toggleStatus } from "./actionts";
+import { deleteQuestion, toggleStatus } from "./actions";
 import { Nav } from "@/app/(admin)/_components/nav";
+import { QuizOptions } from "./quiz-options";
 
 async function fetchQuestions(
   type: "multiple_choice" | "list",
@@ -52,7 +53,11 @@ export default async function Page({ params }: { params: { id: string } }) {
           </Card>
         </div>
         <section className="mt-16">
-          {"options" in questionData ? null : (
+          {"options" in questionData ? (
+            <>
+              <QuizOptions {...questionData} />
+            </>
+          ) : (
             <QuestionList
               quiz_id={data.id}
               questions={questionData}
