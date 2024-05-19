@@ -3,7 +3,7 @@ import { Button, Dialog, DialogProps, TextInput, ActionIcon, Textarea } from "@a
 import { X } from "lucide-react";
 import { useState } from "react";
 import type { KeyboardEvent } from "react";
-import { createQuestion } from "./actionts";
+import { createQuestion } from "./actions";
 
 export function NewQuestion({ children, quiz_id, ...props }: DialogProps & { quiz_id: number }) {
   const [options, setOptions] = useState<string[]>([]);

@@ -62,3 +62,8 @@ export async function deleteQuestion(id: string, quiz_id: number) {
   console.log("it ran");
   revalidatePath(`/admin/quizzes/${quiz_id}`);
 }
+
+export async function editOption(options: string[], id: number) {
+  const supabase = createClient("server_action");
+  await supabase.from("quiz_name_all").update({ options }).eq("id", id);
+}

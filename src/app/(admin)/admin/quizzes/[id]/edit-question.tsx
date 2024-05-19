@@ -2,7 +2,7 @@
 import { ActionIcon, Button, Dialog, TextInput, Textarea } from "@aomdev/ui";
 import { Pencil, Check, X, Pen } from "lucide-react";
 import { FormEvent, KeyboardEvent, useState } from "react";
-import { editQuestion } from "./actionts";
+import { editQuestion } from "./actions";
 import { useRef } from "react";
 
 type PropTypes = {
