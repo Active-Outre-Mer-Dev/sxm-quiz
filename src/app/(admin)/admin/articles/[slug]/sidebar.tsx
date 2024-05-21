@@ -25,7 +25,7 @@ export async function Sidebar({ slug }: PropTypes) {
       element: (
         <>
           <Badge
-            color={getCatColor(data.status)}
+            color={data.status === "published" ? "success" : "warn"}
             className="capitalize"
           >
             {data.status}

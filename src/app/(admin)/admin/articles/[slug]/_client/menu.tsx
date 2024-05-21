@@ -1,6 +1,5 @@
 import { createMarkdown } from "@/lib/create-markdown";
-import { ActionIcon, Dropdown } from "@aomdev/ui";
-import type { Editor } from "@tiptap/react";
+import { ActionIcon, Dropdown, Button } from "@aomdev/ui";
 import {
   Bold,
   CircleEllipsis,
@@ -11,22 +10,94 @@ import {
   Heading2,
   Heading3,
   Italic,
+  List,
+  ListOrdered,
+  LucideIcon,
   Trash
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { deleteArticle, editContent } from "../actions";
+import { StatusSchemaType, deleteArticle, editContent, toggleArticleStatus } from "../actions";
 import { toast } from "sonner";
+import { useCurrentEditor } from "@/lib/hooks/use-editor";
+import { MenuItem } from "./menu-item";
+import type { Editor } from "@tiptap/react";
+import { useActionState } from "@/lib/hooks/use-action-state";
 
 type PropTypes = {
-  editor: Editor;
   imgPath: string | null;
+  published: boolean;
 };
 
-export function Menu({ editor, imgPath }: PropTypes) {
+type MenuItem = {
+  isActive: (editor: Editor) => boolean;
+  Icon: LucideIcon;
+  onClick: (editor: Editor) => void;
+  type: string;
+};
+
+const headingItems: MenuItem[] = [
+  {
+    isActive: (editor) => editor.isActive("heading", { level: 1 }),
+    Icon: Heading1,
+    onClick: (editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    type: "heading1"
+  },
+  {
+    isActive: (editor) => editor.isActive("heading", { level: 2 }),
+    Icon: Heading2,
+    onClick: (editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    type: "heading2"
+  },
+  {
+    isActive: (editor) => editor.isActive("heading", { level: 3 }),
+    Icon: Heading3,
+    onClick: (editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+    type: "heading3"
+  }
+];
+
+const textItems: MenuItem[] = [
+  {
+    isActive: (editor) => editor.isActive("bold"),
+    Icon: Bold,
+    onClick: (editor) => editor.chain().focus().toggleBold().run(),
+    type: "bold"
+  },
+  {
+    isActive: (editor) => editor.isActive("italic"),
+    Icon: Italic,
+    onClick: (editor) => editor.chain().focus().toggleItalic().run(),
+    type: "italic"
+  },
+  {
+    isActive: (editor) => editor.isActive("bulletList"),
+    Icon: List,
+    onClick: (editor) => editor.chain().focus().toggleBulletList().run(),
+    type: "bullet-list"
+  },
+  {
+    isActive: (editor) => editor.isActive("orderedList"),
+    Icon: ListOrdered,
+    onClick: (editor) => editor.chain().focus().toggleOrderedList().run(),
+    type: "ordered-list"
+  }
+];
+
+export function Menu({ imgPath, published }: PropTypes) {
   const [isPending, startTransition] = useTransition();
+  const editor = useCurrentEditor();
   const params = useParams();
   const router = useRouter();
+  const { formAction } = useActionState<StatusSchemaType>(toggleArticleStatus, {
+    onSuccess(message) {
+      toast.success(message);
+    },
+    onError(message) {
+      toast.error(message);
+    }
+  });
+
   const onClick = async () => {
     const markdown = createMarkdown(editor.getJSON());
     await navigator.clipboard.writeText(markdown);
@@ -61,92 +132,74 @@ export function Menu({ editor, imgPath }: PropTypes) {
     <div className=" border-b flex justify-between items-center bg-neutral-900 z-10 border-b-gray-700 h-16 px-4 sticky top-0 left-0">
       <div className="flex gap-4">
         <div className="flex gap-1">
-          <ActionIcon
-            size={"md"}
-            color="gray"
-            data-active={editor.isActive("heading", { level: 1 })}
-            className="data-[active=true]:ring-2 ring-white"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          >
-            <Heading1 size={16} />
-          </ActionIcon>
-          <ActionIcon
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            color="gray"
-            size={"md"}
-            data-active={editor.isActive("heading", { level: 2 })}
-            className="data-[active=true]:ring-2 ring-white"
-          >
-            <Heading2 size={16} />
-          </ActionIcon>
-          <ActionIcon
-            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            color="gray"
-            size={"md"}
-            data-active={editor.isActive("heading", { level: 3 })}
-            className="data-[active=true]:ring-2 ring-white"
-          >
-            <Heading3 size={16} />
-          </ActionIcon>
+          {headingItems.map((props) => (
+            <MenuItem
+              {...props}
+              key={props.type}
+            />
+          ))}
         </div>
         <div className="flex gap-1">
-          <ActionIcon
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            color="gray"
-            size={"md"}
-            data-active={editor.isActive("italic")}
-            className="data-[active=true]:ring-2 ring-white"
-          >
-            <Italic size={16} />
-          </ActionIcon>
-          <ActionIcon
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            color="gray"
-            size={"md"}
-            data-active={editor.isActive("bold")}
-            className="data-[active=true]:ring-2 ring-white"
-          >
-            <Bold size={16} />
-          </ActionIcon>
+          {textItems.map((props) => (
+            <MenuItem
+              {...props}
+              key={props.type}
+            />
+          ))}
         </div>
       </div>
-      <Dropdown>
-        <Dropdown.Trigger>
-          <ActionIcon color="gray">
-            <CircleEllipsis size={"75%"} />
-          </ActionIcon>
-        </Dropdown.Trigger>
-        <Dropdown.Content style={{ zIndex: 50 }}>
-          <Dropdown.Item
-            onSelect={onClick}
-            icon={<Copy size={14} />}
-            rightSection={<>SHIFT S</>}
-          >
-            Copy content
-          </Dropdown.Item>
-          <Dropdown.Item
-            onSelect={onEditContent}
-            icon={<GitPullRequest size={14} />}
-          >
-            Save to db
-          </Dropdown.Item>
-          <Dropdown.Separator />
-          <Dropdown.Item
-            onSelect={onEdit}
-            icon={<Edit size={14} />}
-          >
-            Edit article
-          </Dropdown.Item>
-          <Dropdown.Item
-            disabled={isPending}
-            icon={<Trash size={14} />}
-            color="error"
-            onSelect={onDelete}
-          >
-            Delete article
-          </Dropdown.Item>
-        </Dropdown.Content>
-      </Dropdown>
+      <div className="flex items-center gap-4">
+        <form action={formAction}>
+          <input
+            type="hidden"
+            name="article_slug"
+            value={params.slug}
+          />
+          <input
+            type="hidden"
+            name="article_status"
+            value={published ? "pending" : "published"}
+          />
+          <Button>{published ? "Unpublish" : "Publish"}</Button>
+        </form>
+        <Dropdown>
+          <Dropdown.Trigger>
+            <ActionIcon color="gray">
+              <CircleEllipsis size={"75%"} />
+            </ActionIcon>
+          </Dropdown.Trigger>
+          <Dropdown.Content style={{ zIndex: 50 }}>
+            <Dropdown.Item
+              onSelect={onClick}
+              icon={<Copy size={14} />}
+              rightSection={<>SHIFT S</>}
+            >
+              Copy content
+            </Dropdown.Item>
+            <Dropdown.Item
+              onSelect={onEditContent}
+              icon={<GitPullRequest size={14} />}
+            >
+              Save to db
+            </Dropdown.Item>
+            <Dropdown.Separator />
+            <Dropdown.Item
+              onSelect={onEdit}
+              icon={<Edit size={14} />}
+            >
+              Edit article
+            </Dropdown.Item>
+            <Dropdown.Item
+              disabled={isPending}
+              icon={<Trash size={14} />}
+              color="error"
+              onSelect={onDelete}
+            >
+              Delete article
+            </Dropdown.Item>
+          </Dropdown.Content>
+        </Dropdown>
+      </div>
     </div>
   );
 }

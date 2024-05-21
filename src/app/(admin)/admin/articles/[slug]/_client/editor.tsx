@@ -4,22 +4,28 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import { Menu } from "./menu";
+import Link from "@tiptap/extension-link";
+import styles from "./editor.module.css";
+import { BubbleMenu } from "./bubble-menu";
+import { EditorProvider } from "@/components/providers/editor-provider";
 
 type PropTypes = {
   defaultContent: string;
   slug: string;
   articleData: ArticleData;
   imgPath: string | null;
+  published: boolean;
 };
+
 export type ContentSave = { timestamp: Date; content: string; html: string; id: string; isActive: boolean };
 
-const Tiptap = ({ defaultContent, slug, imgPath }: PropTypes) => {
+const Tiptap = ({ defaultContent, imgPath, published }: PropTypes) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Link.extend({ inclusive: false })],
     content: defaultContent,
     editorProps: {
       attributes: {
-        class: `p-4 outline-none prose-headings:font-bold prose-headings:font-heading h-fit prose-h1:text-4xl prose-h2:text-2xl prose-h3:text-xl`
+        class: `prose-headings:font-heading prose-h1:text-4xl prose-h2:text-2xl prose-h3:text-xl ${styles.editor}`
       }
     }
   });
@@ -29,7 +35,6 @@ const Tiptap = ({ defaultContent, slug, imgPath }: PropTypes) => {
       const handleCopyShortcut = async (e: KeyboardEvent) => {
         if (e.altKey && e.key === "c") {
           e.preventDefault();
-          console.log("test");
           await navigator.clipboard.writeText(createMarkdown(editor.getJSON()));
         }
       };
@@ -44,18 +49,18 @@ const Tiptap = ({ defaultContent, slug, imgPath }: PropTypes) => {
   if (!editor) return null;
 
   return (
-    <>
+    <EditorProvider editor={editor}>
       <div className="basis-[80%]">
-        <div className="ring-1 min-h-screen ring-gray-700">
+        <div className="ring-1 min-h-screen ring-gray-700 ">
           <Menu
-            editor={editor}
             imgPath={imgPath}
+            published={published}
           />
-
+          <BubbleMenu editor={editor} />
           <EditorContent editor={editor} />
         </div>
       </div>
-    </>
+    </EditorProvider>
   );
 };
 
