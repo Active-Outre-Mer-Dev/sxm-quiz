@@ -1,5 +1,5 @@
 import { createMarkdown } from "@/lib/create-markdown";
-import { ActionIcon, Dropdown } from "@aomdev/ui";
+import { ActionIcon, Dropdown, Button } from "@aomdev/ui";
 import {
   Bold,
   CircleEllipsis,
@@ -17,14 +17,16 @@ import {
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { deleteArticle, editContent } from "../actions";
+import { StatusSchemaType, deleteArticle, editContent, toggleArticleStatus } from "../actions";
 import { toast } from "sonner";
 import { useCurrentEditor } from "@/lib/hooks/use-editor";
-import type { Editor } from "@tiptap/react";
 import { MenuItem } from "./menu-item";
+import type { Editor } from "@tiptap/react";
+import { useActionState } from "@/lib/hooks/use-action-state";
 
 type PropTypes = {
   imgPath: string | null;
+  published: boolean;
 };
 
 type MenuItem = {
@@ -82,11 +84,19 @@ const textItems: MenuItem[] = [
   }
 ];
 
-export function Menu({ imgPath }: PropTypes) {
+export function Menu({ imgPath, published }: PropTypes) {
   const [isPending, startTransition] = useTransition();
   const editor = useCurrentEditor();
   const params = useParams();
   const router = useRouter();
+  const { formAction } = useActionState<StatusSchemaType>(toggleArticleStatus, {
+    onSuccess(message) {
+      toast.success(message);
+    },
+    onError(message) {
+      toast.error(message);
+    }
+  });
 
   const onClick = async () => {
     const markdown = createMarkdown(editor.getJSON());
@@ -138,43 +148,58 @@ export function Menu({ imgPath }: PropTypes) {
           ))}
         </div>
       </div>
-      <Dropdown>
-        <Dropdown.Trigger>
-          <ActionIcon color="gray">
-            <CircleEllipsis size={"75%"} />
-          </ActionIcon>
-        </Dropdown.Trigger>
-        <Dropdown.Content style={{ zIndex: 50 }}>
-          <Dropdown.Item
-            onSelect={onClick}
-            icon={<Copy size={14} />}
-            rightSection={<>SHIFT S</>}
-          >
-            Copy content
-          </Dropdown.Item>
-          <Dropdown.Item
-            onSelect={onEditContent}
-            icon={<GitPullRequest size={14} />}
-          >
-            Save to db
-          </Dropdown.Item>
-          <Dropdown.Separator />
-          <Dropdown.Item
-            onSelect={onEdit}
-            icon={<Edit size={14} />}
-          >
-            Edit article
-          </Dropdown.Item>
-          <Dropdown.Item
-            disabled={isPending}
-            icon={<Trash size={14} />}
-            color="error"
-            onSelect={onDelete}
-          >
-            Delete article
-          </Dropdown.Item>
-        </Dropdown.Content>
-      </Dropdown>
+      <div className="flex items-center gap-4">
+        <form action={formAction}>
+          <input
+            type="hidden"
+            name="article_slug"
+            value={params.slug}
+          />
+          <input
+            type="hidden"
+            name="article_status"
+            value={published ? "pending" : "published"}
+          />
+          <Button>{published ? "Unpublish" : "Publish"}</Button>
+        </form>
+        <Dropdown>
+          <Dropdown.Trigger>
+            <ActionIcon color="gray">
+              <CircleEllipsis size={"75%"} />
+            </ActionIcon>
+          </Dropdown.Trigger>
+          <Dropdown.Content style={{ zIndex: 50 }}>
+            <Dropdown.Item
+              onSelect={onClick}
+              icon={<Copy size={14} />}
+              rightSection={<>SHIFT S</>}
+            >
+              Copy content
+            </Dropdown.Item>
+            <Dropdown.Item
+              onSelect={onEditContent}
+              icon={<GitPullRequest size={14} />}
+            >
+              Save to db
+            </Dropdown.Item>
+            <Dropdown.Separator />
+            <Dropdown.Item
+              onSelect={onEdit}
+              icon={<Edit size={14} />}
+            >
+              Edit article
+            </Dropdown.Item>
+            <Dropdown.Item
+              disabled={isPending}
+              icon={<Trash size={14} />}
+              color="error"
+              onSelect={onDelete}
+            >
+              Delete article
+            </Dropdown.Item>
+          </Dropdown.Content>
+        </Dropdown>
+      </div>
     </div>
   );
 }

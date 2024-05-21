@@ -37,6 +37,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           articleData={articleData}
           slug={params.slug}
           defaultContent={data.content || ""}
+          published={data.status === "published"}
         />
       </div>
     </main>

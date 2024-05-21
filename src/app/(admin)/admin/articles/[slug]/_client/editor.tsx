@@ -14,11 +14,12 @@ type PropTypes = {
   slug: string;
   articleData: ArticleData;
   imgPath: string | null;
+  published: boolean;
 };
 
 export type ContentSave = { timestamp: Date; content: string; html: string; id: string; isActive: boolean };
 
-const Tiptap = ({ defaultContent, imgPath }: PropTypes) => {
+const Tiptap = ({ defaultContent, imgPath, published }: PropTypes) => {
   const editor = useEditor({
     extensions: [StarterKit, Link.extend({ inclusive: false })],
     content: defaultContent,
@@ -51,7 +52,10 @@ const Tiptap = ({ defaultContent, imgPath }: PropTypes) => {
     <EditorProvider editor={editor}>
       <div className="basis-[80%]">
         <div className="ring-1 min-h-screen ring-gray-700 ">
-          <Menu imgPath={imgPath} />
+          <Menu
+            imgPath={imgPath}
+            published={published}
+          />
           <BubbleMenu editor={editor} />
           <EditorContent editor={editor} />
         </div>
