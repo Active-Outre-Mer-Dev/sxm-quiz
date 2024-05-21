@@ -68,9 +68,10 @@ export async function getAdminSession(request: NextRequest) {
 }
 
 export default async function middleware(req: NextRequest) {
-  const isAdmin = await getAdminSession(req);
-  if (isAdmin) return NextResponse.next();
-  return NextResponse.rewrite(new URL("/404", req.url));
+  // const isAdmin = await getAdminSession(req);
+  // if (isAdmin) return NextResponse.next();
+  // return NextResponse.rewrite(new URL("/404", req.url));
+  return NextResponse.next();
 }
 
 export const config = {

@@ -103,7 +103,7 @@ export default async function Page({ params }: { params: { slug: string; categor
             />
             <div
               className={`prose-ul:list-disc prose-headings:font-medium prose-h2:mt-10 prose-lg prose-h2:mb-4
-               prose-h2:text-3xl prose-a:text-primary-500`}
+               prose-h2:text-3xl prose-a:text-primary-200 prose-ol:pl-4 prose-ul:pl-4 prose-ol:list-decimal`}
               dangerouslySetInnerHTML={{ __html: newContent }}
             ></div>
           </article>

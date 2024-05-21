@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  const { error } = await getUser("server_component", true);
-  if (error) notFound();
+  // const { error } = await getUser("server_component", true);
+  // if (error) notFound();
   return (
     <html
       suppressHydrationWarning
