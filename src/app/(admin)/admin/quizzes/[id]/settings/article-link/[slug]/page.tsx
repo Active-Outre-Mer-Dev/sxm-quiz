@@ -1,11 +1,12 @@
 import { RenderMarkdown } from "@/components/render-markdown";
 import { createClient } from "@/lib/supabase";
-import { Title } from "@aomdev/ui";
+import { Button, Title } from "@aomdev/ui";
 import { notFound } from "next/navigation";
-import { ActionIcon } from "./client";
 import { Link, Unlink } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import { getArticle } from "@/lib/get-articles";
+import { EditorDialog } from "./dialog";
+import { ArticleLinkForm } from "./article-link-form";
 
 type PropTypes = {
   params: {
@@ -24,24 +25,19 @@ export default async function ArticleMarkdown({ params }: PropTypes) {
     .eq("quiz_id", Number(params.id))
     .eq("article_slug", data.slug)
     .single();
-  const articleLinked = testData !== null;
-  const toggleLink = async (isLinked: boolean, quiz_id: number, article_slug: string) => {
-    "use server";
-    const client = createClient("server_action");
-    if (isLinked) {
-      await client
-        .from("related_quiz_articles")
-        .delete()
-        .eq("quiz_id", quiz_id)
-        .eq("article_slug", article_slug);
-    } else {
-      await client.from("related_quiz_articles").insert({ article_slug, quiz_id });
-    }
-    revalidatePath(`/admin/quizzes/${params.id}`);
-  };
+  const isLinked = testData !== null;
 
   return (
     <div className="w-4/6 ml-auto pb-16 pt-4 px-4 relative">
+      <div className=" ml-auto w-fit flex items-center gap-4 mb-4">
+        <EditorDialog
+          defaultContent={data.content || ""}
+          published={data.status === "published"}
+          slug={data.slug}
+          imgPath={data.thumbnail_path}
+        />
+        <ArticleLinkForm isLinked={isLinked} />
+      </div>
       <Title
         order={1}
         className="text-5xl font-heading text-semibold mb-6"
@@ -49,14 +45,7 @@ export default async function ArticleMarkdown({ params }: PropTypes) {
         {data.title}
       </Title>
       <RenderMarkdown content={data.content || ""} />
-      <form
-        className="absolute top-4 right-4"
-        action={toggleLink.bind(null, articleLinked, Number(params.id), params.slug)}
-      >
-        <ActionIcon color={articleLinked ? "success" : "warn"}>
-          {articleLinked ? <Link size={"75%"} /> : <Unlink size={"75%"} />}
-        </ActionIcon>
-      </form>
+      <div></div>
     </div>
   );
 }
