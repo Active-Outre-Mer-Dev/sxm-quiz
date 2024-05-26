@@ -1,8 +1,8 @@
 "use client";
-import { ScrollArea, TextInput, ThemeIcon } from "@aomdev/ui";
+import { ScrollArea, TextInput, ThemeIcon, Dropdown, ActionIcon } from "@aomdev/ui";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Search, Link as LinkIcon, Unlink } from "lucide-react";
+import { Search, Link as LinkIcon, Unlink, Settings } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 
 type PropTypes = {
@@ -17,19 +17,28 @@ type PropTypes = {
   children: React.ReactNode;
 };
 
-function filterArticles(articles: PropTypes["articles"], value: string) {
-  return articles.filter((article) => article.title.toLowerCase().includes(value.toLowerCase().trim()));
+function filterArticles(articles: PropTypes["articles"], value: string, showLinked?: string) {
+  return articles.filter((article) => {
+    if (showLinked === "linked") {
+      return article.title.toLowerCase().includes(value.toLowerCase().trim()) && article.isLinked;
+    }
+    if (showLinked === "unlinked") {
+      return article.title.toLowerCase().includes(value.toLowerCase().trim()) && !article.isLinked;
+    }
+    return article.title.toLowerCase().includes(value.toLowerCase().trim());
+  });
 }
 export function ArticleSidebar({ articles, children }: PropTypes) {
   const params = useParams();
   const [search, setSearch] = useState("");
+  const [linkStatus, setLinkStatus] = useState<"all" | "linked" | "unlinked">("all");
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setSearch(value);
   };
 
-  const filteredArticles = filterArticles(articles, search);
+  const filteredArticles = filterArticles(articles, search, linkStatus);
 
   return (
     <div className="w-2/6 border-r border-r-neutral-700 ">
@@ -37,13 +46,30 @@ export function ArticleSidebar({ articles, children }: PropTypes) {
         <ScrollArea style={{ height: "calc(100vh - 64px)" }}>
           <div className="px-4 pt-4">
             {children}
-            <div className="mb-4 mt-4">
-              <TextInput
-                icon={<Search size={16} />}
-                placeholder="Search"
-                onChange={handleSearch}
-              />
+            <div className="mb-4 mt-4 flex items-center gap-6">
+              <div className="grow">
+                <TextInput
+                  icon={<Search size={16} />}
+                  placeholder="Search"
+                  onChange={handleSearch}
+                />
+              </div>
+              <Dropdown>
+                <Dropdown.Trigger asChild>
+                  <ActionIcon>
+                    <Settings size={"75%"} />
+                  </ActionIcon>
+                </Dropdown.Trigger>
+                <Dropdown.Content>
+                  <Dropdown.Item onSelect={setLinkStatus.bind(null, "all")}>All articles</Dropdown.Item>
+                  <Dropdown.Item onSelect={setLinkStatus.bind(null, "linked")}>Linked articles</Dropdown.Item>
+                  <Dropdown.Item onSelect={setLinkStatus.bind(null, "unlinked")}>
+                    Unlinked articles
+                  </Dropdown.Item>
+                </Dropdown.Content>
+              </Dropdown>
             </div>
+
             <ul className="space-y-4">
               {[...filteredArticles].map((article) => {
                 return (
