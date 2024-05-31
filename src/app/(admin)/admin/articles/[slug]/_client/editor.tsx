@@ -51,7 +51,7 @@ const Tiptap = ({ defaultContent, imgPath, published }: PropTypes) => {
   return (
     <EditorProvider editor={editor}>
       <div className="basis-[80%]">
-        <div className="ring-1 min-h-screen ring-gray-700 ">
+        <div className="border-r border-r-neutral-200 dark:border-r-neutral-700 min-h-screen">
           <Menu
             imgPath={imgPath}
             published={published}
