@@ -29,7 +29,7 @@ export function Nav({ route, id }: Props) {
   const routes = createNavbar(route, id);
   console.log(routes);
   return (
-    <div className="border-b py-4 border-b-neutral-700 mb-4 z-30 sticky top-0 bg-neutral-900">
+    <div className="border-b py-4 dark:border-b-neutral-700 border-b-neutral-200 mb-4 z-30 sticky top-0 bg-neutral-900">
       <div className="mx-auto px-2 container">
         <ul className="flex gap-4">
           {routes.map((link) => {

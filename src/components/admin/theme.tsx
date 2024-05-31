@@ -13,7 +13,7 @@ export default function ThemeToggle() {
     <Dropdown>
       <Dropdown.Trigger asChild>
         <button
-          className="flex items-center hover:bg-neutral-600/30 w-full rounded p-2"
+          className="flex items-center hover:dark:bg-neutral-600/30 hover:bg-neutral-200/30 w-full rounded p-2"
           aria-label="Toggle theme"
         >
           <Sun
