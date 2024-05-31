@@ -40,7 +40,7 @@ export function AdminNav() {
   return (
     <header className="h-screen fixed top-0 left-0 w-1/6 flex flex-col justify-between  border-r border-r-neutral-200 dark:border-r-neutral-700">
       <div>
-        <div className="border-b border-neutral-200 dark:border-b-neutral-700 w-full p-4">
+        <div className="border-b border-neutral-200 dark:border-b-neutral-700 w-full">
           <Suspense fallback={<UserLoading />}>
             <User />
           </Suspense>
