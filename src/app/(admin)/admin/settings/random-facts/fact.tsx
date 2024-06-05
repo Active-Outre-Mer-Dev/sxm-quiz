@@ -20,7 +20,7 @@ export function Fact({ description, id }: PropTypes) {
   return (
     <li
       key={id}
-      className="border-b-neutral-700 border-b py-4 gap-"
+      className="border-b-neutral-200 dark:border-b-neutral-700 border-b py-4 gap-"
     >
       <form
         data-pending={isPending}

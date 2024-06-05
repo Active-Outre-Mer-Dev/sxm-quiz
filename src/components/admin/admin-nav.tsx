@@ -38,9 +38,9 @@ const links = [
 
 export function AdminNav() {
   return (
-    <header className="h-screen fixed top-0 left-0 w-1/6 flex flex-col justify-between  border-r border-r-neutral-700">
+    <header className="h-screen fixed top-0 left-0 w-1/6 flex flex-col justify-between  border-r border-r-neutral-200 dark:border-r-neutral-700">
       <div>
-        <div className="border-b border-b-neutral-700 w-full p-4">
+        <div className="border-b border-neutral-200 dark:border-b-neutral-700 w-full">
           <Suspense fallback={<UserLoading />}>
             <User />
           </Suspense>
@@ -57,7 +57,7 @@ export function AdminNav() {
               <Search size={14} />
               Search
             </div>
-            <kbd className="bg-gray-800 border border-gray-700 rounded px-1">CTRL K</kbd>
+            <kbd className="dark:bg-gray-800 bg-gray-100 border border-gray-300 dark:border-gray-700 rounded px-1">CTRL K</kbd>
           </button>
           <nav className="w-full">
             <ul className="space-y-4">
@@ -66,11 +66,11 @@ export function AdminNav() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="hover:bg-neutral-600/30 w-full p-2 rounded flex items-center"
+                      className="hover:dark:bg-neutral-600/30 hover:bg-neutral-200/30 w-full p-2 rounded flex items-center"
                     >
                       <link.Icon
                         size={16}
-                        className="inline-block mr-2 text-gray-300"
+                        className="inline-block mr-2 dark:text-gray-300"
                       />
                       {link.label}
                     </Link>
@@ -81,24 +81,24 @@ export function AdminNav() {
           </nav>
         </div>
       </div>
-      <div className="pb-8 px-4 border-t border-t-neutral-700 pt-8 space-y-2">
+      <div className="pb-8 px-4 border-t border-t-neutral-200 dark:border-t-neutral-700 pt-8 space-y-2">
         <Link
           href={"/"}
-          className="w-full rounded hover:bg-neutral-600/30 p-2 items-center flex"
+          className="w-full rounded hover:dark:bg-neutral-600/30 hover:bg-neutral-200/30 p-2 items-center flex"
         >
           <ExternalLink
             size={16}
-            className="inline-block mr-2"
+            className="inline-block mr-2 dark:text-gray-300"
           />{" "}
           Return to SXM Quiz
         </Link>
         <Link
           href={"/dashboard"}
-          className="w-full rounded hover:bg-neutral-600/30 p-2 items-center flex"
+          className="w-full rounded hover:dark:bg-neutral-600/30 hover:bg-neutral-200/30 p-2 items-center flex"
         >
           <UserIcon
             size={16}
-            className="inline-block mr-2"
+            className="inline-block mr-2 dark:text-gray-300"
           />
           View dashboard
         </Link>

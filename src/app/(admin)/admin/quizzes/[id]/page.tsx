@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <div className="container mx-auto">
-        <div className="flex items-center border-b justify-between border-b-neutral-700 mb-16">
+        <div className="flex items-center border-b justify-between border-b-neutral-200 dark:border-b-neutral-700 mb-16">
           <Title
             order={1}
             className="font-bold text-4xl font-heading capitalize my-10"

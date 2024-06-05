@@ -14,7 +14,7 @@ export async function Sidebar({ slug }: PropTypes) {
       title: "Author",
       element: (
         <>
-          <span className="font-medium hover:underline flex items-center  text-gray-50">
+          <span className="font-medium hover:underline flex items-center  text-gray-800 dark:text-gray-50">
             {data.profiles?.first_name} {data.profiles?.last_name}
           </span>
         </>
@@ -52,7 +52,7 @@ export async function Sidebar({ slug }: PropTypes) {
       <div className=" p-4 sticky top-0 left-0 h-screen">
         <Title
           order={1}
-          className="font-semibold font-heading text-2xl mb-8"
+          className="font-semibold font-heading text-2xl mb-8 text-gray-900 dark:text-gray-50"
         >
           {data.title}
         </Title>
@@ -61,7 +61,7 @@ export async function Sidebar({ slug }: PropTypes) {
             return (
               <li
                 key={prop.title}
-                className="flex gap-4 items-center text-gray-200"
+                className="flex gap-4 items-center text-gray-600 dark:text-gray-200"
               >
                 {prop.title}
                 {prop.element}

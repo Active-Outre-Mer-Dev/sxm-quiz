@@ -35,8 +35,8 @@ export function EditQuestionDialog({ question }: PropTypes) {
         size={"sm"}
         className="flex items-center justify-center rounded-full"
       >
-        <ActionIcon>
-          <Pen size={"50%"} />
+        <ActionIcon style={{ width: 24, height: 24 }}>
+          <Pen size={"75%"} className="text-primary-600" />
         </ActionIcon>
       </Dialog.Trigger>
       <Dialog.Content

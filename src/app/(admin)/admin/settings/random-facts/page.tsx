@@ -16,7 +16,7 @@ export default async function RandomFacts() {
       <div>
         <Title
           order={1}
-          className="font-heading text-4xl font-semibold mb-8"
+          className="font-heading text-4xl font-semibold mb-8 text-gray-900 dark:text-gray-50"
         >
           All facts
         </Title>

@@ -129,7 +129,7 @@ export function Menu({ imgPath, published }: PropTypes) {
   };
 
   return (
-    <div className=" border-b flex justify-between items-center bg-neutral-900 z-10 border-b-gray-700 h-16 px-4 sticky top-0 left-0">
+    <div className=" border-b flex justify-between items-center bg-white dark:bg-neutral-900 z-10 border-b-neutral-200 dark:border-b-neutral-700 h-16 px-4 sticky top-0 left-0">
       <div className="flex gap-4">
         <div className="flex gap-1">
           {headingItems.map((props) => (

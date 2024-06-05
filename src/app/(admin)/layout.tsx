@@ -3,8 +3,6 @@ import { Metadata } from "next";
 import { Inter, Familjen_Grotesk } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AdminNav } from "@/components/admin/admin-nav";
-import { getUser } from "@/lib/get-user";
-import { notFound } from "next/navigation";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -15,8 +13,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  // const { error } = await getUser("server_component", true);
-  // if (error) notFound();
   return (
     <html
       suppressHydrationWarning
@@ -32,11 +28,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
               unstyled: true,
               classNames: {
                 toast:
-                  "bg-neutral-900 p-4 w-[356px] flex gap-[6px] items-center ring-1 ring-neutral-800 rounded",
-                success: "text-success-500",
-                title: "text-gray-100",
-                description: "text-gray-200",
-                error: "text-error-500"
+                  "bg-white dark:bg-neutral-900 p-4 w-[356px] flex gap-[6px] items-center ring-1 ring-neutral-100 dark:ring-neutral-800 rounded",
+                success: "text-success-600 dark:text-success-500",
+                title: "text-gray-800 dark:text-gray-100",
+                description: "text-gray-700 dark:text-gray-200",
+                error: "text-error-600 dark:text-error-500"
               }
             }}
           />

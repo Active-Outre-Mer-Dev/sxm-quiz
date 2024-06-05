@@ -41,7 +41,7 @@ export function ArticleSidebar({ articles, children }: PropTypes) {
   const filteredArticles = filterArticles(articles, search, linkStatus);
 
   return (
-    <div className="w-2/6 border-r border-r-neutral-700 ">
+    <div className="w-2/6 border-r border-r-neutral-200 dark:border-r-neutral-700 ">
       <div className="sticky top-12 ">
         <ScrollArea style={{ height: "calc(100vh - 64px)" }}>
           <div className="px-4 pt-4">
@@ -76,8 +76,8 @@ export function ArticleSidebar({ articles, children }: PropTypes) {
                   <li
                     key={article.slug}
                     data-selected={article.slug === params.slug}
-                    className={`data-[selected=true]:bg-primary-500  rounded hover:bg-primary-600/20 
-                  data-[selected=false]:hover:text-primary-300 relative`}
+                    className={`data-[selected=true]:bg-primary-500 data-[selected=true]:text-white  rounded hover:dark:bg-primary-600/20 hover:bg-primary-200/20 
+                  data-[selected=false]:hover:dark:text-primary-300 data-[selected=false]:hover:text-primary-600 relative`}
                   >
                     <Link
                       className="p-4 block"
