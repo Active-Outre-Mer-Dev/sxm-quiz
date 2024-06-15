@@ -11,7 +11,7 @@ export default async function RandomFacts() {
   if (error) throw error;
 
   return (
-    <div className="mt-16 mx-auto container w-2/4">
+    <div className="my-16 mx-auto container w-2/4">
       <FactForm />
       <div>
         <Title
