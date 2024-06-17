@@ -6,6 +6,31 @@ import { FactDeleteSchemaType, FactUpdateScema, deleteFact, updateFact } from ".
 import { useState, useTransition } from "react";
 import { Textarea } from "@aomdev/ui";
 import { useFormStatus } from "react-dom";
+import { MotionConfig, motion, AnimatePresence } from "framer-motion";
+import { useMeasure } from "@/lib/hooks/use-measure";
+
+type Props = {
+  facts: PropTypes[];
+};
+
+export function Facts({ facts }: Props) {
+  return (
+    <MotionConfig transition={{ duration: 0.3, type: "spring", bounce: 0 }}>
+      <motion.ul>
+        <AnimatePresence initial={false}>
+          {facts.map((fact) => {
+            return (
+              <Fact
+                {...fact}
+                key={fact.id}
+              />
+            );
+          })}
+        </AnimatePresence>
+      </motion.ul>
+    </MotionConfig>
+  );
+}
 
 type PropTypes = {
   description: string;
@@ -17,12 +42,18 @@ export function Fact({ description, id }: PropTypes) {
   const { formAction: updateAction } = useActionState<FactUpdateScema>(updateFact);
   const [isPending, startTransition] = useTransition();
   const [shouldEdit, setShouldEdit] = useState(false);
+  const [ref, height] = useMeasure();
   return (
-    <li
+    <motion.li
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      layout
       key={id}
-      className="border-b-neutral-200 dark:border-b-neutral-700 border-b py-4 gap-"
+      className="  overflow-hidden"
     >
-      <form
+      <motion.form
+        animate={{ height: height === 0 ? "auto" : height }}
         data-pending={isPending}
         action={(formData) => {
           setShouldEdit(false);
@@ -30,30 +61,35 @@ export function Fact({ description, id }: PropTypes) {
             updateAction(formData);
           });
         }}
-        className="flex items-start justify-between group"
+        className="overflow-hidden"
       >
-        <input
-          type="hidden"
-          name="id"
-          defaultValue={id}
-        />
-        <div className="grow space-y-4">
-          {shouldEdit && (
-            <FactEditField
-              onCancel={setShouldEdit.bind(null, false)}
-              value={description}
+        <div
+          ref={ref}
+          className="flex items-start justify-between group py-6 px-2 border-b-neutral-200 dark:border-b-neutral-700 border-b"
+        >
+          <input
+            type="hidden"
+            name="id"
+            defaultValue={id}
+          />
+          <div className="grow space-y-4">
+            {shouldEdit && (
+              <FactEditField
+                onCancel={setShouldEdit.bind(null, false)}
+                value={description}
+              />
+            )}
+            {!shouldEdit && description}
+          </div>
+          {!shouldEdit && (
+            <FactButtons
+              action={formAction}
+              onEdit={setShouldEdit}
             />
           )}
-          {!shouldEdit && description}
         </div>
-        {!shouldEdit && (
-          <FactButtons
-            action={formAction}
-            onEdit={setShouldEdit}
-          />
-        )}
-      </form>
-    </li>
+      </motion.form>
+    </motion.li>
   );
 }
 
