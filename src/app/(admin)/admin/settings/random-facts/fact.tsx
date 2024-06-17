@@ -6,8 +6,31 @@ import { FactDeleteSchemaType, FactUpdateScema, deleteFact, updateFact } from ".
 import { useState, useTransition } from "react";
 import { Textarea } from "@aomdev/ui";
 import { useFormStatus } from "react-dom";
-import { motion } from "framer-motion";
+import { MotionConfig, motion, AnimatePresence } from "framer-motion";
 import { useMeasure } from "@/lib/hooks/use-measure";
+
+type Props = {
+  facts: PropTypes[];
+};
+
+export function Facts({ facts }: Props) {
+  return (
+    <MotionConfig transition={{ duration: 0.3, type: "spring", bounce: 0 }}>
+      <motion.ul>
+        <AnimatePresence initial={false}>
+          {facts.map((fact) => {
+            return (
+              <Fact
+                {...fact}
+                key={fact.id}
+              />
+            );
+          })}
+        </AnimatePresence>
+      </motion.ul>
+    </MotionConfig>
+  );
+}
 
 type PropTypes = {
   description: string;
@@ -21,13 +44,16 @@ export function Fact({ description, id }: PropTypes) {
   const [shouldEdit, setShouldEdit] = useState(false);
   const [ref, height] = useMeasure();
   return (
-    <li
+    <motion.li
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      layout
       key={id}
-      className="border-b-neutral-200 dark:border-b-neutral-700 border-b py-4 gap-"
+      className="  overflow-hidden"
     >
       <motion.form
         animate={{ height: height === 0 ? "auto" : height }}
-        transition={{ duration: 0.3, type: "spring", bounce: 0 }}
         data-pending={isPending}
         action={(formData) => {
           setShouldEdit(false);
@@ -39,7 +65,7 @@ export function Fact({ description, id }: PropTypes) {
       >
         <div
           ref={ref}
-          className="flex items-start justify-between group p-2"
+          className="flex items-start justify-between group py-6 px-2 border-b-neutral-200 dark:border-b-neutral-700 border-b"
         >
           <input
             type="hidden"
@@ -63,7 +89,7 @@ export function Fact({ description, id }: PropTypes) {
           )}
         </div>
       </motion.form>
-    </li>
+    </motion.li>
   );
 }
 
