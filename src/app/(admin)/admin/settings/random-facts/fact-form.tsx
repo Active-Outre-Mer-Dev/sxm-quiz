@@ -57,6 +57,7 @@ export function FactForm({ addOptimisticFact }: PropTypes) {
           const description = formData.get("description")?.toString();
           if (description) {
             addOptimisticFact({ created_at: new Date().toString(), description, id: crypto.randomUUID() });
+            ref.current?.reset();
           }
           startTransition(() => {
             formAction(formData);

@@ -3,7 +3,7 @@ import { ActionIcon, Button } from "@aomdev/ui";
 import { Edit, Trash2 } from "lucide-react";
 import { useActionState } from "@/lib/hooks/use-action-state";
 import { FactDeleteSchemaType, FactUpdateScema, deleteFact, updateFact } from "./actions";
-import { startTransition, useState, useTransition } from "react";
+import { startTransition, useState } from "react";
 import { Textarea } from "@aomdev/ui";
 import { useFormStatus } from "react-dom";
 import { MotionConfig, motion, AnimatePresence } from "framer-motion";
@@ -32,7 +32,6 @@ type PropTypes = {
 export function Fact({ description, id, removeOptimisticFact }: PropTypes) {
   const { formAction } = useActionState<FactDeleteSchemaType>(deleteFact);
   const { formAction: updateAction } = useActionState<FactUpdateScema>(updateFact);
-  const [isPending, startTransition] = useTransition();
   const [shouldEdit, setShouldEdit] = useState(false);
   const [ref, height] = useMeasure();
   return (
@@ -45,7 +44,6 @@ export function Fact({ description, id, removeOptimisticFact }: PropTypes) {
     >
       <motion.form
         animate={{ height: height === 0 ? "auto" : height }}
-        data-pending={isPending}
         action={(formData) => {
           setShouldEdit(false);
           startTransition(() => {
