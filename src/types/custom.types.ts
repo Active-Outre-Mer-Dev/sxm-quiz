@@ -24,3 +24,4 @@ export type QuizCat = Quiz & { categories: Categories | null };
 export type Profiles = Database["public"]["Tables"]["profiles"]["Row"];
 export type Article = Database["public"]["Tables"]["articles"]["Row"];
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+export type RandomFact = Database["public"]["Tables"]["random_facts"]["Row"];

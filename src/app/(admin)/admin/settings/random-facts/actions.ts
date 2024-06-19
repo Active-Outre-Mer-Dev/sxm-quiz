@@ -12,7 +12,6 @@ type FactSchemaState = ActionReturn<FactSchemaType>;
 export const addFact = async (prevState: FactSchemaState, formData: FormData): Promise<FactSchemaState> => {
   "use server";
   const schema = FactSchema.safeParse(Object.fromEntries(formData));
-
   if (schema.success) {
     let multiple = false;
     if (!schema.data.description && !schema.data.file_facts) {

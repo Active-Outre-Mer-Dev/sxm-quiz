@@ -3,13 +3,18 @@ import { addFact } from "./actions";
 import { Button, Textarea, Tooltip, Alert } from "@aomdev/ui";
 import { useActionState } from "@/lib/hooks/use-action-state";
 import { FileText } from "lucide-react";
-import { useRef, useState } from "react";
+import { startTransition, useRef, useState } from "react";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
+import { toast } from "sonner";
 import type { FormEvent } from "react";
 import type { FactSchemaType } from "./actions";
-import { toast } from "sonner";
+import type { RandomFact } from "@/types/custom.types";
 
-export function FactForm() {
+type PropTypes = {
+  addOptimisticFact: (fact: RandomFact) => void;
+};
+
+export function FactForm({ addOptimisticFact }: PropTypes) {
   const { ref, formAction, state } = useActionState<FactSchemaType>(addFact, {
     resetOnSuccess: true,
     onSuccess(message) {
@@ -48,7 +53,15 @@ export function FactForm() {
       {state.status === "error" && <Alert color="error">{state.message}</Alert>}
       <form
         ref={ref}
-        action={formAction}
+        action={(formData) => {
+          const description = formData.get("description")?.toString();
+          if (description) {
+            addOptimisticFact({ created_at: new Date().toString(), description, id: crypto.randomUUID() });
+          }
+          startTransition(() => {
+            formAction(formData);
+          });
+        }}
         className="space-y-4 mb-10 mt-4"
       >
         <Textarea

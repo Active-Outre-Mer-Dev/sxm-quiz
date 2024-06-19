@@ -3,30 +3,21 @@ import { ActionIcon, Button } from "@aomdev/ui";
 import { Edit, Trash2 } from "lucide-react";
 import { useActionState } from "@/lib/hooks/use-action-state";
 import { FactDeleteSchemaType, FactUpdateScema, deleteFact, updateFact } from "./actions";
-import { useState, useTransition } from "react";
+import { startTransition, useState, useTransition } from "react";
 import { Textarea } from "@aomdev/ui";
 import { useFormStatus } from "react-dom";
 import { MotionConfig, motion, AnimatePresence } from "framer-motion";
 import { useMeasure } from "@/lib/hooks/use-measure";
 
 type Props = {
-  facts: PropTypes[];
+  children: React.ReactNode;
 };
 
-export function Facts({ facts }: Props) {
+export function Facts({ children }: Props) {
   return (
     <MotionConfig transition={{ duration: 0.3, type: "spring", bounce: 0 }}>
       <motion.ul>
-        <AnimatePresence initial={false}>
-          {facts.map((fact) => {
-            return (
-              <Fact
-                {...fact}
-                key={fact.id}
-              />
-            );
-          })}
-        </AnimatePresence>
+        <AnimatePresence initial={false}>{children}</AnimatePresence>
       </motion.ul>
     </MotionConfig>
   );
@@ -35,9 +26,10 @@ export function Facts({ facts }: Props) {
 type PropTypes = {
   description: string;
   id: string;
+  removeOptimisticFact: () => void;
 };
 
-export function Fact({ description, id }: PropTypes) {
+export function Fact({ description, id, removeOptimisticFact }: PropTypes) {
   const { formAction } = useActionState<FactDeleteSchemaType>(deleteFact);
   const { formAction: updateAction } = useActionState<FactUpdateScema>(updateFact);
   const [isPending, startTransition] = useTransition();
@@ -49,8 +41,7 @@ export function Fact({ description, id }: PropTypes) {
       animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
       layout
-      key={id}
-      className="  overflow-hidden"
+      className="overflow-hidden"
     >
       <motion.form
         animate={{ height: height === 0 ? "auto" : height }}
@@ -83,6 +74,7 @@ export function Fact({ description, id }: PropTypes) {
           </div>
           {!shouldEdit && (
             <FactButtons
+              removeOptimistic={removeOptimisticFact}
               action={formAction}
               onEdit={setShouldEdit}
             />
@@ -124,10 +116,12 @@ function FactEditField({ value, onCancel }: { value: string; onCancel: () => voi
 
 function FactButtons({
   action,
-  onEdit
+  onEdit,
+  removeOptimistic
 }: {
   action: (payload: FormData) => void;
   onEdit: (val: boolean) => void;
+  removeOptimistic: () => void;
 }) {
   const { pending } = useFormStatus();
   return (
@@ -143,7 +137,12 @@ function FactButtons({
       <ActionIcon
         disabled={pending}
         color="error"
-        formAction={action}
+        formAction={(formData: FormData) => {
+          removeOptimistic();
+          startTransition(() => {
+            action(formData);
+          });
+        }}
       >
         <Trash2 size={"75%"} />
       </ActionIcon>
