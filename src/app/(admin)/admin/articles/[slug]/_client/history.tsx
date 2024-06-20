@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { ScrollArea } from "@aomdev/ui";
 import { deleteHistory } from "../actions";
 import useSWR from "swr";
+import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 
 async function fetcher(key: string) {
   const [, slug] = key.split(":");
@@ -18,7 +19,6 @@ export function ArticleHistory() {
   const params = useParams();
   const { data, mutate } = useSWR(`article-history:${params.slug}`, fetcher);
   if (!data) return null;
-  if (data.data.length === 0) return null;
   return (
     <div>
       <form
@@ -36,24 +36,36 @@ export function ArticleHistory() {
           value={params.slug}
         />
       </form>
-      <ul className="space-y-4">
-        <ScrollArea
-          style={{ height: "65vh", overflowX: "hidden" }}
-          className="-m-4"
+      <MotionConfig transition={{ type: "spring", duration: 0.3, bounce: 0 }}>
+        <motion.ul
+          layout
+          className="space-y-4"
         >
-          {data.data.map((article) => {
-            return (
-              <li
-                key={article.id}
-                className="hover:bg-primary-600/30 rounded p-4 cursor-pointer"
-              >
-                <p className="font-semibold mb-1">{article.created_at}</p>
-                <p className="text-gray-300">{article.content}...</p>
-              </li>
-            );
-          })}
-        </ScrollArea>
-      </ul>
+          <ScrollArea
+            style={{ height: "65vh", overflowX: "hidden" }}
+            className="-m-4"
+          >
+            <AnimatePresence initial={false}>
+              {data.data.map((article) => {
+                return (
+                  <motion.li
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    key={article.id}
+                    className="hover:bg-primary-600/30 rounded  cursor-pointer bg-neutral-900"
+                  >
+                    <div className="p-4 overflow-hidden ">
+                      <p className="font-semibold mb-1">{article.created_at}</p>
+                      <p className="text-gray-300">{article.content}...</p>
+                    </div>
+                  </motion.li>
+                );
+              })}
+            </AnimatePresence>
+          </ScrollArea>
+        </motion.ul>
+      </MotionConfig>
     </div>
   );
 }
