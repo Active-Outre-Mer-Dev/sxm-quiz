@@ -23,6 +23,7 @@ import { useCurrentEditor } from "@/lib/hooks/use-editor";
 import { MenuItem } from "./menu-item";
 import type { Editor } from "@tiptap/react";
 import { useActionState } from "@/lib/hooks/use-action-state";
+import { mutate } from "swr";
 
 type PropTypes = {
   imgPath: string | null;
@@ -90,7 +91,7 @@ export function Menu({ imgPath, published }: PropTypes) {
   const params = useParams();
   const router = useRouter();
   const { formAction } = useActionState<StatusSchemaType>(toggleArticleStatus, {
-    onSuccess(message) {
+    async onSuccess(message) {
       toast.success(message);
     },
     onError(message) {
@@ -125,6 +126,7 @@ export function Menu({ imgPath, published }: PropTypes) {
       const data = await editContent(editor.getHTML(), params.slug as string);
       if (data.status === "error") toast.error(data.message);
       if (data.status === "success") toast.success(data.message);
+      mutate(`article-history:${params.slug}`);
     });
   };
 

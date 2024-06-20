@@ -13,7 +13,8 @@
     "codegen": "playwright codegen localhost:3000",
     "check": "next lint && tsc --noEmit",
     "supabase:gen": "supabase gen types typescript --linked > src/types/database.types.ts --schema public",
-    "link": "supabase link --project-ref daiuieddiuwtzqtsxaoh"
+    "link": "supabase link --project-ref daiuieddiuwtzqtsxaoh",
+    "supabase": "supabase"
   },
   "dependencies": {
     "@aomdev/ui": "^0.4.1",
@@ -48,7 +49,7 @@
     "remark-html": "^15.0.2",
     "resend": "^0.16.0",
     "sonner": "^1.4.41",
-    "swr": "^2.2.0",
+    "swr": "2.2.6-beta.4",
     "turndown": "^7.1.2",
     "unist-util-visit": "^4.1.2",
     "zod": "^3.22.4"

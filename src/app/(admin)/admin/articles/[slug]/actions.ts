@@ -6,13 +6,15 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const editContent = async (content: string, slug: string) => {
-  const { error } = await createClient("server_action")
+  const client = createClient("server_action");
+  const { error } = await client
     .from("articles")
     .update({ content: content, updated_at: new Date().toUTCString() })
     .eq("slug", slug);
   if (error) {
     return errorActionReturn({ inputErrors: null, message: error.message });
   }
+  await client.from("article_history").insert({ article_slug: slug, content });
   revalidatePath("/admin/articles");
   return successActionReturn("Content updated");
 };
@@ -58,4 +60,14 @@ export async function toggleArticleStatus(
   } else {
     return errorActionReturn({ inputErrors: null, message: "An error occurred" });
   }
+}
+
+export async function deleteHistory(formData: FormData) {
+  const slug = formData.get("slug")?.toString()!;
+
+  const { error } = await createClient("server_action")
+    .from("article_history")
+    .delete()
+    .eq("article_slug", slug);
+  console.log(error);
 }
