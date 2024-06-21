@@ -14,19 +14,22 @@ export type Database = {
           article_slug: string
           content: string
           created_at: string
-          id: number
+          id: string
+          is_active_save: boolean
         }
         Insert: {
           article_slug: string
           content: string
           created_at?: string
-          id?: number
+          id?: string
+          is_active_save?: boolean
         }
         Update: {
           article_slug?: string
           content?: string
           created_at?: string
-          id?: number
+          id?: string
+          is_active_save?: boolean
         }
         Relationships: [
           {

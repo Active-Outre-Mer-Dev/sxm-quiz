@@ -2,6 +2,7 @@ import { unstable_noStore } from "next/cache";
 import nextDynamic from "next/dynamic";
 import { Skeleton } from "@aomdev/ui";
 import { getArticle } from "@/lib/get-articles";
+import { getHistory } from "@/lib/get-history";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -11,10 +12,24 @@ const Tiptap = nextDynamic(() => import("./_client/editor"), {
   loading: () => <TiptapLoading />
 });
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage({
+  params,
+  searchParams
+}: {
+  params: { slug: string };
+  searchParams: string | URLSearchParams | Record<string, string> | string[][] | undefined;
+}) {
   unstable_noStore();
   const { error, data } = await getArticle(params.slug);
-
+  const search = new URLSearchParams(searchParams);
+  const historyId = search.get("history");
+  let historyDescripton = "";
+  if (historyId) {
+    const historyData = await getHistory(historyId);
+    if (historyData.status === "success") {
+      historyDescripton = historyData.data.content;
+    }
+  }
   if (error) {
     console.log(error);
     return;
@@ -36,7 +51,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           imgPath={data.thumbnail_path}
           articleData={articleData}
           slug={params.slug}
-          defaultContent={data.content || ""}
+          defaultContent={historyId ? historyDescripton : data.content || ""}
           published={data.status === "published"}
         />
       </div>
