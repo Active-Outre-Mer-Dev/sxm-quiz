@@ -2,21 +2,21 @@
 import { ActionReturn, errorActionReturn, successActionReturn } from "@/lib/action-return";
 import { getHistory } from "@/lib/get-history";
 import { createClient } from "@/lib/supabase";
-
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const editContent = async (content: string, slug: string) => {
   const client = createClient("server_action");
+  const { data } = await client
+    .from("article_history")
+    .insert({ article_slug: slug, content }).select().single();
   const { error } = await client
     .from("articles")
-    .update({ content: content, updated_at: new Date().toUTCString() })
+    .update({ content: content, updated_at: new Date().toUTCString(), active_history_id: data?.id })
     .eq("slug", slug);
   if (error) {
     return errorActionReturn({ inputErrors: null, message: error.message });
   }
-
-  await setActiveSave(client, slug, { action: "create", content });
 
   revalidatePath("/admin/articles");
   return successActionReturn("Content updated");
@@ -68,7 +68,7 @@ export async function toggleArticleStatus(
 export async function deleteHistory(formData: FormData) {
   const slug = formData.get("slug")?.toString()!;
 
-  const { error } = await createClient("server_action")
+  await createClient("server_action")
     .from("article_history")
     .delete()
     .eq("article_slug", slug);
@@ -89,14 +89,12 @@ export async function restoreHistory(prevState: any, formData: FormData): Promis
 
     const { status, data } = await getHistory(schema.data.history_id);
     if (status === "success") {
+
       const { error } = await supabase
         .from("articles")
-        .update({ content: data.content })
+        .update({ content: data.content, active_history_id: schema.data.history_id })
         .eq("slug", schema.data.article_slug);
-      await setActiveSave(supabase, schema.data.article_slug, {
-        action: "update",
-        historyId: schema.data.history_id
-      });
+
       if (error) return errorActionReturn({ inputErrors: null, message: error.message });
     } else {
       return errorActionReturn({ inputErrors: null, message: "Failed to restore history" });
@@ -111,51 +109,3 @@ export async function restoreHistory(prevState: any, formData: FormData): Promis
   }
 }
 
-type ActiveSave =
-  | {
-      content: string;
-      action: "create";
-    }
-  | {
-      action: "update";
-      historyId: string;
-    };
-
-async function setActiveSave(
-  supabase: ReturnType<typeof createClient>,
-  slug: string,
-
-  action: ActiveSave
-) {
-  if (action.action === "create") {
-    const { data } = await supabase
-      .from("article_history")
-      .select("id")
-      .eq("is_active_save", true)
-      .eq("article_slug", slug)
-      .single();
-    console.log(data);
-    if (data) {
-      const { error } = await supabase
-        .from("article_history")
-        .update({ is_active_save: false })
-        .eq("id", data.id);
-      console.log(error);
-    }
-
-    await supabase
-      .from("article_history")
-      .insert({ article_slug: slug, content: action.content, is_active_save: true });
-  } else {
-    const promise1 = supabase
-      .from("article_history")
-      .update({ is_active_save: false })
-      .eq("article_slug", slug)
-      .eq("is_active_save", true);
-    const promise2 = supabase
-      .from("article_history")
-      .update({ is_active_save: true })
-      .eq("id", action.historyId);
-    await Promise.all([promise1, promise2]);
-  }
-}

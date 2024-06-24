@@ -25,8 +25,8 @@ export const GET = async (req: Request) => {
   )
     .from("article_history")
     .select("*")
-    .eq("article_slug", slug)
-    .order("created_at", { ascending: false });
+    .eq("article_slug", slug).order('created_at', { ascending: false })
+
   if (error) throw new Error("");
   const formattedData = data.map((articleHistory) => {
     const content = articleHistory.content.replace(/<[^>]*>/g, "").slice(0, 30);

@@ -70,7 +70,7 @@ export async function Sidebar({ slug }: PropTypes) {
             );
           })}
         </ul>
-        <ArticleHistory />
+        <ArticleHistory activeHistoryId={data.active_history_id || ""} />
       </div>
     </div>
   );

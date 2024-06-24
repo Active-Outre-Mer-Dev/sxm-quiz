@@ -15,21 +15,18 @@ export type Database = {
           content: string
           created_at: string
           id: string
-          is_active_save: boolean
         }
         Insert: {
           article_slug: string
           content: string
           created_at?: string
           id?: string
-          is_active_save?: boolean
         }
         Update: {
           article_slug?: string
           content?: string
           created_at?: string
           id?: string
-          is_active_save?: boolean
         }
         Relationships: [
           {
@@ -43,6 +40,7 @@ export type Database = {
       }
       articles: {
         Row: {
+          active_history_id: string | null
           category: string
           content: string | null
           created_at: string
@@ -59,6 +57,7 @@ export type Database = {
           views: number
         }
         Insert: {
+          active_history_id?: string | null
           category: string
           content?: string | null
           created_at?: string
@@ -75,6 +74,7 @@ export type Database = {
           views?: number
         }
         Update: {
+          active_history_id?: string | null
           category?: string
           content?: string | null
           created_at?: string
@@ -91,6 +91,13 @@ export type Database = {
           views?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "articles_active_history_id_fkey"
+            columns: ["active_history_id"]
+            isOneToOne: false
+            referencedRelation: "article_history"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "articles_user_id_fkey"
             columns: ["user_id"]
