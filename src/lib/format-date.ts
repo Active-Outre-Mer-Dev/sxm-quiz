@@ -1,3 +1,3 @@
-export function formatDate(date: Date) {
-    return new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(date);
-  }
+export function formatDate(date: Date, options?: Intl.DateTimeFormatOptions) {
+  return new Intl.DateTimeFormat("en-US", { dateStyle: "medium", ...options }).format(date);
+}

@@ -9,8 +9,38 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      article_history: {
+        Row: {
+          article_slug: string
+          content: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          article_slug: string
+          content: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          article_slug?: string
+          content?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_history_article_slug_fkey"
+            columns: ["article_slug"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
       articles: {
         Row: {
+          active_history_id: string | null
           category: string
           content: string | null
           created_at: string
@@ -27,6 +57,7 @@ export type Database = {
           views: number
         }
         Insert: {
+          active_history_id?: string | null
           category: string
           content?: string | null
           created_at?: string
@@ -43,6 +74,7 @@ export type Database = {
           views?: number
         }
         Update: {
+          active_history_id?: string | null
           category?: string
           content?: string | null
           created_at?: string
@@ -59,6 +91,13 @@ export type Database = {
           views?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "articles_active_history_id_fkey"
+            columns: ["active_history_id"]
+            isOneToOne: false
+            referencedRelation: "article_history"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "articles_user_id_fkey"
             columns: ["user_id"]

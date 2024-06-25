@@ -46,6 +46,10 @@ const Tiptap = ({ defaultContent, imgPath, published }: PropTypes) => {
     }
   }, [editor?.isEditable]);
 
+  useEffect(() => {
+    editor?.commands.setContent(defaultContent);
+  }, [defaultContent]);
+
   if (!editor) return null;
 
   return (

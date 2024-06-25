@@ -1,6 +1,7 @@
 import { getCatColor } from "@/get-category-color";
 import { getArticle } from "@/lib/get-articles";
 import { Badge, Title } from "@aomdev/ui";
+import { ArticleHistory } from "./_client/history";
 
 type PropTypes = {
   slug: string;
@@ -56,7 +57,7 @@ export async function Sidebar({ slug }: PropTypes) {
         >
           {data.title}
         </Title>
-        <ul className="space-y-6">
+        <ul className="space-y-6 mb-6 border-b pb-6 border-b-neutral-700">
           {properties.map((prop) => {
             return (
               <li
@@ -69,6 +70,7 @@ export async function Sidebar({ slug }: PropTypes) {
             );
           })}
         </ul>
+        <ArticleHistory activeHistoryId={data.active_history_id || ""} />
       </div>
     </div>
   );
