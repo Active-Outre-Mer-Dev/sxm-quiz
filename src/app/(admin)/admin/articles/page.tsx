@@ -4,7 +4,7 @@ import { Badge, Table } from "@aomdev/ui";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { Plus } from "lucide-react";
-import { getArticles } from "@/lib/get-articles";
+import { getArticles } from "@/lib/data-fetch/get-articles";
 import { unstable_noStore } from "next/cache";
 
 export default async function Page() {

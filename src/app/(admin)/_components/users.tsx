@@ -4,7 +4,7 @@ import { Skeleton } from "@aomdev/ui";
 import Link from "next/link";
 
 export async function User() {
-  const data = await getUser("server_component", true);
+  const data = await getUser();
   if (data.error) return null;
   return (
     <Link href={'/dashboard'} className="flex items-center gap-2 hover:bg-gray-200/30  p-4">

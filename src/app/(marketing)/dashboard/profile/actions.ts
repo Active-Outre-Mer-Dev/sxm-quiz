@@ -2,7 +2,7 @@
 
 import { ActionReturn, errorActionReturn, successActionReturn } from "@/lib/action-return";
 import { getUser } from "@/lib/get-user";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { uploadImage } from "@/lib/upload-image";
 import { z } from "zod";
 
@@ -16,7 +16,7 @@ type UserSchemaState = ActionReturn<UserSchemaType>;
 
 export async function updateUser(prevState: any, formData: FormData): Promise<UserSchemaState> {
   "use server";
-  const { data, error } = await getUser("server_action");
+  const { data, error } = await getUser();
   if (error) return errorActionReturn({ inputErrors: null, message: "User error" });
   const schema = UserSchema.safeParse(Object.fromEntries(formData));
   if (schema.success) {
@@ -41,7 +41,7 @@ export async function updateUser(prevState: any, formData: FormData): Promise<Us
     if (profilePath) {
       newData.profile_path = profilePath;
     }
-    await createClient("server_action").from("profiles").update(newData).eq("id", data.id);
+    await createClient().from("profiles").update(newData).eq("id", data.id);
     return successActionReturn("Profile updated");
   } else {
     return errorActionReturn({

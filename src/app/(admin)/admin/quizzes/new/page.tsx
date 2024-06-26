@@ -1,9 +1,9 @@
 import { Title } from "@aomdev/ui";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { CreateQuizForm } from "./form";
 
 export default async function Page() {
-  const { data, error } = await createClient("server_component").from("categories").select("*");
+  const { data, error } = await createClient().from("categories").select("*");
   if (error) throw error;
 
   const selectItems = data.map((cat) => ({ label: cat.title, value: cat.id }));

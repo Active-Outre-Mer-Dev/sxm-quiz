@@ -1,10 +1,10 @@
-import { createClient } from "./supabase";
+import { createClient } from "../supabase/server";
 import { cache } from "react";
 import { unstable_cache as nextCache } from "next/cache";
 
 export const getCachedArticles = nextCache(
   async () => {
-    const { data, error } = await createClient("server_component")
+    const { data, error } = await createClient()
       .from("articles")
       .select("*")
       .neq("status", "in_review");
@@ -25,7 +25,7 @@ export const getCachedArticles = nextCache(
 );
 
 export const getArticles = cache(async () => {
-  const { data, error } = await createClient("server_component")
+  const { data, error } = await createClient()
     .from("articles")
     .select("*")
     .neq("status", "in_review");
@@ -43,7 +43,7 @@ export const getArticles = cache(async () => {
 });
 
 export const getArticle = cache(async (slug: string) => {
-  const res = await createClient("server_component")
+  const res = await createClient()
     .from("articles")
     .select("*, profiles (first_name, last_name, profile_image)")
     .eq("slug", slug)

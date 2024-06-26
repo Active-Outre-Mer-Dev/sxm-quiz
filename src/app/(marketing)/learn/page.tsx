@@ -9,15 +9,18 @@ import { Article } from "./_components/article";
 import { formatDate } from "@/lib/format-date";
 import { getCatColor } from "@/get-category-color";
 import { RandomFacts } from "./_components/random-facts";
-import { createClient } from "@/lib/supabase";
+import { getRandomFacts } from "@/lib/data-fetch/get-random-facts";
+import { Suspense } from "react";
+import { createClient } from "@/lib/supabase/server";
 
 export const revalidate = 3600;
 
 export default async function Page() {
-  const supabase = createClient("server_component");
+  const supabase = createClient()
 
   const { data, error } = await supabase.from("articles").select("*, profiles (*)");
   if (error) throw new Error("There was an error fetching the articles");
+  const facts = getRandomFacts()
 
   const randomArticle = data[Math.floor(Math.random() * data.length)];
 
@@ -109,7 +112,9 @@ export default async function Page() {
         </Card>
       </section>
       <section className="container mx-auto bg-primary-200/30 dark:bg-primary-600/30 my-36 lg:rounded-md  min-h-[250px]">
-        <RandomFacts />
+        <Suspense fallback={<p>Loading</p>}>
+          <RandomFacts factsPromise={facts} />
+        </Suspense>
       </section>
       <section className="border-t w-11/12 lg:container mx-auto gap-y-5 border-neutral-100 dark:border-neutral-700 pt-10 grid grid-cols-6 lg:grid-cols-12 lg:gap-5 mb-36">
         <div className="col-span-full lg:col-span-3">

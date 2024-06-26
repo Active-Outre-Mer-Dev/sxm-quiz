@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { Title, Badge, Table, BadgeProps } from "@aomdev/ui";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import Link from "next/link";
@@ -31,7 +31,7 @@ function sortView(data: QuizCat[], sort: string) {
 }
 
 export default async function QuizPage() {
-  const supabase = createClient("server_component", true);
+  const supabase = createClient();
   const { error, data } = await supabase.from("quiz").select("*, categories (*)");
   const { data: categories, error: categoryError } = await supabase.from("categories").select("*");
   if (error || categoryError) return <p>Failed to get data</p>;

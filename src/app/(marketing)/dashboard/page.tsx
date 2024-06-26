@@ -1,11 +1,11 @@
 import { getUser } from "@/lib/get-user";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 
 export default async function Page() {
-  const { error, data } = await getUser("server_component");
+  const { error, data } = await getUser();
   if (error) notFound();
-  const { error: articleError, data: articleData } = await createClient("server_component")
+  const { error: articleError, data: articleData } = await createClient()
     .from("articles")
     .select("slug")
     .eq("user_id", data.id);

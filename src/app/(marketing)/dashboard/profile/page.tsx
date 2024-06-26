@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { UserForm } from "./form";
 
 export default async function UserProfile() {
-  const { error, data } = await getUser("server_component");
+  const { error, data } = await getUser();
   if (error) notFound();
 
   return (

@@ -1,19 +1,20 @@
 import { Profiles } from "@/types/custom.types";
-import { createClient } from "./supabase";
+import { createClient } from "@/lib/supabase/server";
 import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
+
 type GetUser =
   | {
-      error: true;
-      message: string;
-      data: null;
-    }
+    error: true;
+    message: string;
+    data: null;
+  }
   | { error: false; message: string; data: Profiles & { email?: string } };
 
 export const getUser = cache(
-  async (env: Parameters<typeof createClient>[0], checkAdmin?: boolean): Promise<GetUser> => {
+  async (): Promise<GetUser> => {
     noStore();
-    const supabase = createClient(env);
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
     if (error)
       return {
@@ -33,26 +34,20 @@ export const getUser = cache(
         data: null
       };
     }
-    if (checkAdmin) {
-      if (userData.role === "admin") {
-        return {
-          error: false,
-          data: { ...userData, email: data.user.email },
-          message: "User must be an admin"
-        };
-      } else {
-        return {
-          error: true,
-          message: "User is not an admin",
-          data: null
-        };
-      }
-    } else {
+
+    if (userData.role === "admin") {
       return {
         error: false,
         data: { ...userData, email: data.user.email },
-        message: ""
+        message: "User must be an admin"
+      };
+    } else {
+      return {
+        error: true,
+        message: "User is not an admin",
+        data: null
       };
     }
   }
+
 );

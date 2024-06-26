@@ -1,5 +1,5 @@
 import { ActionIcon, Button, Card, Table, TextInput } from "@aomdev/ui";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { Search } from "@/types/custom.types";
@@ -8,7 +8,7 @@ import { createCategory, deleteCategory } from "./actions";
 import { Trash } from "lucide-react";
 
 export default async function CategoriesPage({ searchParams }: { searchParams: Search }) {
-  const { error, data } = await createClient("server_component").from("categories").select("*");
+  const { error, data } = await createClient().from("categories").select("*");
   if (error) throw error;
   const showCreate = new URLSearchParams(searchParams).get("label") === "new";
   return (

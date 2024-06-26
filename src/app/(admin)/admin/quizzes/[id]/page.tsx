@@ -1,11 +1,10 @@
-import { createClient } from "@/lib/supabase";
-import { Card, Title, ActionIcon, Button, TextInput } from "@aomdev/ui";
+import { createClient } from "@/lib/supabase/server";
+import { Card, Title, ActionIcon, Button, } from "@aomdev/ui";
 import { redirect } from "next/navigation";
-import { Trash, Trash2 } from "lucide-react";
+import { Trash } from "lucide-react";
 import { NewQuestion } from "./new-question";
 import { EditQuestionDialog } from "./edit-question";
-import { deleteQuestion, toggleStatus } from "./actions";
-import { Nav } from "@/app/(admin)/_components/nav";
+import { deleteQuestion } from "./actions";
 import { QuizOptions } from "./quiz-options";
 
 async function fetchQuestions(
@@ -21,7 +20,7 @@ async function fetchQuestions(
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const supabase = createClient("server_component");
+  const supabase = createClient();
   const { error, data } = await supabase
     .from("quiz")
     .select("*, scores (quiz_id, score)")

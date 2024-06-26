@@ -1,7 +1,7 @@
-import { createClient } from "./supabase";
+import { createClient } from "../supabase/server";
 
 export async function getHistory(id: string) {
-  const { data, error } = await createClient("server_component")
+  const { data, error } = await createClient()
     .from("article_history")
     .select("content")
     .eq("id", id)

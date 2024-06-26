@@ -1,11 +1,11 @@
 "use client";
 import { Title } from "@aomdev/ui";
-import data from "@/random-facts.json";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-
+import { use } from "react";
 import type { Variants } from "framer-motion";
+import { RandomFact } from "@/types/custom.types";
 
 const variants: Variants = {
   enter: (direction) => ({
@@ -46,7 +46,12 @@ function useInterval(callback: () => void, duration?: number) {
   return [start, pause] as const;
 }
 
-export function RandomFacts() {
+type PropTypes = {
+  factsPromise: Promise<RandomFact[]>
+}
+
+export function RandomFacts({ factsPromise }: PropTypes) {
+  const facts = use(factsPromise)
   const [value, setValue] = useState([1, 0]);
   const [start, pause] = useInterval(() => next(), 1000 * 10);
 
@@ -56,7 +61,7 @@ export function RandomFacts() {
   }, []);
 
   const [direction, current] = value;
-  const fact = data.randomFacts[current];
+  const fact = facts[current];
 
   const next = (clicked?: boolean) => {
     if (clicked) pause();
@@ -66,8 +71,8 @@ export function RandomFacts() {
   const slide = (direction: number) => {
     setValue(([, cur]) => {
       let nextValue = cur + direction;
-      if (direction === 1 && nextValue >= data.randomFacts.length) nextValue = 0;
-      if (direction === -1 && nextValue < 0) nextValue = data.randomFacts.length - 1;
+      if (direction === 1 && nextValue >= facts.length) nextValue = 0;
+      if (direction === -1 && nextValue < 0) nextValue = facts.length - 1;
       return [direction, nextValue];
     });
   };
@@ -99,7 +104,7 @@ export function RandomFacts() {
             exit={"exit"}
             className=" text-xl  text-center block absolute"
           >
-            <span className="w-clamp">{fact}</span>
+            <span className="w-clamp">{fact.description}</span>
           </motion.span>
         </AnimatePresence>
       </div>
