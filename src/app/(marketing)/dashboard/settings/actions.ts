@@ -1,6 +1,6 @@
 "use server";
 import { z } from "zod";
-import { getUser } from "@/lib/get-user";
+import { getUser } from "@/lib/data-fetch/get-user";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionReturn } from "@/lib/action-return";
 

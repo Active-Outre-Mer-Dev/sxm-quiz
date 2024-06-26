@@ -1,6 +1,5 @@
 import { Profiles } from "@/types/custom.types";
 import { createClient } from "@/lib/supabase/server";
-import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 
 type GetUser =
@@ -9,9 +8,9 @@ type GetUser =
     message: string;
     data: null;
   }
-  | { error: false; message: string; data: Profiles & { email?: string } };
+  | { error: false; message: ''; data: Profiles & { email?: string } };
 
-export const getUser = cache(
+export const getUser =
   async (): Promise<GetUser> => {
     noStore();
     const supabase = createClient();
@@ -39,15 +38,17 @@ export const getUser = cache(
       return {
         error: false,
         data: { ...userData, email: data.user.email },
-        message: "User must be an admin"
+        message: ''
       };
     } else {
       return {
-        error: true,
-        message: "User is not an admin",
-        data: null
+        error: false,
+        data: { ...userData, email: data.user.email },
+        message: ''
       };
     }
   }
 
-);
+
+
+

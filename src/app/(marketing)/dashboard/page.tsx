@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/get-user";
+import { getUser } from "@/lib/data-fetch/get-user";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 

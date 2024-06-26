@@ -1,7 +1,7 @@
 "use server";
 
 import { ActionReturn, errorActionReturn, successActionReturn } from "@/lib/action-return";
-import { getUser } from "@/lib/get-user";
+import { getUser } from "@/lib/data-fetch/get-user";
 import { createClient } from "@/lib/supabase/server";
 import { uploadImage } from "@/lib/upload-image";
 import { z } from "zod";

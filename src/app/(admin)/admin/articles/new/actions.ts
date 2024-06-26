@@ -3,7 +3,7 @@ import { z } from "zod";
 import { categories } from "@/lib/categories";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { getUser } from "@/lib/get-user";
+import { getUser } from "@/lib/data-fetch/get-user";
 import { uploadImage } from "@/lib/upload-image";
 import { ActionReturn, errorActionReturn } from "@/lib/action-return";
 

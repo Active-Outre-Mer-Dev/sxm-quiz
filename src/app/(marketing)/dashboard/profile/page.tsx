@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/get-user";
+import { getUser } from "@/lib/data-fetch/get-user";
 import { Title } from "@aomdev/ui";
 import { notFound } from "next/navigation";
 import { UserForm } from "./form";
