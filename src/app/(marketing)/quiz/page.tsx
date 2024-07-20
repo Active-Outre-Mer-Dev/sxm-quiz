@@ -1,8 +1,8 @@
-import { Title, Card, Badge } from "@aomdev/ui";
+import { Title, Card, Badge, BadgeProps } from "@aomdev/ui";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { Filters } from "./quiz-filters";
-import type { MultipleChoice, NameAll, Quiz, Search } from "@/types/custom.types";
+import type { Categories, MultipleChoice, NameAll, Quiz, Search } from "@/types/custom.types";
 import type { Database } from "@/types/database.types";
 import { createClient } from "@supabase/supabase-js";
 
@@ -12,20 +12,17 @@ type PageProps = {
   searchParams: Search;
 };
 
-const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-);
+const supabase = createClient<Database>(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!);
 
 export default async function Page({ searchParams }: PageProps) {
   const { data: multipleChoice, error } = await supabase
     .from("quiz")
-    .select("*,  multiple_choice ( quiz_id )")
+    .select("*,  multiple_choice ( quiz_id ),  categories (*)")
     .eq("type", "multiple_choice")
     .eq("status", "published");
   const { data: nameAll, error: nameAllError } = await supabase
     .from("quiz")
-    .select("*, quiz_name_all ( options )")
+    .select("*, quiz_name_all ( options ), categories (*)")
     .eq("type", "list")
     .eq("status", "published");
   const search = new URLSearchParams(searchParams);
@@ -50,6 +47,7 @@ export default async function Page({ searchParams }: PageProps) {
           {filteredQuizzes.map((quiz) => {
             if ("multiple_choice" in quiz) {
               return (
+                //@ts-ignore
                 <QuizCard
                   key={quiz.id}
                   {...quiz}
@@ -59,6 +57,7 @@ export default async function Page({ searchParams }: PageProps) {
             if ("quiz_name_all" in quiz && quiz.type === "list") {
               const options = quiz.quiz_name_all as unknown as { options: string[] };
               return (
+                //@ts-ignore
                 <ListQuiz
                   key={quiz.id}
                   {...quiz}
@@ -76,21 +75,10 @@ export default async function Page({ searchParams }: PageProps) {
 type MultiChoice = Pick<MultipleChoice, "quiz_id">;
 
 type PropTypes = {
-  list: Quiz & { quiz_name_all: Pick<NameAll, "options"> };
-  mc: Quiz & { multiple_choice: MultiChoice[] };
+  list: Quiz & { quiz_name_all: Pick<NameAll, "options"> } & ({ categories: Categories } | null);
+  mc: Quiz & { multiple_choice: MultiChoice[] } & ({ categories: Categories } | null);
 };
 function QuizCard(quiz: PropTypes["mc"]) {
-  const color =
-    quiz.category === "economy"
-      ? "primary"
-      : quiz.category === "geography"
-      ? "secondary"
-      : quiz.category === "history"
-      ? "error"
-      : quiz.category === "environment"
-      ? "success"
-      : "tertiary";
-
   const scoreColor = "bg-neutral-200/30";
   return (
     <>
@@ -115,11 +103,11 @@ function QuizCard(quiz: PropTypes["mc"]) {
         <p className="mb-4">{quiz.description}</p>
         <div className="">
           <span className="text-sm text-gray-600  dark:text-gray-300 mb-4 flex items-center">
-            <>
+            <span className="inline-block mr-1">
               {quiz.multiple_choice.length} {quiz.multiple_choice.length > 1 ? "questions" : "question"} -{" "}
-            </>
+            </span>
 
-            <Badge color={color}>{quiz.category}</Badge>
+            <Badge color={quiz.categories.color as BadgeProps["color"]}>{quiz.categories.title}</Badge>
           </span>
           <div className="flex gap-2">
             <Link
@@ -136,17 +124,6 @@ function QuizCard(quiz: PropTypes["mc"]) {
 }
 
 function ListQuiz(quiz: PropTypes["list"]) {
-  const color =
-    quiz.category === "economy"
-      ? "primary"
-      : quiz.category === "geography"
-      ? "secondary"
-      : quiz.category === "history"
-      ? "error"
-      : quiz.category === "environment"
-      ? "success"
-      : "tertiary";
-
   const scoreColor = "bg-neutral-200/30";
   return (
     <Card className="relative flex flex-col justify-between">
@@ -170,9 +147,9 @@ function ListQuiz(quiz: PropTypes["list"]) {
       <p className="mb-4">{quiz.description}</p>
       <div className="">
         <span className="text-sm text-gray-600  dark:text-gray-300 mb-4 flex items-center">
-          <> {quiz.quiz_name_all.options.length} options - </>
+          <span className="inline-block mr-1"> {quiz.quiz_name_all.options.length} options - </span>
 
-          <Badge color={color}>{quiz.category}</Badge>
+          <Badge color={quiz.categories.color as BadgeProps["color"]}>{quiz.categories.title}</Badge>
         </span>
         <div className="flex gap-2">
           <Link
