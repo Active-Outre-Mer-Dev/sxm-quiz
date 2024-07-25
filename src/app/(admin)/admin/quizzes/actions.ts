@@ -1,16 +1,16 @@
 "use server";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { Quiz } from "@/types/custom.types";
 import { revalidatePath } from "next/cache";
 import { cookies as nextCookies } from "next/headers";
 
 export const updateQuizStatus = async (id: number, status: Quiz["status"]) => {
-  await createClient("server_action").from("quiz").update({ status }).eq("id", id);
+  await createClient().from("quiz").update({ status }).eq("id", id);
   revalidatePath("/admin/quizzes");
 };
 
 export const updateQuizCategory = async (id: number, category: string) => {
-  await createClient("server_action").from("quiz").update({ category }).eq("id", id);
+  await createClient().from("quiz").update({ category }).eq("id", id);
   revalidatePath("/admin/quizzes");
 };
 

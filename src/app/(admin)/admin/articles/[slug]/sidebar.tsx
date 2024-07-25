@@ -1,5 +1,5 @@
 import { getCatColor } from "@/get-category-color";
-import { getArticle } from "@/lib/get-articles";
+import { getArticle } from "@/lib/data-fetch/get-articles";
 import { Badge, Title } from "@aomdev/ui";
 import { ArticleHistory } from "./_client/history";
 

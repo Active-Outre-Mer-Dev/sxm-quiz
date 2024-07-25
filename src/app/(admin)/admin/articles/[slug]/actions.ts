@@ -1,12 +1,12 @@
 "use server";
 import { ActionReturn, errorActionReturn, successActionReturn } from "@/lib/action-return";
-import { getHistory } from "@/lib/get-history";
-import { createClient } from "@/lib/supabase";
+import { getHistory } from "@/lib/data-fetch/get-history";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const editContent = async (content: string, slug: string) => {
-  const client = createClient("server_action");
+  const client = createClient();
   const { data } = await client
     .from("article_history")
     .insert({ article_slug: slug, content }).select().single();
@@ -23,7 +23,7 @@ export const editContent = async (content: string, slug: string) => {
 };
 
 export async function deleteArticle(slug: string, imgPath: string) {
-  const supabase = createClient("server_action");
+  const supabase = createClient();
   const [{ error: articleError }, { error: imageError }] = await Promise.all([
     supabase.from("articles").delete().eq("slug", slug),
     supabase.storage.from("images").remove([imgPath])
@@ -47,7 +47,7 @@ export async function toggleArticleStatus(
 ): Promise<StatusSchemaState> {
   const schema = StatusSchema.safeParse(Object.fromEntries(formData));
   if (schema.success) {
-    const { error } = await createClient("server_action")
+    const { error } = await createClient()
       .from("articles")
       .update({ status: schema.data.article_status })
       .eq("slug", schema.data.article_slug);
@@ -68,7 +68,7 @@ export async function toggleArticleStatus(
 export async function deleteHistory(formData: FormData) {
   const slug = formData.get("slug")?.toString()!;
 
-  await createClient("server_action")
+  await createClient()
     .from("article_history")
     .delete()
     .eq("article_slug", slug);
@@ -85,7 +85,7 @@ type RestoreHistoryState = ActionReturn<RestoreHistorySchemaType>;
 export async function restoreHistory(prevState: any, formData: FormData): Promise<RestoreHistoryState> {
   const schema = RestoreHistorySchema.safeParse(Object.fromEntries(formData));
   if (schema.success) {
-    const supabase = createClient("server_action");
+    const supabase = createClient();
 
     const { status, data } = await getHistory(schema.data.history_id);
     if (status === "success") {

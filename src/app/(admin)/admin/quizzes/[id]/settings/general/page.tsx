@@ -1,11 +1,11 @@
 import { Alert, Button, Card, TextInput, Textarea, Title } from "@aomdev/ui";
 import { Select, Switch } from "../client";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { deleteQuiz, updateQuiz } from "../actions";
 import { SettingsBreadcrumbs } from "@/components/admin/settings-breadcrumbs";
 
 export default async function QuizSettings({ params }: { params: { id: string } }) {
-  const supabase = createClient("server_component");
+  const supabase = createClient();
   const { data, error } = await supabase.from("quiz").select("*").eq("id", params.id).single();
   const { data: categories, error: catError } = await supabase.from("categories").select("*");
   if (error || catError) throw error;

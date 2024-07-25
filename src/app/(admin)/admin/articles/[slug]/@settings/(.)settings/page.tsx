@@ -1,7 +1,7 @@
 import { unstable_noStore } from "next/cache";
 import { CustomDialog } from "./custom-dialog";
 import { ArticleForm } from "./_client/article-form";
-import { getArticle } from "@/lib/get-articles";
+import { getArticle } from "@/lib/data-fetch/get-articles";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   unstable_noStore();

@@ -1,7 +1,7 @@
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { ArticleSidebar } from "./article-sidebar";
 import { SettingsBreadcrumbs } from "@/components/admin/settings-breadcrumbs";
-import { getArticles } from "@/lib/get-articles";
+import { getArticles } from "@/lib/data-fetch/get-articles";
 
 export default async function ArticleLinkLayout({
   children,
@@ -10,7 +10,7 @@ export default async function ArticleLinkLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  const client = createClient("server_component");
+  const client = createClient();
   const { data, error } = await getArticles();
 
   const { data: testData } = await client

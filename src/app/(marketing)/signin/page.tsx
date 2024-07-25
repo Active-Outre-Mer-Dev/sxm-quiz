@@ -1,6 +1,6 @@
 import { Button, TextInput } from "@aomdev/ui";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default function Component() {
@@ -9,7 +9,7 @@ export default function Component() {
     const email = form.get("email")?.toString() || "";
     const password = form.get("password")?.toString() || "";
     if (!password || !email) return { error: true };
-    const supabase = createClient("server_action");
+    const supabase = createClient();
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (!error) {
       redirect("/");

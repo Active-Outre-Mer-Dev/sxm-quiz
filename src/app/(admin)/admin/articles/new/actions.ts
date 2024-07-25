@@ -1,9 +1,9 @@
 "use server";
 import { z } from "zod";
 import { categories } from "@/lib/categories";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { getUser } from "@/lib/get-user";
+import { getUser } from "@/lib/data-fetch/get-user";
 import { uploadImage } from "@/lib/upload-image";
 import { ActionReturn, errorActionReturn } from "@/lib/action-return";
 
@@ -20,10 +20,10 @@ type ArticleSchemaState = ActionReturn<ArticleSchemaType>;
 export async function createArticle(previousState: any, formData: FormData): Promise<ArticleSchemaState> {
   const formEntries = Object.fromEntries(formData);
   const schema = ArticleSchema.safeParse(formEntries);
-  const supabase = createClient("server_action");
+  const supabase = createClient();
 
   if (schema.success) {
-    const { error: userError, data } = await getUser("server_action");
+    const { error: userError, data } = await getUser();
     if (userError) {
       return errorActionReturn({ inputErrors: null, message: "User error" });
     }

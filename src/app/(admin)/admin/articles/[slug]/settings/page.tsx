@@ -1,6 +1,6 @@
 import { Title } from "@aomdev/ui";
 import { unstable_noStore } from "next/cache";
-import { getArticle } from "@/lib/get-articles";
+import { getArticle } from "@/lib/data-fetch/get-articles";
 
 export default async function ArticleSettings({ params }: { params: { slug: string } }) {
   unstable_noStore();

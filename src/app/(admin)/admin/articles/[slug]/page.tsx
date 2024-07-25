@@ -1,8 +1,8 @@
 import { unstable_noStore } from "next/cache";
 import nextDynamic from "next/dynamic";
 import { Skeleton } from "@aomdev/ui";
-import { getArticle } from "@/lib/get-articles";
-import { getHistory } from "@/lib/get-history";
+import { getArticle } from "@/lib/data-fetch/get-articles";
+import { getHistory } from "@/lib/data-fetch/get-history";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

@@ -1,6 +1,6 @@
 "use server";
 import { categories } from "@/lib/categories";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { uploadImage } from "@/lib/upload-image";
@@ -18,7 +18,7 @@ export async function editArticle(
   previousState: any,
   formData: FormData
 ) {
-  const supabase = createClient("server_action");
+  const supabase = createClient();
   const schema = ArticleSchema.safeParse(Object.fromEntries(formData));
   const image = formData.get("default_image")?.toString();
   let thumbnail = "";

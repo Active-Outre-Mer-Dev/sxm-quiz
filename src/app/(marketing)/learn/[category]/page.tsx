@@ -1,6 +1,6 @@
 import { Title } from "@aomdev/ui";
 import { Article } from "../_components/article";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 
 const categories = ["history", "geography", "environment", "economy"];
 
@@ -9,7 +9,7 @@ export function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: { category: string } }) {
-  const supabase = createClient("server_component");
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("articles")
     .select("*, profiles (*)")

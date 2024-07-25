@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -14,7 +14,7 @@ const FormSchema = z.object({
 });
 
 export const createQuiz = async (formData: FormData) => {
-  const supabase = createClient("server_action", true);
+  const supabase = createClient();
   const form = Object.fromEntries(formData);
 
   const schema = FormSchema.safeParse(form);

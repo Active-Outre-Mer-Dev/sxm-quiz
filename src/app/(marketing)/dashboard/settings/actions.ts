@@ -1,7 +1,7 @@
 "use server";
 import { z } from "zod";
-import { getUser } from "@/lib/get-user";
-import { createClient } from "@/lib/supabase";
+import { getUser } from "@/lib/data-fetch/get-user";
+import { createClient } from "@/lib/supabase/server";
 import type { ActionReturn } from "@/lib/action-return";
 
 const PasswordSchema = z.object({
@@ -16,7 +16,7 @@ export const updatePassword = async (
   prevState: UpdatePasswordState,
   formData: FormData
 ): Promise<UpdatePasswordState> => {
-  const { error, message } = await getUser("server_action");
+  const { error, message } = await getUser();
   console.log("bruh");
   if (error)
     return {
@@ -36,7 +36,7 @@ export const updatePassword = async (
         submitId: crypto.randomUUID()
       };
     }
-    const { error } = await createClient("server_action").auth.updateUser({
+    const { error } = await createClient().auth.updateUser({
       password: schema.data.new_password
     });
     if (error) {

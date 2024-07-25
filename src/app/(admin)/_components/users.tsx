@@ -1,13 +1,13 @@
 import { Avatar } from "@/components/avatar";
-import { getUser } from "@/lib/get-user";
+import { getUser } from "@/lib/data-fetch/get-user";
 import { Skeleton } from "@aomdev/ui";
 import Link from "next/link";
 
 export async function User() {
-  const data = await getUser("server_component", true);
+  const data = await getUser();
   if (data.error) return null;
   return (
-    <Link href={'/dashboard'} className="flex items-center gap-2 hover:bg-gray-200/30  p-4">
+    <Link href={'/dashboard'} className="flex items-center gap-2 hover:bg-neutral-600/30  p-4">
       <Avatar
         size={40}
         src={data.data?.profile_image || ""}

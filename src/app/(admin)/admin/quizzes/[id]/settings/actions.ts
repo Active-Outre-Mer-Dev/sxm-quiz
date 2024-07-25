@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -12,7 +12,7 @@ const QuestionSchema = z.object({
 });
 
 export const updateQuiz = async (id: number, formData: FormData) => {
-  const client = createClient("server_action");
+  const client = createClient();
   const data = QuestionSchema.safeParse(Object.fromEntries(formData));
   const status = formData.get("status")?.toString();
 
@@ -28,7 +28,7 @@ export const updateQuiz = async (id: number, formData: FormData) => {
 };
 
 export const deleteQuiz = async (id: number) => {
-  const client = createClient("server_action");
+  const client = createClient();
   await client.from("quiz").delete().eq("id", id);
   revalidatePath("/admin/quizzes");
   redirect("/admin/quizzes");

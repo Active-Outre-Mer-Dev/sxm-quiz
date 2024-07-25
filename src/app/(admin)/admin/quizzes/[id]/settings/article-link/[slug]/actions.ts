@@ -1,7 +1,7 @@
 "use server";
 
 import { ActionReturn, errorActionReturn, successActionReturn } from "@/lib/action-return";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -20,7 +20,7 @@ export async function toggleLinkAction(
 ): Promise<ArticleLinkSchemaReturn> {
   "use server";
   const schema = ArticleLinkSchema.safeParse(Object.fromEntries(form));
-  const client = createClient("server_action");
+  const client = createClient();
   if (schema.success) {
     if (isLinked) {
       const { error } = await client

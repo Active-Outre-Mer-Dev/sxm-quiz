@@ -1,4 +1,4 @@
-import { createClient } from "./supabase";
+import { createClient } from "./supabase/server";
 
 type Options = {
   prevPath: string | null;
@@ -7,7 +7,7 @@ type Options = {
 export async function uploadImage(file: File, path: string, options?: Options) {
   const uid = `thumbnail:${crypto.randomUUID().replaceAll("-", "")}`;
 
-  const supabase = createClient("server_action");
+  const supabase = createClient();
   if (options?.prevPath) {
     await supabase.storage.from("images").remove([options.prevPath]);
   }

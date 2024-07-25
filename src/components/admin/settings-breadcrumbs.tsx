@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 type PropTypes = {
   link: string;
   id: string;
@@ -7,7 +7,7 @@ type PropTypes = {
 };
 
 export async function SettingsBreadcrumbs({ link, id, route }: PropTypes) {
-  const { data, error } = await createClient("server_component")
+  const { data, error } = await createClient()
     .from("quiz")
     .select("title")
     .eq("id", id)

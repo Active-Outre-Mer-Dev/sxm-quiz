@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { ActionReturn, errorActionReturn, successActionReturn } from "@/lib/action-return";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -21,7 +21,7 @@ export const addFact = async (prevState: FactSchemaState, formData: FormData): P
       });
     }
     if (schema.data.description) {
-      await createClient("server_action")
+      await createClient()
         .from("random_facts")
         .insert({ description: schema.data.description });
     }
@@ -30,7 +30,7 @@ export const addFact = async (prevState: FactSchemaState, formData: FormData): P
         .split("@")
         .filter((fact) => fact)
         .map((fact) => ({ description: fact }));
-      await createClient("server_action").from("random_facts").insert(allFacts);
+      await createClient().from("random_facts").insert(allFacts);
       multiple = true;
     }
     revalidatePath("/admin/settings/random-facts");
@@ -57,7 +57,7 @@ export async function deleteFact(
 ): Promise<FactDeleteSchemaState> {
   const schema = FactDeleteSchema.safeParse(Object.fromEntries(formData));
   if (schema.success) {
-    const { error } = await createClient("server_action")
+    const { error } = await createClient()
       .from("random_facts")
       .delete()
       .eq("id", schema.data.id);
@@ -82,7 +82,7 @@ type FactUpdateScemaState = ActionReturn<FactUpdateScema>;
 export async function updateFact(prevState: any, formData: FormData): Promise<FactUpdateScemaState> {
   const schema = FactUpdateScema.safeParse(Object.fromEntries(formData));
   if (schema.success) {
-    const { error } = await createClient("server_action")
+    const { error } = await createClient()
       .from("random_facts")
       .update({ description: schema.data.description })
       .eq("id", schema.data.id);
