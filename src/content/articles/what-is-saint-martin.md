@@ -7,7 +7,7 @@ thumbnail: /sxm2.jpg
 profile: /rayan-louisy/profile.png
 ---
 
-**Saint-Martin**, also known as **Sint Maarten**, is a small island located in the northeastern Caribbean Sea. The island is divided between two separate countries: the northern part of the island belongs to France and is called Saint-Martin, while the southern part belongs to the Kingdom of the Netherlands and is called Sint Maarten. This unique division makes Saint-Martin the smallest landmass in the world shared by two sovereign states.
+**Saint-Martin**, also known as **Sint Maarten**, is a small island located in the northeastern Caribbean Sea. The island is divided between two separate countries: the northern part of the island belongs to France and is called Saint-Martin, while the southern part belongs to the Kingdom of the Netherlands and is called Sint Maarten. This unique division makes Saint-Martin the smallest landmass in the world shared by two sovereign states
 
 The island of Saint-Martin is situated approximately _240 kilometers (150 miles)_ east of Puerto Rico. It is part of the **Leeward Islands** and is located within the larger chain of islands known as the **Lesser Antilles**. The island has a total land area of about _88 square kilometers (34 square miles)_. To provide a comparison, this is slightly smaller than the size of Washington, D.C., in the United States.
 

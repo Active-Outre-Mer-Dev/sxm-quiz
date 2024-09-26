@@ -7,7 +7,7 @@ thumbnail: /sxm2.jpg
 profile: /rayan-louisy/profile.png
 ---
 
-The island of **Sint Maarten/Saint-Martin**, nestled in the northeastern Caribbean, boasts a fascinating history shaped by the coexistence of two distinct European settlements—Dutch and French. From the early days of colonization to the present, these settlements have played pivotal roles in shaping the island's economy, culture, and overall development. This article delves into the historical narrative, exploring the growth, challenges, and enduring legacy of Dutch and French settlements on this tropical paradise.
+The island of **Sint Maarten/Saint-Martin**, nestled in the northeastern Caribbean, boasts a fascinating history shaped by the coexistence of two distinct European settlements—Dutch and French. From the early days of colonization to the present, these settlements have played pivotal roles in shaping the island's economy, culture, and overall development. This article delves into the historical narrative, exploring the growth, challenges, and enduring legacy of Dutch and French settlements on this tropical paradise
 
 ## Dutch Settlement: Trade, Salt Production, and Agriculture
 

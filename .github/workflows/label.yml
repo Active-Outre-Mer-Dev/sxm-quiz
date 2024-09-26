@@ -6,10 +6,14 @@
 # https://github.com/actions/labeler
 
 name: Labeler
-on: [pull_request_target]
+on:
+  push:
+    branches: ["main"]
+  pull_request_target:
+    types: [opened, synchronize]
 
 jobs:
-  'area: Articles':
+  documentation: 
   - src/content/**/*.md
 
     runs-on: ubuntu-latest
